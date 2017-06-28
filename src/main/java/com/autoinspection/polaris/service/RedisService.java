@@ -13,11 +13,11 @@ public interface RedisService {
       
     public <T> boolean setList(String key ,List<T> list) throws JsonProcessingException;  
       
-    public <T> List<T> getList(String key,Class<T> clz);  
+    public <T> List<T> getList(String key,Class<T> clz) throws Exception ;  
       
-    public long lpush(String key,Object obj);  
+    public long lpush(String key,Object obj) throws JsonProcessingException ;  
       
-    public long rpush(String key,Object obj);  
+    public long rpush(String key,Object obj) throws JsonProcessingException ;  
       
     public String lpop(String key); 
 }

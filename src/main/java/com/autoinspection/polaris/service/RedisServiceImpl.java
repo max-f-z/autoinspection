@@ -11,9 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.minidev.json.JSONUtil;
 
 public class RedisServiceImpl implements RedisService {
     @Autowired  
@@ -58,19 +58,21 @@ public class RedisServiceImpl implements RedisService {
         return set(key,value);  
     }  
   
-    @Override  
-    public <T> List<T> getList(String key,Class<T> clz) {  
+    @SuppressWarnings("unchecked")
+	@Override  
+    public <T> List<T> getList(String key,Class<T> clz) throws Exception {  
         String json = get(key);  
         if(json!=null){  
-            List<T> list = JSONUtil.toList(json, clz);  
+			JavaType javaType = objectMapper.getTypeFactory().constructParametricType(List.class, clz);  
+			List<T> list = (List<T>)objectMapper.readValue(json, javaType); 
             return list;  
         }  
         return null;  
     }  
   
     @Override  
-    public long lpush(final String key, Object obj) {  
-        final String value = JSONUtil.toJson(obj);  
+    public long lpush(final String key, Object obj) throws JsonProcessingException {  
+        final String value = objectMapper.writeValueAsString(obj);  
         long result = redisTemplate.execute(new RedisCallback<Long>() {  
             @Override  
             public Long doInRedis(RedisConnection connection) throws DataAccessException {  
@@ -83,8 +85,8 @@ public class RedisServiceImpl implements RedisService {
     }  
   
     @Override  
-    public long rpush(final String key, Object obj) {  
-        final String value = JSONUtil.toJson(obj);  
+    public long rpush(final String key, Object obj) throws JsonProcessingException {  
+        final String value = objectMapper.writeValueAsString(obj);  
         long result = redisTemplate.execute(new RedisCallback<Long>() {  
             @Override  
             public Long doInRedis(RedisConnection connection) throws DataAccessException {  
