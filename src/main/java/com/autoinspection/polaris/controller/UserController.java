@@ -11,6 +11,8 @@ import com.autoinspection.polaris.interceptor.PermissionEnum;
 import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.service.RedisService;
 import com.autoinspection.polaris.service.UserService;
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
 
 
 @RestController
@@ -23,11 +25,13 @@ public class UserController {
 	
 	@RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
-    public UserEntity getUsers(@PathVariable Integer id) {
+    public UserEntity getUsers(@PathVariable Integer id) throws BizException {
 		UserEntity user = userService.getById(id);
+		if (user == null) {
+			throw new BizException(ErrorCode.USER_NOTFOUND);
+		}
 		
 		redisService.set("haha", "123");
-		
 		return user;
 	}
 }

@@ -27,6 +27,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.autoinspection.polaris.model.Result;
+import com.autoinspection.polaris.utils.BizException;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
@@ -55,6 +56,13 @@ public class ApiExceptionHandler {
 		ResponseEntity<Object> response = new ExceptionHandlerBridge().handleException(ex, request);
 	    return new ResponseEntity<Result<String>>(new Result<String>("", "", ex.getMessage()), response.getStatusCode());
 	}
+	
+	@ExceptionHandler(BizException.class)
+    @ResponseBody
+    public ResponseEntity<Result<String>>  handleCheckedException(BizException ex) {
+    	logger.error("***Error***", ex);
+    	 return new ResponseEntity<Result<String>>(new Result<String>("", ex.getErrorCode(), ex.getErrorMessage()), HttpStatus.OK);
+    }
 	
 	 @ExceptionHandler({RuntimeException.class,Exception.class})
     @ResponseBody

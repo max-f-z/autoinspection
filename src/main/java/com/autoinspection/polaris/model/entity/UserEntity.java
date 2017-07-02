@@ -2,11 +2,9 @@ package com.autoinspection.polaris.model.entity;
 
 import java.io.Serializable;
 
-public class UserEntity implements Serializable {
+import com.autoinspection.polaris.model.BaseEntity;
 
-	/**
-	 * 
-	 */
+public class UserEntity extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -8813563970424171978L;
 	
 	public String getName() {
@@ -30,4 +28,12 @@ public class UserEntity implements Serializable {
 	}
 	private String name;
 	private String password;
+	private int role;
+
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
+	}
 }

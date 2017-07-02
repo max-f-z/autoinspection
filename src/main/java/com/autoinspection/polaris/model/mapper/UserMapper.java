@@ -10,4 +10,7 @@ import com.autoinspection.polaris.model.entity.UserEntity;
 public interface UserMapper {
 	@Select("select * from user u where u.id=#{id}")
 	UserEntity getById(@Param("id") Integer id);
+	
+	@Select("select * from user u where u.NAME=#{name} and u.PASSWORD=#{pwd}")
+	UserEntity getByNameAndPassword(@Param("name") String name, @Param("pwd") String pwd);
 }

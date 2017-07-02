@@ -17,14 +17,15 @@ public class TokenUtils implements Serializable  {
 	private static final long serialVersionUID = 8458078604289609816L;
 
 	public static final String CLAIM_UID = "uid";
-	public static final String CLAIM_ROLES = "roles";
+	public static final String CLAIM_ROLE = "role";
 	public static final String CLAIN_ENABLE = "enable";
+	public static final String secret = "polaris2017";
 	
 	private Claims getClaimsFromToken(String token) {
 	    Claims claims;
 	    try {
 	        claims = Jwts.parser()
-	                .setSigningKey("123")
+	                .setSigningKey(secret)
 	                .parseClaimsJws(token)
 	                .getBody();
 	    } catch (Exception ex) {
@@ -36,14 +37,14 @@ public class TokenUtils implements Serializable  {
     public String generateToken(UserEntity user) {
     	Map<String, Object> claims = new HashMap<>();
     	claims.put(CLAIM_UID, user.getId());
-    	claims.put(CLAIM_ROLES, "roles");
+    	claims.put(CLAIM_ROLE, "role");
     	return generateToken(claims);
     }
     
     public String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
-                .signWith(SignatureAlgorithm.HS512, "123")
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
     

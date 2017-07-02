@@ -8,11 +8,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
+
 public class PermissionInterceptor extends HandlerInterceptorAdapter  {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {  
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
-        // 从方法处理器中获取出要调用的方法
         Method method = handlerMethod.getMethod();
         
         Permission permission = (Permission) method.getAnnotation(Permission.class);  
@@ -22,6 +24,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter  {
             
             System.out.println(permissionTypes);
             
+//            throw new BizException(ErrorCode.USER_NOTFOUND);
             return true;
         }  
         return true;  

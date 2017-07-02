@@ -34,6 +34,7 @@ dependencies {
 	compile('io.jsonwebtoken:jjwt:0.7.0')
 	compile('com.google.guava:guava:22.0')
 	compile("org.springframework.boot:spring-boot-starter-data-redis")
+	compile('commons-codec:commons-codec:1.10')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
