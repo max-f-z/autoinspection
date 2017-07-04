@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.autoinspection.polaris.utils.BizException;
-import com.autoinspection.polaris.utils.ErrorCode;
 
 public class PermissionInterceptor extends HandlerInterceptorAdapter  {
 	@Override

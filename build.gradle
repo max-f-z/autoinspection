@@ -33,8 +33,10 @@ dependencies {
 	compile ("org.springframework.boot:spring-boot-starter-web") 
 	compile('io.jsonwebtoken:jjwt:0.7.0')
 	compile('com.google.guava:guava:22.0')
-	compile("org.springframework.boot:spring-boot-starter-data-redis")
+	compile('org.springframework.data:spring-data-redis:1.8.4.RELEASE')
+	compile('redis.clients:jedis:2.9.0')
 	compile('commons-codec:commons-codec:1.10')
+	compile('org.apache.poi:poi-ooxml:3.11-beta1')
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

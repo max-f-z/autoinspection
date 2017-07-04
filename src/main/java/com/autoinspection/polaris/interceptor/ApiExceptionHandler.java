@@ -54,7 +54,7 @@ public class ApiExceptionHandler {
 	public final ResponseEntity<Result<String>> handleException(Exception ex, WebRequest request) {
 		logger.error("***Error***", ex);
 		ResponseEntity<Object> response = new ExceptionHandlerBridge().handleException(ex, request);
-	    return new ResponseEntity<Result<String>>(new Result<String>("", "", ex.getMessage()), response.getStatusCode());
+	    return new ResponseEntity<Result<String>>(new Result<String>("", response.getStatusCode().toString(), ex.getMessage()), response.getStatusCode());
 	}
 	
 	@ExceptionHandler(BizException.class)
@@ -64,11 +64,11 @@ public class ApiExceptionHandler {
     	 return new ResponseEntity<Result<String>>(new Result<String>("", ex.getErrorCode(), ex.getErrorMessage()), HttpStatus.OK);
     }
 	
-	 @ExceptionHandler({RuntimeException.class,Exception.class})
+	@ExceptionHandler({RuntimeException.class,Exception.class})
     @ResponseBody
     public ResponseEntity<Result<String>> handleUnexpectedServerError(RuntimeException ex) {
     	logger.error("***Error***", ex);
-        return new ResponseEntity<Result<String>>(new Result<String>("", "", ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<Result<String>>(new Result<String>("", "500", ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	    
 	class ExceptionHandlerBridge extends ResponseEntityExceptionHandler{

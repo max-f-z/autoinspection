@@ -25,4 +25,10 @@ public class UserServiceImpl implements UserService{
 		}
 		return false;
 	}
+
+	@Override
+	public UserEntity getByUnamePwd(String uname, String pwd) {
+		UserEntity user = userMapper.getByNameAndPassword(uname, DigestUtils.sha256Hex(pwd));
+		return user;
+	}
 }

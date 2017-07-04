@@ -8,15 +8,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autoinspection.polaris.model.auth.AuthRequest;
 import com.autoinspection.polaris.model.auth.AuthResponse;
+import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.service.UserService;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
+import com.autoinspection.polaris.utils.TokenUtils;
 import com.mysql.jdbc.StringUtils;
 
 @RestController
+@RequestMapping(path = "/v1/auth")
 public class AuthController {
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+    private TokenUtils tokenUtils;
 	
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
 	public AuthResponse login(@RequestBody AuthRequest request) throws BizException {
@@ -24,8 +30,9 @@ public class AuthController {
 			throw new BizException(ErrorCode.INVALID_USR_OR_PWD);
 		}
 		
+		UserEntity user = userService.getByUnamePwd(request.getUname(), request.getPwd());
 		AuthResponse resp = new AuthResponse();
-		resp.setToken("123");
+		resp.setToken(tokenUtils.generateToken(user));
 		return resp;
 	}
 }

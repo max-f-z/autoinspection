@@ -6,4 +6,6 @@ public interface UserService {
 	public UserEntity getById(Integer id);
 	
 	public Boolean validateUser(String uname, String pwd);
+	
+	public UserEntity getByUnamePwd(String uname, String pwd);
 }
