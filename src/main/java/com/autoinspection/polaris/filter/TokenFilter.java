@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.autoinspection.polaris.model.Result;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.utils.TokenUtils;
+import com.autoinspection.polaris.vo.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TokenFilter extends OncePerRequestFilter {

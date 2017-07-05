@@ -26,8 +26,8 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.autoinspection.polaris.model.Result;
 import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.vo.Result;
 
 @ControllerAdvice
 public class ApiExceptionHandler {

@@ -1,4 +1,4 @@
-package com.autoinspection.polaris.model;
+package com.autoinspection.polaris.vo;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.autoinspection.polaris.model.auth;
+package com.autoinspection.polaris.vo.auth;
 
 public class AuthResponse {
 	private String token;

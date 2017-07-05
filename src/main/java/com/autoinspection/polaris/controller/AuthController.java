@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.autoinspection.polaris.model.auth.AuthRequest;
-import com.autoinspection.polaris.model.auth.AuthResponse;
 import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.service.UserService;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.utils.TokenUtils;
+import com.autoinspection.polaris.vo.auth.AuthRequest;
+import com.autoinspection.polaris.vo.auth.AuthResponse;
 import com.mysql.jdbc.StringUtils;
 
 @RestController

@@ -7,7 +7,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
-import com.autoinspection.polaris.model.Result;
+
+import com.autoinspection.polaris.vo.Result;
 
 @ControllerAdvice
 @SuppressWarnings("rawtypes")
@@ -21,7 +22,7 @@ public class ResponseAdvice implements ResponseBodyAdvice {
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		if (ObjectUtils.isEmpty(body) || body.getClass().equals(com.autoinspection.polaris.model.Result.class)) {
+		if (ObjectUtils.isEmpty(body) || body.getClass().equals(com.autoinspection.polaris.vo.Result.class)) {
 			return body;
 		}
 		Result<Object> result = new Result<Object>(body);
