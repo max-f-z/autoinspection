@@ -1,0 +1,73 @@
+package com.autoinspection.polaris.model.entity;
+
+import java.io.Serializable;
+
+import com.autoinspection.polaris.model.BaseEntity;
+
+public class StationEntity extends BaseEntity implements Serializable{
+	private static final long serialVersionUID = -7645779544435468298L;
+	
+	private int id;
+	private String name;
+	private String address;
+	private String latitude;
+	private String longitude;
+	private String description;
+	private String phone;
+	private String principal;
+	private String principalPhone;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getPrincipal() {
+		return principal;
+	}
+	public void setPrincipal(String principal) {
+		this.principal = principal;
+	}
+	public String getPrincipalPhone() {
+		return principalPhone;
+	}
+	public void setPrincipalPhone(String principalPhone) {
+		this.principalPhone = principalPhone;
+	}
+}

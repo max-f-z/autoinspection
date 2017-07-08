@@ -60,8 +60,8 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(BizException.class)
     @ResponseBody
     public ResponseEntity<Result<String>>  handleCheckedException(BizException ex) {
-    	logger.error("***Error***", ex);
-    	 return new ResponseEntity<Result<String>>(new Result<String>("", ex.getErrorCode(), ex.getErrorMessage()), HttpStatus.OK);
+//    	logger.error("***Error***", ex);
+    	return new ResponseEntity<Result<String>>(new Result<String>("", ex.getErrorCode(), ex.getErrorMessage()), HttpStatus.OK);
     }
 	
 	@ExceptionHandler({RuntimeException.class,Exception.class})

@@ -1,5 +1,7 @@
 package com.autoinspection.polaris.config;
 
+import java.util.List;
+
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 
@@ -13,11 +15,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import com.autoinspection.polaris.filter.TokenFilter;
 import com.autoinspection.polaris.interceptor.PermissionInterceptor;
+import com.autoinspection.polaris.resolver.CurrentUserResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import redis.clients.jedis.JedisPoolConfig;
@@ -44,9 +48,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return registrationBean;
   	}
 	
+	@Bean
+	public PermissionInterceptor permissionInterceptor(){
+		return new PermissionInterceptor();
+	}
+	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new PermissionInterceptor()).addPathPatterns("/v1/**");
+        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/v1/**");
         super.addInterceptors(registry);
 	}
 	
@@ -84,7 +93,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         jedisConnectionFactory.setHostName(host);
         jedisConnectionFactory.setPort(port);
         jedisConnectionFactory.setDatabase(0);
-        jedisConnectionFactory.setPassword(password);
+//        jedisConnectionFactory.setPassword(password);
         return jedisConnectionFactory;
     }
 
@@ -103,11 +112,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		template.setValueSerializer( new GenericJackson2JsonRedisSerializer( ) );
 		return template;
 	}
-//	@Bean  
-//	public ServletRegistrationBean dispatcherRegistration(DispatcherServlet dispatcherServlet) {  
-//	    ServletRegistrationBean registration = new ServletRegistrationBean(  
-//	            dispatcherServlet);  
-//	    dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);  
-//	    return registration;  
-//	}  
+    
+    @Bean
+    public CurrentUserResolver currentUserResolver(){
+    	return new CurrentUserResolver();
+    }
+    
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+    	super.addArgumentResolvers(argumentResolvers);
+    	argumentResolvers.add(currentUserResolver());
+    }
 }

@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.utils;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import com.autoinspection.polaris.interceptor.PermissionEnum;
 import com.autoinspection.polaris.model.entity.UserEntity;
 
 import io.jsonwebtoken.Claims;
@@ -32,6 +34,7 @@ public class TokenUtils implements Serializable  {
 	public static final String CLAIM_UID = "uid";
 	public static final String CLAIM_ROLE = "role";
 	public static final String CLAIN_ENABLE = "enable";
+	public static final String CLAIM_TIMESTAMP = "timestamp";
 	public static final String secret = "polaris2017";
 	
 	@Value("${jwt.expiration}")
@@ -52,11 +55,30 @@ public class TokenUtils implements Serializable  {
 	    }
 	    return claims;
     }
+	
+	public PermissionEnum getRoleFromToken(String token) throws BizException {
+		Claims claims = getClaimsFromToken(token);
+		if (claims == null) {
+			throw new BizException(ErrorCode.TOKEN_INVALID);
+		}
+		
+		return PermissionEnum.values()[(int) claims.get(CLAIM_ROLE)];
+	}
+	
+	public Integer getIdFromToken(String token) throws BizException {
+		Claims claims = getClaimsFromToken(token);
+		if (claims == null) {
+			throw new BizException(ErrorCode.TOKEN_INVALID);
+		}
+		
+		return (Integer)claims.get(CLAIM_UID);
+	}
 
     public String generateToken(UserEntity user) {
     	Map<String, Object> claims = new HashMap<>();
     	claims.put(CLAIM_UID, user.getId());
     	claims.put(CLAIM_ROLE, user.getRole());
+    	claims.put(CLAIM_TIMESTAMP, new Date().getTime()/1000);
     	String token = generateToken(claims);
     	
     	claims.put("token", token);

@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.model;
 
 public class BaseEntity {
+	
 	public String getCreateTime() {
 		return createTime;
 	}
@@ -19,7 +20,14 @@ public class BaseEntity {
 	public void setOperatorId(int operatorId) {
 		this.operatorId = operatorId;
 	}
+	public Boolean getEnable() {
+		return enable;
+	}
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+	}
 	private String createTime;
 	private String updateTime;
 	private int operatorId;
+	private Boolean enable;
 }

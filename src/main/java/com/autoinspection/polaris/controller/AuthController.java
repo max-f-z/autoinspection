@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.service.UserService;
 import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.Const;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.utils.TokenUtils;
 import com.autoinspection.polaris.vo.auth.AuthRequest;
@@ -22,6 +24,9 @@ public class AuthController {
 	private UserService userService;
 	
 	@Autowired
+	private RedisTemplate<String, Object> redisTemplate;
+	
+	@Autowired
     private TokenUtils tokenUtils;
 	
 	@RequestMapping(path = "/login", method = RequestMethod.POST)
@@ -32,7 +37,13 @@ public class AuthController {
 		
 		UserEntity user = userService.getByUnamePwd(request.getUname(), request.getPwd());
 		AuthResponse resp = new AuthResponse();
-		resp.setToken(tokenUtils.generateToken(user));
+		
+		String token = (String) redisTemplate.opsForHash().get(Const.TOKEN_PREFIX + user.getId(), "token");
+		if (StringUtils.isNullOrEmpty(token)) {
+			resp.setToken(tokenUtils.generateToken(user));
+		} else {
+			resp.setToken(token);
+		}
 		return resp;
 	}
 }

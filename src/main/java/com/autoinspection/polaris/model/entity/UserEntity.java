@@ -1,7 +1,6 @@
 package com.autoinspection.polaris.model.entity;
 
 import java.io.Serializable;
-
 import com.autoinspection.polaris.model.BaseEntity;
 
 public class UserEntity extends BaseEntity implements Serializable {

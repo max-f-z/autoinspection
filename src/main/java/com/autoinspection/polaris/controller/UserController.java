@@ -1,7 +1,6 @@
 package com.autoinspection.polaris.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,13 +15,10 @@ import com.autoinspection.polaris.utils.ErrorCode;
 
 
 @RestController
-@RequestMapping(path = "/v1/api")
+@RequestMapping(path = "${api.path}")
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-    private StringRedisTemplate strRedisTemplate;
 	
 	@RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
@@ -32,7 +28,6 @@ public class UserController {
 			throw new BizException(ErrorCode.USER_NOTFOUND);
 		}
 		
-		strRedisTemplate.opsForValue().set("haha", "1234");
 		return user;
 	}
 }

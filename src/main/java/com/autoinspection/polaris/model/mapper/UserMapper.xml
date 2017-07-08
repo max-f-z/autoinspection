@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.UserMapper" >	
+	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.UserEntity">
+		select * from User u where u.id=#{id}
+	</select>
+	<select id="getByNameAndPassword" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.UserEntity">
+		select * from User u where u.NAME=#{name} and u.PASSWORD=#{pwd}
+	</select>
+</mapper>

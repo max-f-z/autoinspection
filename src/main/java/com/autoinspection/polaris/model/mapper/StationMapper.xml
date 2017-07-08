@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.StationMapper" >	
+	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.StationEntity">
+		select * from BizStation s where s.id=#{id}
+	</select>
+	<select id="listAllStations" resultType="com.autoinspection.polaris.model.entity.StationEntity">
+		select * from BizStation where enable = 1
+	</select>
+	<insert id="insertStation" parameterType="com.autoinspection.polaris.model.entity.StationEntity" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into BizStation (NAME, ADDRESS, LATITUDE, LONGITUDE, DESCRIPTION, PHONE, PRINCIPAL, PRINCIPALPHONE, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{name}, #{address}, #{latitude}, #{longitude}, #{description}, #{phone}, #{principal}, #{principalPhone}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateStation" parameterType="com.autoinspection.polaris.model.entity.StationEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update BizStation set NAME= #{name}, ADDRESS= #{address}, LATITUDE= #{latitude}, LONGITUDE= #{longitude}, DESCRIPTION= #{description}, PHONE= #{phone}, 
+		PRINCIPAL= #{principal}, PRINCIPALPHONE= #{principalPhone}, UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
+	</update>
+	<delete id="deleteStation" parameterType="int">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update BizStation set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
+	</delete>
+</mapper>
