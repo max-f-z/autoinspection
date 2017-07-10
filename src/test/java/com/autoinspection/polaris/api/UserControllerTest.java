@@ -10,7 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import com.autoinspection.polaris.PolarisApplication;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,7 +23,7 @@ public class UserControllerTest {
     
     @Autowired
     private WebApplicationContext wac;
-
+    
     @Before
     public void setup() {
     	this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
@@ -32,7 +31,7 @@ public class UserControllerTest {
 
     @Test
     public void testGetUsers() throws Exception {
-    	this.mockMvc.perform(get("/users/1"))
+    	this.mockMvc.perform(get("/v1/api/users/1"))
         .andExpect(status().isOk());
     }
 }
