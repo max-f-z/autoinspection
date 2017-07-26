@@ -20,6 +20,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import com.autoinspection.polaris.filter.TokenFilter;
+import com.autoinspection.polaris.filter.WXTokenFilter;
 import com.autoinspection.polaris.interceptor.PermissionInterceptor;
 import com.autoinspection.polaris.resolver.CurrentUserResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,6 +36,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 	
 	@Bean
+  	public Filter WXTokenFilter() {
+	    return new WXTokenFilter();
+	}
+	
+	@Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
 	}
@@ -42,11 +48,22 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setName("tokenFilter");
         registrationBean.setFilter(TokenFilter());
         registrationBean.addUrlPatterns("/v1/api/*");
         registrationBean.setDispatcherTypes(DispatcherType.REQUEST);
         return registrationBean;
   	}
+	
+	@Bean
+	public FilterRegistrationBean filterWXRegistrationBean() {
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		registrationBean.setName("wxTokenFilter");
+        registrationBean.setFilter(WXTokenFilter());
+        registrationBean.addUrlPatterns("/v1/wx/api/*");
+        registrationBean.setDispatcherTypes(DispatcherType.REQUEST);
+        return registrationBean;
+	}
 	
 	@Bean
 	public PermissionInterceptor permissionInterceptor(){
@@ -93,7 +110,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         jedisConnectionFactory.setHostName(host);
         jedisConnectionFactory.setPort(port);
         jedisConnectionFactory.setDatabase(0);
-        jedisConnectionFactory.setPassword(password);
+//        jedisConnectionFactory.setPassword(password);
         return jedisConnectionFactory;
     }
 

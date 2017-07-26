@@ -109,7 +109,7 @@ public class WXTokenUtils implements Serializable {
     }
 	
     public String getTokenFromCache(Integer uid) {
-    	Object token = redisTemplate.opsForHash().get(Const.TOKEN_PREFIX + uid, "token");
+    	Object token = redisTemplate.opsForHash().get(Const.WX_TOKEN_PREFIX + uid, "token");
     	if(ObjectUtils.isEmpty(token)){
     		return "";
     	}

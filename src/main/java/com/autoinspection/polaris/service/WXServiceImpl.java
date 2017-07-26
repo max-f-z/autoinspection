@@ -13,8 +13,8 @@ import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.Const;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.utils.WXTokenUtils;
+import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.wx.AuthCodeRequest;
-import com.autoinspection.polaris.vo.wx.AuthCodeResponse;
 import com.autoinspection.polaris.vo.wx.SignInRequest;
 import com.autoinspection.polaris.vo.wx.SignInResponse;
 import com.autoinspection.polaris.vo.wx.SignUpRequest;
@@ -36,11 +36,10 @@ public class WXServiceImpl implements WXService {
 	@Override
 	public SignUpResponse signUp(SignUpRequest req) throws BizException {
 		WXUserEntity user = new WXUserEntity();
-		user.setName(req.getName());
 		user.setPhone(req.getPhone());
 		user.setPassword(DigestUtils.sha256Hex(req.getPassword()));
 		
-		Integer exists = wxUserMapper.checkExists(req.getName(), req.getPhone());
+		Integer exists = wxUserMapper.checkExists(req.getPhone());
 		if (exists != null && exists > 0) {
 			throw new BizException(ErrorCode.ALREADY_SIGNED_UP);
 		}
@@ -55,22 +54,23 @@ public class WXServiceImpl implements WXService {
 	}
 
 	@Override
-	public AuthCodeResponse authCode(AuthCodeRequest req) throws BizException {
-		Integer history = Integer.parseInt(redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()));
-		if (history != null && history > 4) {
-			throw new BizException(ErrorCode.TOO_MANY_AUTH_CODE);
+	public Result<String> authCode(AuthCodeRequest req) throws BizException {
+		Integer history = null;
+		if (redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()) != null ) {
+			history = Integer.parseInt(redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()));
+			if (history != null && history > 4) {
+				throw new BizException(ErrorCode.TOO_MANY_AUTH_CODE);
+			}
 		}
-		
 		redisTemplate.opsForValue().set(Const.WX_AUTH_CODE+req.getPhone(), "123456", 15, TimeUnit.MINUTES);
 		if (history != null && history > 0) {
-			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), String.valueOf(history+1));
+			Long expire = redisTemplate.getExpire(Const.WX_AUTH_CODE_TIMES+req.getPhone(), TimeUnit.MICROSECONDS);
+			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), String.valueOf(history+1), expire, TimeUnit.MICROSECONDS);
 		} else {
 			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), "1", 10, TimeUnit.MINUTES);
 		}
-		
-		AuthCodeResponse resp = new AuthCodeResponse();
-		resp.setAuthCode("123456");
-		return resp;
+
+		return new Result<>("");
 	}
 
 	@Override

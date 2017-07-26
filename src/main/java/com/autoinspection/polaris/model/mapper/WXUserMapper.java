@@ -9,6 +9,6 @@ import com.autoinspection.polaris.model.entity.WXUserEntity;
 public interface WXUserMapper {
 	public WXUserEntity getById(@Param("id") Integer id);
 	public int insertWXUser(WXUserEntity user);
-	public Integer checkExists(@Param("name") String name, @Param("phone") String phone);
+	public Integer checkExists(@Param("phone") String phone);
 	public WXUserEntity getByNameAndPassword(@Param("name") String name, @Param("password") String password);
 }

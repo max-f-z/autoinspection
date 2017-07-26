@@ -13,7 +13,7 @@
         </selectKey>
 	</insert>
 	<select id="checkExists" parameterType="String" resultType="java.lang.Integer">
-		select count(*) from WXUser u where u.NAME=#{name} or u.PHONE=#{phone}
+		select count(*) from WXUser u where u.PHONE=#{phone}
 	</select>
 	<select id="getByNameAndPassword" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
 		select * from WXUser u where u.NAME=#{name} and u.PASSWORD=#{password}

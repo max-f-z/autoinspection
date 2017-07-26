@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autoinspection.polaris.service.WXService;
 import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.vo.Result;
+import com.autoinspection.polaris.vo.wx.AuthCodeRequest;
 import com.autoinspection.polaris.vo.wx.SignUpRequest;
 import com.autoinspection.polaris.vo.wx.SignUpResponse;
 
@@ -21,5 +23,15 @@ public class WXController {
 	@RequestMapping(path = "/signup", method = RequestMethod.POST)
 	public SignUpResponse signUp(@RequestBody SignUpRequest req) throws BizException {
 		return wxService.signUp(req);
+	}
+	
+	@RequestMapping(path = "/authCode", method = RequestMethod.POST)
+	public Result<String> authCode(@RequestBody AuthCodeRequest req) throws BizException {
+		return wxService.authCode(req);
+	}
+	
+	@RequestMapping(path = "/api/list", method = RequestMethod.GET)
+	public Result<String> list() {
+		return new Result<>("hello list");
 	}
 }
