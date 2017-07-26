@@ -38,6 +38,6 @@ dependencies {
 	compile('commons-codec:commons-codec:1.10')
 	compile('org.apache.poi:poi-ooxml:3.11-beta1')
 	compile('org.springframework.boot:spring-boot-starter-aop')
-	runtime('mysql:mysql-connector-java')
+	compile('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.WXUserMapper" >	
+	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
+		select * from WXUser u where u.id=#{id}
+	</select>
+	<insert id="insertWXUser" parameterType="com.autoinspection.polaris.model.entity.WXUserEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into WXUser (NAME, PHONE, PASSWORD, CREATETIME, UPDATETIME, ENABLE)
+		values (#{name}, #{phone}, #{password}, #{currentTime}, #{currentTime}, 1)
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<select id="checkExists" parameterType="String" resultType="java.lang.Integer">
+		select count(*) from WXUser u where u.NAME=#{name} or u.PHONE=#{phone}
+	</select>
+	<select id="getByNameAndPassword" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
+		select * from WXUser u where u.NAME=#{name} and u.PASSWORD=#{password}
+	</select>
+
+</mapper>

@@ -7,6 +7,8 @@ public class ErrorCode {
 	public static final ErrorCode NOT_AUTHORIZED = new ErrorCode("1004", "权限不足");
 	public static final ErrorCode INVALID_PARAM = new ErrorCode("1005", "非法参数");
 	public static final ErrorCode NOT_FOUND = new ErrorCode("1006", "未找到资源");
+	public static final ErrorCode TOO_MANY_AUTH_CODE = new ErrorCode("1007", "发送短信太多，请稍后再试");
+	public static final ErrorCode ALREADY_SIGNED_UP = new ErrorCode("1008", "已经注册，请尝试登陆");
 	
 	private String code;
 	private String msg;

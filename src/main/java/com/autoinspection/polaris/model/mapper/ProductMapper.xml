@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.ProductMapper">
+	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.ProductEntity">
+		select * from BizProduct s where s.id=#{id}
+	</select>
+	<select id="listAllProducts" resultType="com.autoinspection.polaris.model.entity.ProductEntity">
+		select * from BizProduct where enable = 1
+	</select>
+	<insert id="insertProduct" parameterType="com.autoinspection.polaris.model.entity.ProductEntity" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into BizProduct (PRODUCTCODE, PRODUCTTYPE, PRODUCTDESC, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{productCode}, #{productType}, #{productDesc}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateProduct" parameterType="com.autoinspection.polaris.model.entity.ProductEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update BizProduct set PRODUCTCODE= #{productCode}, PRODUCTTYPE= #{productType}, PRODUCTDESC= #{productType},
+		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
+	</update>
+	<delete id="deleteProduct" parameterType="int">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update BizProduct set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
+	</delete>
+</mapper>

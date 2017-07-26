@@ -8,7 +8,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +16,27 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
-
-import com.autoinspection.polaris.interceptor.PermissionEnum;
-import com.autoinspection.polaris.model.entity.UserEntity;
-
+import com.autoinspection.polaris.model.entity.WXUserEntity;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class TokenUtils implements Serializable  {
-	private static final long serialVersionUID = 8458078604289609816L;
+public class WXTokenUtils implements Serializable {
+	private static final long serialVersionUID = 8141098256938693449L;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-	public static final String CLAIM_UID = "uid";
-	public static final String CLAIM_ROLE = "role";
-	public static final String CLAIN_ENABLE = "enable";
-	public static final String CLAIM_TIMESTAMP = "timestamp";
-	public static final String secret = "polaris2017";
 	
-	@Value("${jwt.expiration}")
-    private Long expiration;
+	public static final String secret = "polaris2017";
+	public static final String CLAIM_TIMESTAMP = "timestamp";
+	public static final String CLAIM_UID = "wxuid";
+	public static final String CLAIM_ENABLE = "enable";
+	
+	@Value("${jwt.wxexpiration}")
+	private Long wxexpiration;
 	
 	@Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+	private RedisTemplate<String, Object> redisTemplate;
 	
 	private Claims getClaimsFromToken(String token) {
 	    Claims claims;
@@ -56,15 +51,6 @@ public class TokenUtils implements Serializable  {
 	    return claims;
     }
 	
-	public PermissionEnum getRoleFromToken(String token) throws BizException {
-		Claims claims = getClaimsFromToken(token);
-		if (claims == null) {
-			throw new BizException(ErrorCode.TOKEN_INVALID);
-		}
-		
-		return PermissionEnum.values()[(int) claims.get(CLAIM_ROLE)];
-	}
-	
 	public Integer getIdFromToken(String token) throws BizException {
 		Claims claims = getClaimsFromToken(token);
 		if (claims == null) {
@@ -73,30 +59,29 @@ public class TokenUtils implements Serializable  {
 		
 		return (Integer)claims.get(CLAIM_UID);
 	}
-
-    public String generateToken(UserEntity user) {
+	
+	public String generateToken(WXUserEntity user) {
     	Map<String, Object> claims = new HashMap<>();
     	claims.put(CLAIM_UID, user.getId());
-    	claims.put(CLAIM_ROLE, user.getRole());
     	claims.put(CLAIM_TIMESTAMP, new Date().getTime()/1000);
     	String token = generateToken(claims);
     	
     	claims.put("token", token);
     	
-    	redisTemplate.opsForHash().putAll(Const.TOKEN_PREFIX+String.valueOf(user.getId()), claims);
-    	redisTemplate.expire(Const.TOKEN_PREFIX+String.valueOf(user.getId()), expiration, TimeUnit.MINUTES);
+    	redisTemplate.opsForHash().putAll(Const.WX_TOKEN_PREFIX+String.valueOf(user.getId()), claims);
+    	redisTemplate.expire(Const.WX_TOKEN_PREFIX+String.valueOf(user.getId()), wxexpiration, TimeUnit.MINUTES);
     	
     	return token;
     }
-    
-    public String generateToken(Map<String, Object> claims) {
+	
+	public String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
-    
-    public void refreshToken(String token) {
+	
+	public void refreshToken(String token) {
 		threadPoolExecutor.submit(new RefreshTokenDelegator(token));
     }
     
@@ -113,7 +98,7 @@ public class TokenUtils implements Serializable  {
         	try{
         		if(isTokenValid(token)){
         			Map<String, Object> claims = getClaimsFromToken(token);
-        			redisTemplate.expire(Const.TOKEN_PREFIX + claims.get(CLAIM_UID), expiration, TimeUnit.MINUTES);
+        			redisTemplate.expire(Const.WX_TOKEN_PREFIX + claims.get(CLAIM_UID), wxexpiration, TimeUnit.MINUTES);
         		}else{
         			logger.warn("token is invalid, can not refresh.");
         		}
@@ -122,7 +107,7 @@ public class TokenUtils implements Serializable  {
         	}
         }
     }
-    
+	
     public String getTokenFromCache(Integer uid) {
     	Object token = redisTemplate.opsForHash().get(Const.TOKEN_PREFIX + uid, "token");
     	if(ObjectUtils.isEmpty(token)){
@@ -130,7 +115,7 @@ public class TokenUtils implements Serializable  {
     	}
     	return (String) token;
     }
-        
+	
     public Boolean isTokenValid(String token) {
     	if(StringUtils.isEmpty(token))
     		return false;
