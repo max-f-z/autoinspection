@@ -31,7 +31,6 @@ public class ServiceServiceImpl implements ServiceService {
 		ServiceEntity entity = new ServiceEntity();
 		entity.setName(request.getName());
 		entity.setDescription(request.getDescription());
-		entity.setPrice(request.getPrice());
 		entity.setStatus(request.getStatus());
 		entity.setEnable(true);
 		entity.setOperatorId(uid);
@@ -46,7 +45,6 @@ public class ServiceServiceImpl implements ServiceService {
 		entity.setId(request.getId());
 		entity.setName(request.getName());
 		entity.setDescription(request.getDescription());
-		entity.setPrice(request.getPrice());
 		entity.setStatus(request.getStatus());
 		entity.setOperatorId(uid);
 		

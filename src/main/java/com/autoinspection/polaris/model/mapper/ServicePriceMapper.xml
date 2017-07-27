@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.ServicePriceMapper">
+	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
+		select * from BizServicePrice where id=#{id}
+	</select>
+	<select id="listAllServicePrices" resultType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
+		select * from BizServicePrice where enable = 1
+	</select>
+	<insert id="insertServicePrice" parameterType="com.autoinspection.polaris.model.entity.ServicePriceEntity" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into BizServicePrice (SERVICEID, CUSTOMERID, PRICE, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{serviceId}, #{customerId}, #{price}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateServicePrice" parameterType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update BizServicePrice set SERVICEID= #{serviceId}, CUSTOMERID= #{customerId}, PRICE= #{price},
+		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
+	</update>
+	<delete id="deleteServicePrice" parameterType="int">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update BizServicePrice set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
+	</delete>
+</mapper>

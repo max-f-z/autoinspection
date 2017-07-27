@@ -10,6 +10,13 @@ public class WXUserEntity extends BaseEntity implements Serializable {
 	private String name;
 	private String password;
 	private String phone;
+	private int role;
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
+	}
 	public int getId() {
 		return id;
 	}
