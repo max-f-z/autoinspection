@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.interceptor;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +33,12 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter  {
             
             String authToken = request.getHeader(tokenHeader);
             PermissionEnum role = tokenUtils.getRoleFromToken(authToken);
-           	if (role.ordinal() < permissionTypes[0].ordinal()) {
-           		throw new BizException(ErrorCode.NOT_AUTHORIZED);
-           	}
+            if (!Arrays.asList(permissionTypes).contains(role)) {
+            	throw new BizException(ErrorCode.NOT_AUTHORIZED);
+            }
+//           	if (role.ordinal() < permissionTypes[0].ordinal()) {
+//           		throw new BizException(ErrorCode.NOT_AUTHORIZED);
+//           	}
         }  
         return true;  
     }  

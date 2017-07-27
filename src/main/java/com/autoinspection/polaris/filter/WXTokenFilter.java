@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.autoinspection.polaris.utils.ErrorCode;
-import com.autoinspection.polaris.utils.WXTokenUtils;
+import com.autoinspection.polaris.utils.TokenUtils;
 import com.autoinspection.polaris.vo.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,7 +22,7 @@ public class WXTokenFilter extends OncePerRequestFilter {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private WXTokenUtils wxTokenUtils;
+	private TokenUtils wxTokenUtils;
 	
 	@Value("${jwt.header}")
 	private String tokenHeader;
@@ -33,7 +33,7 @@ public class WXTokenFilter extends OncePerRequestFilter {
 		String authToken = request.getHeader(tokenHeader);
 		logger.info("wx authToken: " + authToken);
 		if (wxTokenUtils.isTokenValid(authToken)) {
-			wxTokenUtils.refreshToken(authToken);
+			wxTokenUtils.refreshTokenWX(authToken);
 		} else {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;  
 			httpResponse.setCharacterEncoding("UTF-8");    

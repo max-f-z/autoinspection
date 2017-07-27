@@ -12,7 +12,7 @@ import com.autoinspection.polaris.model.mapper.WXUserMapper;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.Const;
 import com.autoinspection.polaris.utils.ErrorCode;
-import com.autoinspection.polaris.utils.WXTokenUtils;
+import com.autoinspection.polaris.utils.TokenUtils;
 import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.wx.AuthCodeRequest;
 import com.autoinspection.polaris.vo.wx.SignInRequest;
@@ -27,7 +27,7 @@ public class WXServiceImpl implements WXService {
 	private WXUserMapper wxUserMapper;
 	
 	@Autowired
-	private WXTokenUtils wxTokenUtils;
+	private TokenUtils wxTokenUtils;
 	
 	
 	@Autowired
