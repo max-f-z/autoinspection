@@ -1,13 +1,13 @@
 package com.autoinspection.polaris.vo.wx;
 
 public class SignInRequest {
-	private String name;
+	private String phone;
 	private String password;
-	public String getName() {
-		return name;
+	public String getPhone() {
+		return phone;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	public String getPassword() {
 		return password;

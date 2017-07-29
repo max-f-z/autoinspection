@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autoinspection.polaris.interceptor.Permission;
+import com.autoinspection.polaris.interceptor.PermissionEnum;
 import com.autoinspection.polaris.model.entity.StationEntity;
 import com.autoinspection.polaris.service.StationService;
 import com.autoinspection.polaris.service.WXService;
@@ -44,6 +46,7 @@ public class WXController {
 		return wxService.signIn(req);
 	}
 	
+	@Permission( permissionTypes = { PermissionEnum.WXUSER })
 	@RequestMapping(path = "/api/list", method = RequestMethod.GET)
 	public Result<String> list() {
 		return new Result<>("hello list");

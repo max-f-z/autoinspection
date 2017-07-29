@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import com.autoinspection.polaris.interceptor.PermissionEnum;
 import com.autoinspection.polaris.model.entity.WXUserEntity;
 import com.autoinspection.polaris.model.mapper.WXUserMapper;
 import com.autoinspection.polaris.utils.BizException;
@@ -38,6 +39,7 @@ public class WXServiceImpl implements WXService {
 		WXUserEntity user = new WXUserEntity();
 		user.setPhone(req.getPhone());
 		user.setPassword(DigestUtils.sha256Hex(req.getPassword()));
+		user.setRole(PermissionEnum.WXUSER.ordinal());
 		
 		Integer exists = wxUserMapper.checkExists(req.getPhone());
 		if (exists != null && exists > 0) {
@@ -75,7 +77,7 @@ public class WXServiceImpl implements WXService {
 
 	@Override
 	public SignInResponse signIn(SignInRequest req) throws BizException {
-		WXUserEntity user = wxUserMapper.getByNameAndPassword(req.getName(), DigestUtils.sha256Hex(req.getPassword()));
+		WXUserEntity user = wxUserMapper.getByPhoneAndPassword(req.getPhone(), DigestUtils.sha256Hex(req.getPassword()));
 		if (user == null) {
 			throw new BizException(ErrorCode.USER_NOTFOUND);
 		}

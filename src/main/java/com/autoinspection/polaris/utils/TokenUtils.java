@@ -208,7 +208,7 @@ public class TokenUtils implements Serializable  {
     	}
     	if (uid == null)
     		return false;
-    	String tokenInCache = getTokenFromCache(uid);
+    	String tokenInCache = getWXTokenFromCache(uid);
     	if(ObjectUtils.nullSafeEquals(token, tokenInCache))
     		return true;
     	else 

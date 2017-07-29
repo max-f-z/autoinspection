@@ -32,7 +32,7 @@ public class WXTokenFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		String authToken = request.getHeader(tokenHeader);
 		logger.info("wx authToken: " + authToken);
-		if (wxTokenUtils.isTokenValid(authToken)) {
+		if (wxTokenUtils.isTokenValidWX(authToken)) {
 			wxTokenUtils.refreshTokenWX(authToken);
 		} else {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;  

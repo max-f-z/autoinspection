@@ -36,9 +36,6 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter  {
             if (!Arrays.asList(permissionTypes).contains(role)) {
             	throw new BizException(ErrorCode.NOT_AUTHORIZED);
             }
-//           	if (role.ordinal() < permissionTypes[0].ordinal()) {
-//           		throw new BizException(ErrorCode.NOT_AUTHORIZED);
-//           	}
         }  
         return true;  
     }  
