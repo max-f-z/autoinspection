@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.AppointmentMapper" >
+	<insert id="insertAppointment" parameterType="com.autoinspection.polaris.model.entity.AppointmentEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizappointment (SLOTID, APPOINTMENTDATE, WXUSERID, SERVICEID, STATIONID, PLATE, CREATETIME, UPDATETIME)
+		values (#{appointmentSlot}, #{appointmentDate}, #{wxUserId}, #{serviceId}, #{stationId}, #{plate}, #{currentTime}, #{currentTime})
+	</insert>
+	<select id="listRegistrations" parameterType="java.lang.Integer" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
+	select ba.`‎id` regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate
+	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
+	left join BizService bs on ba.SERVICEID = bs.id
+	left join BizStation bst on ba.STATIONID = bst.id where ba.WXUSERID = #{wxid}
+	</select>
+</mapper>

@@ -6,6 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.autoinspection.polaris.interceptor.PermissionEnum;
 import com.autoinspection.polaris.model.entity.WXUserEntity;
@@ -20,6 +21,7 @@ import com.autoinspection.polaris.vo.wx.SignInRequest;
 import com.autoinspection.polaris.vo.wx.SignInResponse;
 import com.autoinspection.polaris.vo.wx.SignUpRequest;
 import com.autoinspection.polaris.vo.wx.SignUpResponse;
+import com.autoinspection.polaris.vo.wx.UpdateUserRequest;
 
 @Service
 public class WXServiceImpl implements WXService {
@@ -86,5 +88,20 @@ public class WXServiceImpl implements WXService {
 		resp.setId(user.getId());
 		resp.setToken(wxTokenUtils.generateToken(user));
 		return resp;
+	}
+
+	@Override
+	@Transactional
+	public Result<String> updateUser(UpdateUserRequest req) throws BizException {
+		int exists = wxUserMapper.getByPhone(req.getPhone());
+		if (exists > 0) {
+			throw new BizException(ErrorCode.ALREADY_SIGNED_UP);
+		}
+		
+		int rows = wxUserMapper.updateUser(req.getId(), req.getName(), req.getPhone());
+		if (rows != 1) {
+			throw new BizException(ErrorCode.INVALID_PARAM);
+		}
+		return new Result<>("");
 	}
 }

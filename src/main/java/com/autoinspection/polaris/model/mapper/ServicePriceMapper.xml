@@ -24,4 +24,8 @@
 		<bind name="currentTime" value="new java.util.Date()" />
 		update BizServicePrice set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
 	</delete>
+	<select id="listServicePrices" parameterType="int" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
+		select bs.NAME, bs.DESCRIPTION, bsp.PRICE, bsp.id from bizserviceprice bsp inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
+		where bsp.CUSTOMERID = #{cid}
+	</select>
 </mapper>

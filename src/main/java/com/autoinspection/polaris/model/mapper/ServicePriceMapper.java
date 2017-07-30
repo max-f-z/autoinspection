@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity;
 import com.autoinspection.polaris.model.entity.ServicePriceEntity;
 
 @Mapper
@@ -14,4 +15,5 @@ public interface ServicePriceMapper {
 	int insertServicePrice(ServicePriceEntity entity);
 	int updateServicePrice(ServicePriceEntity entity);
 	int deleteServicePrice(@Param("id") Integer id, @Param("operatorId") Integer operatorId);
+	List<ServicePriceDisplayEntity> listServicePrices(@Param("cid") Integer cid);
 }

@@ -11,4 +11,6 @@ public interface WXUserMapper {
 	public int insertWXUser(WXUserEntity user);
 	public Integer checkExists(@Param("phone") String phone);
 	public WXUserEntity getByPhoneAndPassword(@Param("phone") String phone, @Param("password") String password);
+	public int updateUser(@Param("id") Integer id, @Param("name") String name, @Param("phone") String phone);
+	public int getByPhone(@Param("phone") String phone);
 }

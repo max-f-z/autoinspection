@@ -18,5 +18,10 @@
 	<select id="getByPhoneAndPassword" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
 		select * from WXUser u where u.PHONE=#{phone} and u.PASSWORD=#{password}
 	</select>
-
+	<update id="updateUser">
+		update WXUser set name=#{name}, phone=#{phone} where id = #{id}
+	</update>
+	<select id="getByPhone" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
+		select count(*) from WXUser u where u.PHONE=#{phone}
+	</select>
 </mapper>

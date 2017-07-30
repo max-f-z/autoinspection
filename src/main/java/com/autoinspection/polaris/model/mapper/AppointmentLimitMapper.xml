@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.AppointmentLimitMapper">
+	<insert id="insertLimit" parameterType="com.autoinspection.polaris.model.entity.AppointmentLimitEntity" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizappointmentlimit (APPOINTMENTDATE, LIMIT, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{appointmentDate}, #{limit}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateLimit" parameterType="com.autoinspection.polaris.model.entity.AppointmentLimitEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizappointmentlimit set APPOINTMENTDATE= #{appointmentDate}, LIMIT= #{limit}, 
+		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
+	</update>
+	<delete id="deleteLimit" parameterType="int">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizappointmentlimit set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
+	</delete>
+	<select id="selectReserveByDate" resultType="com.autoinspection.polaris.model.entity.ReservedEntity">
+	select bas.NAME, bas.id, count(*) as RESERVED from bizappointmentslot bas left join bizappointment ba 
+	on bas.id = ba.SLOTID where ba.APPOINTMENTDATE = #{reqDate} group by bas.NAME, bas.id
+	</select>
+	<select id="selectRemainByDate" resultType="com.autoinspection.polaris.model.entity.RemainEntity">
+	select id, NAME, IFNULL((select `limit`from bizappointmentlimit where APPOINTMENTDATE = #{reqDate}), 1) as REMAIN from bizappointmentslot
+	</select>
+	<select id="getLimitByDate" resultType="java.lang.Integer">
+	select IFNULL((select `LIMIT` from bizappointmentlimit where APPOINTMENTDATE = #{reqDate}), 1) as `limit` from dual;
+	</select>
+	<select id="getReservedByDateAndSlot" resultType="java.lang.Integer">
+	select IFNULL((select count(*) as RESERVED from bizappointmentslot bas left join bizappointment ba 
+	on bas.id = ba.SLOTID where ba.APPOINTMENTDATE = #{reqDate} and ba.SLOTID = #{slotId} group by bas.NAME, bas.id ), 0) as RESERVED from dual;
+	</select>
+</mapper> 
