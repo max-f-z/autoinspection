@@ -15,7 +15,6 @@ import com.autoinspection.polaris.model.mapper.AppointmentMapper;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.wx.AppointmentRequest;
-import com.autoinspection.polaris.vo.wx.ListRegistrationRequest;
 import com.autoinspection.polaris.vo.wx.RegisterRequest;
 
 @Service
@@ -45,7 +44,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	@Transactional
-	public int register(RegisterRequest req) throws BizException {
+	public int register(RegisterRequest req, int wxid) throws BizException {
 		int limit = alMapper.getLimitByDate(req.getAppointmentDate());
 		Integer reserved = alMapper.getReservedByDateAndSlot(req.getAppointmentDate(), req.getAppointmentSlot());
 		
@@ -56,7 +55,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		AppointmentEntity entity = new AppointmentEntity();
 		entity.setAppointmentDate(req.getAppointmentDate());
 		entity.setAppointmentSlot(req.getAppointmentSlot());
-		entity.setWxUserId(req.getWxid());
+		entity.setWxUserId(wxid);
 		entity.setServiceId(req.getServiceId());
 		entity.setStationId(req.getStationId());
 		entity.setPlate(req.getPlate());
@@ -67,8 +66,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<RegistrationDisplayEntity> listRegistrations(ListRegistrationRequest req) throws BizException {
-		return appointmentMapper.listRegistrations(req.getWxid());
+	public List<RegistrationDisplayEntity> listRegistrations(int wxid) throws BizException {
+		return appointmentMapper.listRegistrations(wxid);
 	}
 
 }

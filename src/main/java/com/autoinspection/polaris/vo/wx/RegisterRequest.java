@@ -1,18 +1,11 @@
 package com.autoinspection.polaris.vo.wx;
 
 public class RegisterRequest {
-	private int wxid;
 	private String appointmentDate;
 	private int appointmentSlot;
 	private String plate;
 	private int serviceId;
 	private int stationId;
-	public int getWxid() {
-		return wxid;
-	}
-	public void setWxid(int wxid) {
-		this.wxid = wxid;
-	}
 	public String getAppointmentDate() {
 		return appointmentDate;
 	}

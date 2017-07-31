@@ -13,4 +13,7 @@
 	left join BizService bs on ba.SERVICEID = bs.id
 	left join BizStation bst on ba.STATIONID = bst.id where ba.WXUSERID = #{wxid}
 	</select>
+	<delete id="deleteAppointment" parameterType="int">
+		delete from bizappointment where id = #{regId}
+	</delete>
 </mapper>

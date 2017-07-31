@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.autoinspection.polaris.model.mapper.ServiceMapper">
 	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
-		select * from BizService s where s.id=#{id}
+		select * from bizservice s where s.id=#{id}
 	</select>
 	<select id="listAllServices" resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
-		select * from BizService where enable = 1
+		select * from bizservice where enable = 1
 	</select>
 	<insert id="insertService" parameterType="com.autoinspection.polaris.model.entity.ServiceEntity" >
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into BizService (NAME, DESCRIPTION, PRICE, STATUS, CREATETIME, UPDATETIME, OPERATORID) 
+		insert into bizservice (NAME, DESCRIPTION, PRICE, STATUS, CREATETIME, UPDATETIME, OPERATORID) 
 		values (#{name}, #{description}, #{price}, #{status}, #{currentTime}, #{currentTime}, #{operatorId})
 		<selectKey keyProperty="id" resultType="int">
             select LAST_INSERT_ID()
@@ -17,11 +17,11 @@
 	</insert>
 	<update id="updateService" parameterType="com.autoinspection.polaris.model.entity.ServiceEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update BizService set NAME= #{name}, DESCRIPTION= #{description}, PRICE= #{price}, STATUS= #{status},
+		update bizservice set NAME= #{name}, DESCRIPTION= #{description}, PRICE= #{price}, STATUS= #{status},
 		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
 	</update>
 	<delete id="deleteService" parameterType="int">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update BizService set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
+		update bizservice set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
 	</delete>
 </mapper>

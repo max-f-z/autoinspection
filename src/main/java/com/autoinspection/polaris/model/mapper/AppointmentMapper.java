@@ -12,4 +12,5 @@ import com.autoinspection.polaris.model.entity.RegistrationDisplayEntity;
 public interface AppointmentMapper {
 	int insertAppointment(AppointmentEntity entity);
 	List<RegistrationDisplayEntity> listRegistrations(@Param("wxid") Integer wxid);
+	int deleteAppointment(@Param("regId") Integer regId);
 }

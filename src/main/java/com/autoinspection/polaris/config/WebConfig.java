@@ -23,6 +23,7 @@ import com.autoinspection.polaris.filter.TokenFilter;
 import com.autoinspection.polaris.filter.WXTokenFilter;
 import com.autoinspection.polaris.interceptor.PermissionInterceptor;
 import com.autoinspection.polaris.resolver.CurrentUserResolver;
+import com.autoinspection.polaris.resolver.WXUserResolver;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import redis.clients.jedis.JedisPoolConfig;
@@ -110,7 +111,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         jedisConnectionFactory.setHostName(host);
         jedisConnectionFactory.setPort(port);
         jedisConnectionFactory.setDatabase(0);
-//        jedisConnectionFactory.setPassword(password);
+        jedisConnectionFactory.setPassword(password);
         return jedisConnectionFactory;
     }
 
@@ -135,9 +136,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     	return new CurrentUserResolver();
     }
     
+    @Bean
+    public WXUserResolver wxUserResolver() {
+    	return new WXUserResolver();
+    }
+    
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     	super.addArgumentResolvers(argumentResolvers);
     	argumentResolvers.add(currentUserResolver());
+    	argumentResolvers.add(wxUserResolver());
     }
 }

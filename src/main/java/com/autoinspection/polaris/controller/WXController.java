@@ -14,15 +14,16 @@ import com.autoinspection.polaris.model.entity.RegistrationDisplayEntity;
 import com.autoinspection.polaris.model.entity.RemainEntity;
 import com.autoinspection.polaris.model.entity.ServiceEntity;
 import com.autoinspection.polaris.model.entity.StationEntity;
+import com.autoinspection.polaris.resolver.WXUser;
 import com.autoinspection.polaris.service.AppointmentService;
 import com.autoinspection.polaris.service.ServiceService;
 import com.autoinspection.polaris.service.StationService;
 import com.autoinspection.polaris.service.WXService;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.vo.Result;
+import com.autoinspection.polaris.vo.UserVo;
 import com.autoinspection.polaris.vo.wx.AppointmentRequest;
 import com.autoinspection.polaris.vo.wx.AuthCodeRequest;
-import com.autoinspection.polaris.vo.wx.ListRegistrationRequest;
 import com.autoinspection.polaris.vo.wx.RegisterRequest;
 import com.autoinspection.polaris.vo.wx.RegisterResponse;
 import com.autoinspection.polaris.vo.wx.SignInRequest;
@@ -94,15 +95,21 @@ public class WXController {
 	
 	@Permission( permissionTypes = { PermissionEnum.WXUSER })
 	@RequestMapping(path = "/api/register", method = RequestMethod.POST)
-	public RegisterResponse register(@RequestBody RegisterRequest request) throws BizException {
+	public RegisterResponse register(@RequestBody RegisterRequest request, @WXUser UserVo user) throws BizException {
 		RegisterResponse resp = new RegisterResponse();
-		resp.setRegId(appointmentService.register(request));
+		resp.setRegId(appointmentService.register(request, user.getUid()));
 		return resp;
 	}
 	
 	@Permission( permissionTypes = { PermissionEnum.WXUSER })
-	@RequestMapping(path = "/api/registrations", method = RequestMethod.POST)
-	public List<RegistrationDisplayEntity> listRegistrations(@RequestBody ListRegistrationRequest request) throws BizException {
-		return appointmentService.listRegistrations(request);
+	@RequestMapping(path = "/api/registrations", method = RequestMethod.GET)
+	public List<RegistrationDisplayEntity> listRegistrations(@WXUser UserVo user) throws BizException {
+		return appointmentService.listRegistrations(user.getUid());
+	}
+	
+	@Permission( permissionTypes = { PermissionEnum.WXUSER })
+	@RequestMapping(path = "/api/cancelRegistration", method = RequestMethod.POST) 
+	public Result<String> cancelRegistration(){
+		return new Result<>("");
 	}
 }

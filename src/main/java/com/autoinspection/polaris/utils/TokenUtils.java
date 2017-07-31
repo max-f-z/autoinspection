@@ -70,6 +70,15 @@ public class TokenUtils implements Serializable  {
 		return PermissionEnum.values()[(int) claims.get(CLAIM_ROLE)];
 	}
 	
+	public Integer getWXIdFromToken(String token) throws BizException {
+		Claims claims = getClaimsFromToken(token);
+		if (claims == null) {
+			throw new BizException(ErrorCode.TOKEN_INVALID);
+		}
+		
+		return (Integer)claims.get(CLAIM_UID_WX);
+	}
+	
 	public Integer getIdFromToken(String token) throws BizException {
 		Claims claims = getClaimsFromToken(token);
 		if (claims == null) {
