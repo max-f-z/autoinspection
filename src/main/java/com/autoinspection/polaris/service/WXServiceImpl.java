@@ -1,5 +1,6 @@
 package com.autoinspection.polaris.service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -22,6 +23,7 @@ import com.autoinspection.polaris.vo.wx.SignInResponse;
 import com.autoinspection.polaris.vo.wx.SignUpRequest;
 import com.autoinspection.polaris.vo.wx.SignUpResponse;
 import com.autoinspection.polaris.vo.wx.UpdateUserRequest;
+import com.autoinspection.polaris.vo.wx.UserInfoResponse;
 
 @Service
 public class WXServiceImpl implements WXService {
@@ -81,7 +83,7 @@ public class WXServiceImpl implements WXService {
 	public SignInResponse signIn(SignInRequest req) throws BizException {
 		WXUserEntity user = wxUserMapper.getByPhoneAndPassword(req.getPhone(), DigestUtils.sha256Hex(req.getPassword()));
 		if (user == null) {
-			throw new BizException(ErrorCode.USER_NOTFOUND);
+			throw new BizException(ErrorCode.INVALID_USR_OR_PWD);
 		}
 		
 		SignInResponse resp = new SignInResponse();
@@ -92,16 +94,25 @@ public class WXServiceImpl implements WXService {
 
 	@Override
 	@Transactional
-	public Result<String> updateUser(UpdateUserRequest req) throws BizException {
-		int exists = wxUserMapper.getByPhone(req.getPhone());
-		if (exists > 0) {
+	public Result<String> updateUser(UpdateUserRequest req, int wxid) throws BizException {
+		List<WXUserEntity> exists = wxUserMapper.getByPhone(req.getPhone(), wxid);
+		if (exists != null && exists.size() > 0) {
 			throw new BizException(ErrorCode.ALREADY_SIGNED_UP);
 		}
 		
-		int rows = wxUserMapper.updateUser(req.getId(), req.getName(), req.getPhone());
+		int rows = wxUserMapper.updateUser(wxid, req.getName(), req.getPhone());
 		if (rows != 1) {
 			throw new BizException(ErrorCode.INVALID_PARAM);
 		}
 		return new Result<>("");
+	}
+
+	@Override
+	public UserInfoResponse getUserInfo(int wxid) throws BizException {
+		UserInfoResponse resp = new UserInfoResponse();
+		WXUserEntity entity = wxUserMapper.getById(wxid);
+		resp.setName(entity.getName());
+		resp.setPhone(entity.getPhone());
+		return resp;
 	}
 }

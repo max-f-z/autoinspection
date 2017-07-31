@@ -8,10 +8,12 @@ import com.autoinspection.polaris.vo.wx.SignInResponse;
 import com.autoinspection.polaris.vo.wx.SignUpRequest;
 import com.autoinspection.polaris.vo.wx.SignUpResponse;
 import com.autoinspection.polaris.vo.wx.UpdateUserRequest;
+import com.autoinspection.polaris.vo.wx.UserInfoResponse;
 
 public interface WXService {
 	public SignUpResponse signUp(SignUpRequest req) throws BizException;
 	public Result<String> authCode(AuthCodeRequest req) throws BizException;
 	public SignInResponse signIn(SignInRequest req) throws BizException;
-	public Result<String> updateUser(UpdateUserRequest req) throws BizException;
+	public Result<String> updateUser(UpdateUserRequest req, int wxid) throws BizException;
+	public UserInfoResponse getUserInfo(int wxid) throws BizException;
 }

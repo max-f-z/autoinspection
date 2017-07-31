@@ -111,7 +111,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         jedisConnectionFactory.setHostName(host);
         jedisConnectionFactory.setPort(port);
         jedisConnectionFactory.setDatabase(0);
-        jedisConnectionFactory.setPassword(password);
+//        jedisConnectionFactory.setPassword(password);
         return jedisConnectionFactory;
     }
 

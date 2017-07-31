@@ -31,6 +31,7 @@ import com.autoinspection.polaris.vo.wx.SignInResponse;
 import com.autoinspection.polaris.vo.wx.SignUpRequest;
 import com.autoinspection.polaris.vo.wx.SignUpResponse;
 import com.autoinspection.polaris.vo.wx.UpdateUserRequest;
+import com.autoinspection.polaris.vo.wx.UserInfoResponse;
 
 @RestController
 @RequestMapping(path = "/v1/wx")
@@ -64,12 +65,6 @@ public class WXController {
 	}
 	
 	@Permission( permissionTypes = { PermissionEnum.WXUSER })
-	@RequestMapping(path = "/api/list", method = RequestMethod.GET)
-	public Result<String> list() {
-		return new Result<>("hello list");
-	}
-	
-	@Permission( permissionTypes = { PermissionEnum.WXUSER })
 	@RequestMapping(path = "/api/stations", method = RequestMethod.GET)
 	public List<StationEntity> listStations() {
 		return stationService.listAllStations();
@@ -77,8 +72,8 @@ public class WXController {
 	
 	@Permission( permissionTypes = { PermissionEnum.WXUSER })
 	@RequestMapping(path = "/api/updateUser", method = RequestMethod.POST)
-	public Result<String> updateUser(@RequestBody UpdateUserRequest request) throws BizException {
-		return wxService.updateUser(request);
+	public Result<String> updateUser(@RequestBody UpdateUserRequest request, @WXUser UserVo user) throws BizException {
+		return wxService.updateUser(request, user.getUid());
 	}
 	
 	@Permission( permissionTypes = { PermissionEnum.WXUSER })
@@ -111,5 +106,11 @@ public class WXController {
 	@RequestMapping(path = "/api/cancelRegistration", method = RequestMethod.POST) 
 	public Result<String> cancelRegistration(){
 		return new Result<>("");
+	}
+	
+	@Permission( permissionTypes = { PermissionEnum.WXUSER })
+	@RequestMapping(path = "/api/userinfo", method = RequestMethod.GET)
+	public UserInfoResponse getUserInfo(@WXUser UserVo user) throws BizException {
+		return wxService.getUserInfo(user.getUid());
 	}
 }

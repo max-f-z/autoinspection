@@ -21,7 +21,7 @@
 	<update id="updateUser">
 		update wxuser set name=#{name}, phone=#{phone} where id = #{id}
 	</update>
-	<select id="getByPhone" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
-		select count(*) from wxuser u where u.PHONE=#{phone}
+	<select id="getByPhone" resultType="com.autoinspection.polaris.model.entity.WXUserEntity">
+		select * from wxuser u where u.PHONE=#{phone} and id &lt;&gt; #{wxid} 
 	</select>
 </mapper>

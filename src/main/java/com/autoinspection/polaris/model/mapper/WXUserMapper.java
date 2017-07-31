@@ -1,5 +1,7 @@
 package com.autoinspection.polaris.model.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,5 +14,5 @@ public interface WXUserMapper {
 	public Integer checkExists(@Param("phone") String phone);
 	public WXUserEntity getByPhoneAndPassword(@Param("phone") String phone, @Param("password") String password);
 	public int updateUser(@Param("id") Integer id, @Param("name") String name, @Param("phone") String phone);
-	public int getByPhone(@Param("phone") String phone);
+	public List<WXUserEntity> getByPhone(@Param("phone") String phone, @Param("wxid") int wxid);
 }

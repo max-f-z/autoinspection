@@ -1,6 +1,6 @@
 package com.autoinspection.polaris.vo.wx;
 
-public class UpdateUserRequest {
+public class UserInfoResponse {
 	private String name;
 	private String phone;
 	public String getName() {
