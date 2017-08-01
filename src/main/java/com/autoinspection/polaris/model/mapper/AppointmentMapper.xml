@@ -5,6 +5,9 @@
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into bizappointment (SLOTID, APPOINTMENTDATE, WXUSERID, SERVICEID, STATIONID, PLATE, CREATETIME, UPDATETIME)
 		values (#{appointmentSlot}, #{appointmentDate}, #{wxUserId}, #{serviceId}, #{stationId}, #{plate}, #{currentTime}, #{currentTime})
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
 	</insert>
 	<select id="listRegistrations" parameterType="java.lang.Integer" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
 	select ba.`‎id` regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
@@ -14,6 +17,9 @@
 	left join BizStation bst on ba.STATIONID = bst.id where ba.WXUSERID = #{wxid}
 	</select>
 	<delete id="deleteAppointment" parameterType="int">
-		delete from bizappointment where id = #{regId}
+		delete from bizappointment where `ID` = #{regId} and WXUSERID = #{wxid} 
 	</delete>
+	<select id="getById" resultType="com.autoinspection.polaris.model.entity.AppointmentEntity">
+		select * from bizappointment where ID = #{id} and WXUSERID= #{wxid}
+	</select>
 </mapper>

@@ -60,14 +60,24 @@ public class AppointmentServiceImpl implements AppointmentService {
 		entity.setStationId(req.getStationId());
 		entity.setPlate(req.getPlate());
 		
-		int regId = appointmentMapper.insertAppointment(entity);
+		appointmentMapper.insertAppointment(entity);
 		
-		return regId;
+		return entity.getId();
 	}
 
 	@Override
 	public List<RegistrationDisplayEntity> listRegistrations(int wxid) throws BizException {
 		return appointmentMapper.listRegistrations(wxid);
+	}
+
+	@Override
+	public void cancelRegistration(int regId, int wxid) throws BizException {
+		List<AppointmentEntity> exists = appointmentMapper.getById(regId, wxid);
+		if (exists == null || exists.size() > 1) {
+			throw new BizException(ErrorCode.INVALID_PARAM);
+		}
+		
+		appointmentMapper.deleteAppointment(regId, wxid);
 	}
 
 }

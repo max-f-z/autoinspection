@@ -24,6 +24,7 @@ import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.UserVo;
 import com.autoinspection.polaris.vo.wx.AppointmentRequest;
 import com.autoinspection.polaris.vo.wx.AuthCodeRequest;
+import com.autoinspection.polaris.vo.wx.CancelRequest;
 import com.autoinspection.polaris.vo.wx.RegisterRequest;
 import com.autoinspection.polaris.vo.wx.RegisterResponse;
 import com.autoinspection.polaris.vo.wx.SignInRequest;
@@ -104,7 +105,8 @@ public class WXController {
 	
 	@Permission( permissionTypes = { PermissionEnum.WXUSER })
 	@RequestMapping(path = "/api/cancelRegistration", method = RequestMethod.POST) 
-	public Result<String> cancelRegistration(){
+	public Result<String> cancelRegistration(@RequestBody CancelRequest request, @WXUser UserVo user) throws BizException{
+		appointmentService.cancelRegistration(request.getRegId(), user.getUid());
 		return new Result<>("");
 	}
 	
