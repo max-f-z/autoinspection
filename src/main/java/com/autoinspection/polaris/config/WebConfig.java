@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import com.autoinspection.polaris.filter.TokenFilter;
 import com.autoinspection.polaris.filter.WXTokenFilter;
+import com.autoinspection.polaris.filter.CorsFilter;
 import com.autoinspection.polaris.interceptor.PermissionInterceptor;
 import com.autoinspection.polaris.resolver.CurrentUserResolver;
 import com.autoinspection.polaris.resolver.WXUserResolver;
@@ -34,6 +35,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
   	public Filter TokenFilter() {
 	    return new TokenFilter();
+	}
+	
+	@Bean
+  	public Filter CorsFilter() {
+	    return new CorsFilter();
 	}
 	
 	@Bean
@@ -73,7 +79,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/v1/**");
+        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/v1/api/**");
+        registry.addInterceptor(permissionInterceptor()).addPathPatterns("/v1/wx/api/**");
         super.addInterceptors(registry);
 	}
 	

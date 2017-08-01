@@ -27,6 +27,11 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets.main.resources.srcDirs += "src/main/java"
+
+jar {
+	from sourceSets.main.output
+}
 
 dependencies {
 	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.0')
