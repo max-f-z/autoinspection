@@ -24,6 +24,7 @@ import com.autoinspection.polaris.vo.wx.SignUpRequest;
 import com.autoinspection.polaris.vo.wx.SignUpResponse;
 import com.autoinspection.polaris.vo.wx.UpdateUserRequest;
 import com.autoinspection.polaris.vo.wx.UserInfoResponse;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class WXServiceImpl implements WXService {
@@ -40,6 +41,14 @@ public class WXServiceImpl implements WXService {
 	
 	@Override
 	public SignUpResponse signUp(SignUpRequest req) throws BizException {
+		if (StringUtils.isNullOrEmpty(req.getAuthCode())) {
+			throw new BizException(ErrorCode.EMPTY_AUTH_CODE);
+		}
+		
+		if (!redisTemplate.opsForValue().get(Const.WX_AUTH_CODE + req.getPhone()).equals(req.getAuthCode())) {
+			throw new BizException(ErrorCode.INVALID_AUTH_CODE);
+		}
+		
 		WXUserEntity user = new WXUserEntity();
 		user.setPhone(req.getPhone());
 		user.setPassword(DigestUtils.sha256Hex(req.getPassword()));

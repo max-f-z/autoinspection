@@ -10,6 +10,8 @@ public class ErrorCode {
 	public static final ErrorCode TOO_MANY_AUTH_CODE = new ErrorCode("1007", "发送短信太多，请稍后再试");
 	public static final ErrorCode ALREADY_SIGNED_UP = new ErrorCode("1008", "已经注册，请尝试登陆");
 	public static final ErrorCode REGISTRATION_FULL = new ErrorCode("1008", "时间段达到预约上线");
+	public static final ErrorCode EMPTY_AUTH_CODE = new ErrorCode("1009", "验证码为空");
+	public static final ErrorCode INVALID_AUTH_CODE = new ErrorCode("1010", "验证码错误");
 	
 	private String code;
 	private String msg;
