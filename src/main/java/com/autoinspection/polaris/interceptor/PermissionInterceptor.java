@@ -14,7 +14,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.utils.TokenUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PermissionInterceptor extends HandlerInterceptorAdapter  {
 	@Value("${jwt.header}")
@@ -25,9 +24,6 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter  {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception { 
-		System.out.println(request.toString());
-		System.out.println(handler.toString());
-		
 		HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
         
