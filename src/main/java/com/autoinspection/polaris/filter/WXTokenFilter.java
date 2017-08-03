@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.filter;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -30,6 +31,13 @@ public class WXTokenFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		Enumeration<String> keys = request.getHeaderNames();
+		
+		while (keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			logger.info("key: " + key + " value: " + request.getHeader(key));
+		}
+		
 		String authToken = request.getHeader(tokenHeader);
 		logger.info("wx authToken: " + authToken);
 		if (wxTokenUtils.isTokenValidWX(authToken)) {

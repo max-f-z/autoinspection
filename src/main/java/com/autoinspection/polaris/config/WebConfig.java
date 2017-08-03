@@ -15,13 +15,15 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import com.autoinspection.polaris.filter.TokenFilter;
 import com.autoinspection.polaris.filter.WXTokenFilter;
-import com.autoinspection.polaris.filter.CorsFilter;
+import org.springframework.web.filter.CorsFilter;
 import com.autoinspection.polaris.interceptor.PermissionInterceptor;
 import com.autoinspection.polaris.resolver.CurrentUserResolver;
 import com.autoinspection.polaris.resolver.WXUserResolver;
@@ -37,10 +39,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	    return new TokenFilter();
 	}
 	
-	@Bean
-  	public Filter CorsFilter() {
-	    return new CorsFilter();
-	}
 	
 	@Bean
   	public Filter WXTokenFilter() {
@@ -50,6 +48,20 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
+	}
+	
+	@Bean
+	public FilterRegistrationBean corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", config);
+		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+		bean.setOrder(0);
+		return bean;
 	}
 	
 	@Bean
@@ -83,7 +95,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(permissionInterceptor()).addPathPatterns("/v1/wx/api/**");
         super.addInterceptors(registry);
 	}
-	
 	
 	@Value("${redis.host}")
 	private String host;
