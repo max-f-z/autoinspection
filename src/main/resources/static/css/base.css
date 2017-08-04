@@ -1,0 +1,79 @@
+@charset "utf-8";
+
+/* CSS Document */
+
+.btn-border {
+	border-radius: 24px;
+}
+
+.top-50 {
+	margin-top: 50px;
+}
+
+.top-10 {
+	margin-top: 20px;
+}
+
+.addon-border {
+	border-top-left-radius: 24px;
+	border-bottom-left-radius: 24px;
+}
+
+.input-group .form-control:last-child {
+	border-top-right-radius: 24px;
+	border-bottom-right-radius: 24px;
+}
+
+.input-group .form-control:last-child {
+	border-top-right-radius: 24px;
+	border-bottom-right-radius: 24px;
+}
+
+#right-bored {
+	border-top-right-radius: 24px;
+	border-bottom-right-radius: 24px;
+}
+
+.circle-btn {
+	border-top-left-radius: 24px;
+	border-bottom-left-radius: 24px;
+	border-top-right-radius: 24px;
+	border-bottom-right-radius: 24px;
+}
+
+.p-blod {
+	font-weight: bold;
+}
+
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:first-child>.btn-group:not(:first-child)>.btn,
+.input-group-btn:first-child>.btn:not(:first-child),
+.input-group-btn:last-child>.btn,
+.input-group-btn:last-child>.btn-group>.btn,
+.input-group-btn:last-child>.dropdown-toggle {
+	border-top-right-radius: 24px;
+	border-bottom-right-radius: 24px;
+}
+
+.red_btn {
+	background-color: red;
+	color: white;
+}
+
+.login_btn{
+	width: 300px;
+	height: 40px;
+	margin: 0em auto 2em auto
+}
+
+.login_btn_color{
+	background: rgba(255,255,255,0.30);
+	border: 0 solid #FFFFFF;
+	left:50%
+}
+
+.btn_color{
+	background: rgba(255,80,80,0.80);
+	border-radius: 84px;
+}
