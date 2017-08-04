@@ -20,6 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import com.autoinspection.polaris.filter.TokenFilter;
 import com.autoinspection.polaris.filter.WXTokenFilter;
@@ -39,6 +40,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	    return new TokenFilter();
 	}
 	
+	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+	        "classpath:/META-INF/resources/", "classpath:/resources/",
+	        "classpath:/static/", "classpath:/public/" };
+
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	    registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
+	}
 	
 	@Bean
   	public Filter WXTokenFilter() {
