@@ -48,6 +48,9 @@ orderList = {
 					success: function(data) {
 						if(data.result != 1) {
 							mui.toast(data.msg);
+							if(data.code == "1001") {
+								window.location.href = "login.html";
+							}
 							return;
 						}
 
@@ -96,8 +99,12 @@ orderList = {
 						success: function(data) {
 							if(data.result != 1) {
 								mui.toast(data.msg);
+								if(data.code == "1001") {
+									window.location.href = "login.html";
+								}
 								return;
 							}
+
 							mui.toast("取消成功");
 							location.reload();
 						}
@@ -110,9 +117,6 @@ orderList = {
 
 	dao: {},
 	init: function() {
-		if(localStorage.getItem("Authorization") == null) {
-			window.location.href = "login.html";
-		}
 		orderList.event();
 		orderList.service.doQuery();
 	}

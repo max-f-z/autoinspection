@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-/* CSS Document */
 
 .btn-border {
 	border-radius: 24px;
@@ -65,6 +64,12 @@
 	width: 300px;
 	height: 40px;
 	margin: 0em auto 2em auto
+}
+
+.login_btn_word{
+	width: 300px;
+	height: 10px;
+	margin: 1em auto 1em auto
 }
 
 .login_btn_color{

@@ -17,15 +17,19 @@ serviceOrderList = {
 
 	service: {
 
-		doRegister: function() {
+		doRegister: function(){
+			
+			if($("#plateNo").val() == null || $("#plateNo").val() == ""){
+				mui.toast("请输入车牌号");
+			}
+			
 			var token = localStorage.getItem("Authorization");
-
 			var appointmentDate = localStorage.getItem("date");
 			var appointmentSlot = localStorage.getItem("appointmentSlot");
-			var plate = "辽B 12312";
+			var plate = $("#plateNo").val();
 			var serviceId = localStorage.getItem("serviceId");
 			var stationId = localStorage.getItem("stationId");
-
+			
 			mui.ajax(GLOBAL.SERVER_URL + "wx/api/register", {
 				data: {
 					appointmentDate: appointmentDate,
@@ -46,6 +50,9 @@ serviceOrderList = {
 				success: function(data) {
 					if(data.result != 1) {
 						mui.toast(data.msg);
+						if(data.code == "1001") {
+							window.location.href = "login.html";
+						}
 						return;
 					}
 					console.log(data.data);
@@ -65,17 +72,13 @@ serviceOrderList = {
 	dao: {},
 	init: function() {
 
-		if(localStorage.getItem("Authorization") == null) {
-			window.location.href = "login.html";
-		}
-
 		serviceOrderList.event();
 
 		$("#serviceName").text(localStorage.getItem("serviceName"));
 		$("#describle").text(localStorage.getItem("serviceDescription"));
 		$("#station").text(localStorage.getItem("stationName"));
 		$("#place").text(localStorage.getItem("stationAddress"));
-		$("#orderTime").text(localStorage.getItem("date"));
+		$("#orderTime").text(localStorage.getItem("date") + " " + localStorage.getItem("appointmentName"));
 	}
 }
 serviceOrderList.init();

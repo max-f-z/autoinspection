@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
+	<script>
+		if(localStorage.getItem("Authorization") == null) {
+			window.location.href = "login.html";
+		}
+	</script>
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
@@ -31,7 +35,7 @@
 			</div>
 
 			<ul class="mui-table-view" id="time">
-			
+
 			</ul>
 
 		</div>
@@ -44,9 +48,9 @@
 		<script src="../js/MCalendar.js"></script>
 		<script>
 			var test = function() {
-				var yesterday = mui.DateUtil.addDate(mui.DateUtil.getToday(), -1);
+				var nextDay = mui.DateUtil.addDate(mui.DateUtil.getToday(), 1);
 				var MC = mui("#container").MCalendar({
-					date: yesterday
+					date: nextDay
 				});
 
 			};

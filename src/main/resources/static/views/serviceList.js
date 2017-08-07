@@ -46,6 +46,9 @@ serviceList = {
 					success: function(data) {
 						if(data.result != 1) {
 							mui.toast(data.msg);
+							if(data.code == "1001") {
+								window.location.href = "login.html";
+							}
 							return;
 						}
 						$.each(data.data, function(index, result) {
@@ -78,9 +81,7 @@ serviceList = {
 
 	dao: {},
 	init: function() {
-		if(localStorage.getItem("Authorization") == null) {
-			window.location.href = "login.html";
-		}
+
 		serviceList.event();
 		serviceList.service.doQuery();
 	}

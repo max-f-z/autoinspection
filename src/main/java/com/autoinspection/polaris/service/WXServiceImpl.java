@@ -70,19 +70,38 @@ public class WXServiceImpl implements WXService {
 
 	@Override
 	public Result<String> authCode(AuthCodeRequest req) throws BizException {
-		Integer history = null;
-		if (redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()) != null ) {
-			history = Integer.parseInt(redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()));
-			if (history != null && history > 4) {
-				throw new BizException(ErrorCode.TOO_MANY_AUTH_CODE);
+		if (req.getType() == 1) {
+			Integer history = null;
+			if (redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()) != null ) {
+				history = Integer.parseInt(redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_TIMES+req.getPhone()));
+				if (history != null && history > 4) {
+					throw new BizException(ErrorCode.TOO_MANY_AUTH_CODE);
+				}
+			}
+			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE+req.getPhone(), "123456", 15, TimeUnit.MINUTES);
+			if (history != null && history > 0) {
+				Long expire = redisTemplate.getExpire(Const.WX_AUTH_CODE_TIMES+req.getPhone(), TimeUnit.MICROSECONDS);
+				redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), String.valueOf(history+1), expire, TimeUnit.MICROSECONDS);
+			} else {
+				redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), "1", 10, TimeUnit.MINUTES);
 			}
 		}
-		redisTemplate.opsForValue().set(Const.WX_AUTH_CODE+req.getPhone(), "123456", 15, TimeUnit.MINUTES);
-		if (history != null && history > 0) {
-			Long expire = redisTemplate.getExpire(Const.WX_AUTH_CODE_TIMES+req.getPhone(), TimeUnit.MICROSECONDS);
-			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), String.valueOf(history+1), expire, TimeUnit.MICROSECONDS);
-		} else {
-			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_TIMES+req.getPhone(), "1", 10, TimeUnit.MINUTES);
+		
+		if (req.getType() == 2){
+			Integer history = null;
+			if (redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_UPDATE_USER+req.getPhone()) != null ) {
+				history = Integer.parseInt(redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_UPDATE_USER_TIMES+req.getPhone()));
+				if (history != null && history > 4) {
+					throw new BizException(ErrorCode.TOO_MANY_AUTH_CODE);
+				}
+			}
+			redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_UPDATE_USER+req.getPhone(), "123456", 15, TimeUnit.MINUTES);
+			if (history != null && history > 0) {
+				Long expire = redisTemplate.getExpire(Const.WX_AUTH_CODE_UPDATE_USER_TIMES+req.getPhone(), TimeUnit.MICROSECONDS);
+				redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_UPDATE_USER_TIMES+req.getPhone(), String.valueOf(history+1), expire, TimeUnit.MICROSECONDS);
+			} else {
+				redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_UPDATE_USER_TIMES+req.getPhone(), "1", 10, TimeUnit.MINUTES);
+			}
 		}
 
 		return new Result<>("");
@@ -104,6 +123,14 @@ public class WXServiceImpl implements WXService {
 	@Override
 	@Transactional
 	public Result<String> updateUser(UpdateUserRequest req, int wxid) throws BizException {
+		if (StringUtils.isNullOrEmpty(req.getAuthCode())) {
+			throw new BizException(ErrorCode.EMPTY_AUTH_CODE);
+		}
+		
+		if (!redisTemplate.opsForValue().get(Const.WX_AUTH_CODE_UPDATE_USER + req.getPhone()).equals(req.getAuthCode())) {
+			throw new BizException(ErrorCode.INVALID_AUTH_CODE);
+		}
+		
 		List<WXUserEntity> exists = wxUserMapper.getByPhone(req.getPhone(), wxid);
 		if (exists != null && exists.size() > 0) {
 			throw new BizException(ErrorCode.ALREADY_SIGNED_UP);
