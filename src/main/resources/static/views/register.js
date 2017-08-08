@@ -37,7 +37,7 @@ register = {
 		doRegister: function() {
 			var phone = $("#phone").val();
 			var password = $("#password").val();
-			var codeBtn = "123456";
+			var codeBtn = "1";
 			//window.location.href = "http://uri.amap.com/navigation?from=116.478346,39.997361,startpoint&to=116.3246,39.966577,endpoint&via=116.402796,39.936915,midwaypoint&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0"
 			if(!register.validate()) {
 				return false;
@@ -73,7 +73,8 @@ register = {
 			var phone = $("#phone").val();
 			mui.ajax(GLOBAL.SERVER_URL + "wx/authCode", {
 				data: {
-					phone: phone
+					phone: phone,
+					authCode:1
 				},
 				headers: {
 					'Content-Type': 'application/json',

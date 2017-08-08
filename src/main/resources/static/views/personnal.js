@@ -6,7 +6,7 @@ mui.init({
 (function($) {
 	$.init();
 })(mui);
-
+var issend = true;
 personnal = {
 
 	// 事件注册
@@ -16,6 +16,7 @@ personnal = {
 
 		$("#saveBtn").on("click", personnal.service.doSave);
 
+		$("#editBtn").on("click", personnal.service.doEdit);
 	},
 	service: {
 
@@ -84,8 +85,80 @@ personnal = {
 				});
 				return false;
 			}
+		},
 
-		}
+		doEdit: function() {
+			$("#saveBtn").removeAttr("hidden");
+			$("#editBtn").attr("hidden", "hidden");
+
+			$("#name").removeAttr("disabled");
+			$("#phone").removeAttr("disabled");
+			
+			$("#newCode").removeAttr("hidden");
+		},
+
+		senmobile: function(t) {
+			if(issend) {
+				//验证电话号码手机号码 
+				var phoneObj = document.getElementById('phone');
+				var get_code = document.getElementById('codeBtn');
+				if(phoneObj.value != "") {
+					var phoneVal = phoneObj.value;
+					var p1 = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+					var me = false;
+					if(p1.test(phoneVal)) me = true;
+					if(!me) {
+						phoneObj.value = '';
+						mui.toast('请输入正确的手机号码');
+						phoneObj.focus();
+						return false;
+					} else {
+						personnal.service.getCode();
+						issend = false;
+						for(i = 1; i <= 60; i++) {
+							window.setTimeout("personnal.service.update_a(" + i + "," + 60 + ")", i * 1000);
+						}
+					}
+				} else {
+					mui.toast('手机号码不能为空！', {
+						verticalAlign: 'center'
+					});
+					return false;
+				}
+			}
+		},
+
+		update_a: function(num, t) {
+			var get_code = document.getElementById('codeBtn');
+			if(num == t) {
+				get_code.innerHTML = " 重新发送 ";
+				issend = true;
+			} else {
+				var printnr = t - num;
+				get_code.innerHTML = printnr + " 秒后重发";
+			}
+		},
+
+		getCode: function() {
+			var phone = $("#phone").val();
+			mui.ajax(GLOBAL.SERVER_URL + "wx/authCode", {
+				data: {
+					phone: phone,
+					authCode:2
+				},
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				error: function(xhr, type, errorThrown) {
+					mui.alert("获取验证码失败");
+				},
+				success: function(data) {
+
+				}
+			});
+		},
 	},
 
 	dao: {},
