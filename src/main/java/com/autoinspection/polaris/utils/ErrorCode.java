@@ -12,6 +12,7 @@ public class ErrorCode {
 	public static final ErrorCode REGISTRATION_FULL = new ErrorCode("1008", "时间段达到预约上线");
 	public static final ErrorCode EMPTY_AUTH_CODE = new ErrorCode("1009", "验证码为空");
 	public static final ErrorCode INVALID_AUTH_CODE = new ErrorCode("1010", "验证码错误");
+	public static final ErrorCode ONCE_PER_DAY = new ErrorCode("1011", "同一车牌号每天只能预约一次");
 	
 	private String code;
 	private String msg;

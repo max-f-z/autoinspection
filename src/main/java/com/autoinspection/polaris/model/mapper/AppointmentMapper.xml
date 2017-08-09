@@ -22,4 +22,7 @@
 	<select id="getById" resultType="com.autoinspection.polaris.model.entity.AppointmentEntity">
 		select * from bizappointment where ID = #{id} and WXUSERID= #{wxid}
 	</select>
+	<select id="getByPlateAndDate" resultType="com.autoinspection.polaris.model.entity.AppointmentEntity">
+		select * from bizappointment where PLATE = #{plate} and APPOINTMENTDATE= #{appoDate}
+	</select>
 </mapper>

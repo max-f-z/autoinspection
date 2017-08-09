@@ -52,6 +52,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 			throw new BizException(ErrorCode.REGISTRATION_FULL);
 		}
 		
+		List<AppointmentEntity> exists = appointmentMapper.getByPlateAndDate(req.getPlate(), req.getAppointmentDate());
+		
+		if (exists != null && exists.size() > 0) {
+			throw new BizException(ErrorCode.ONCE_PER_DAY);
+		}
+		
 		AppointmentEntity entity = new AppointmentEntity();
 		entity.setAppointmentDate(req.getAppointmentDate());
 		entity.setAppointmentSlot(req.getAppointmentSlot());
