@@ -4,7 +4,6 @@ import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
@@ -22,7 +21,8 @@ public class ResponseAdvice implements ResponseBodyAdvice {
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		if (ObjectUtils.isEmpty(body) || body.getClass().equals(com.autoinspection.polaris.vo.Result.class)) {
+		
+		if (body.getClass().equals(com.autoinspection.polaris.vo.Result.class)) {
 			return body;
 		}
 		Result<Object> result = new Result<Object>(body);

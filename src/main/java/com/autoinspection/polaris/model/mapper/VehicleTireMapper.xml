@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.VehicleTireMapper" >
+	<select id="listTires" resultType="com.autoinspection.polaris.model.entity.VehicleTireEntity">
+		select * from bizvehicletire where enable = 1 and VEHICLEID = #{vid}
+	</select>
+	<select id="getById" resultType="com.autoinspection.polaris.model.entity.VehicleTireEntity">
+		select * from bizvehicletire where id = #{id}
+	</select>
+	<select id="getByVehiclePosition" resultType="com.autoinspection.polaris.model.entity.VehicleTireEntity">
+		select * from bizvehicletire where VEHICLEID = #{vid} and TIREPOSITION = #{tirePosition}
+	</select>
+	<insert id="insertVehicleTire">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizvehicletire (VEHICLEID, TIREID, TIREBRAND, TIREPOSITION, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{en.vehicleId}, #{en.tireId}, #{en.tireBrand}, #{en.tirePosition}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="en.id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateVehicleTire" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizvehicletire set VEHICLEID= #{en.vehicleId}, TIREID= #{en.tireId}, TIREBRAND= #{en.tireBrand}, TIREPOSITION= #{en.tirePosition},
+		UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{en.id}
+	</update>
+	<delete id="deleteVehicleTire" parameterType="long">
+		delete from bizvehicletire where id = #{id}
+	</delete>
+</mapper>

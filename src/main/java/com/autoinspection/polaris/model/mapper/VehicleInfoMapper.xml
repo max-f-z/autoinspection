@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.VehicleInfoMapper" >
+	<select id="getById"  parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		select * from bizvehicleinfo where bizvehicleinfo.id=#{id}
+	</select>
+	<select id="listVehicles" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		select * from bizvehicleinfo where enable = 1 order by id LIMIT #{skip}, #{pageSize}
+	</select>
+	<insert id="insertVehicle" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizvehicleinfo (PLATE, CUSTOMERNAME, VEHICLETYPE, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{en.plate}, #{en.customerName}, #{en.vehicleType}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="en.id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateVehicle" parameterType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizvehicleinfo set PLATE= #{en.plate}, CUSTOMERNAME= #{en.customerName}, VEHICLETYPE= #{en.vehicleType},
+		UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{en.id}
+	</update>
+	<delete id="deleteVehicle" parameterType="int">
+		delete from bizvehicleinfo where id = #{id}
+	</delete>
+	<select id="search" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		select * from bizvehicleinfo where PLATE like CONCAT('%', #{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%')
+		order by id LIMIT #{skip}, #{pageSize}
+	</select>
+</mapper>
