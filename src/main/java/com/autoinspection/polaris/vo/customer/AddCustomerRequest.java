@@ -6,6 +6,13 @@ public class AddCustomerRequest {
 	private String contactPhone;
 	private String address;
 	private String salesman;
+	private String code;
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
 	public String getName() {
 		return name;
 	}

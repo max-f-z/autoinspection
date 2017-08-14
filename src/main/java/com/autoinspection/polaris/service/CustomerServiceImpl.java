@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.autoinspection.polaris.model.entity.CustomerEntity;
 import com.autoinspection.polaris.model.mapper.CustomerMapper;
 import com.autoinspection.polaris.vo.customer.AddCustomerRequest;
+import com.autoinspection.polaris.vo.customer.GetCustomerRequest;
 import com.autoinspection.polaris.vo.customer.UpdateCustomerRequest;
 
 @Service
@@ -20,6 +21,11 @@ public class CustomerServiceImpl implements CustomerService {
 	public List<CustomerEntity> listAllCustomers() {
 		return customerMapper.listAllCustomers();
 	}
+	
+	@Override
+	public List<CustomerEntity> listCustomers(GetCustomerRequest request) {
+		return customerMapper.listCustomers(request.getSearch());
+	}
 
 	@Override
 	public CustomerEntity getCustomerById(int id) {
@@ -30,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public int insertCustomer(AddCustomerRequest request, int uid) {
 		CustomerEntity entity = new CustomerEntity();
 		entity.setName(request.getName());
+		entity.setCode(request.getCode());
 		entity.setContactName(request.getContactName());
 		entity.setContactPhone(request.getContactPhone());
 		entity.setAddress(request.getAddress());
@@ -49,6 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 		entity.setContactPhone(request.getContactPhone());
 		entity.setAddress(request.getAddress());
 		entity.setSalesman(request.getSalesman());
+		entity.setCode(request.getCode());
 		entity.setOperatorId(uid);
 		entity.setEnable(true);
 		customerMapper.updateCustomer(entity);

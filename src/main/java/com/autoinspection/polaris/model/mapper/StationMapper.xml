@@ -7,6 +7,16 @@
 	<select id="listAllStations" resultType="com.autoinspection.polaris.model.entity.StationEntity">
 		select * from bizstation where enable = 1
 	</select>
+	<select id="listStations" resultType="com.autoinspection.polaris.model.entity.StationEntity">
+		select * from bizstation 
+		where enable = 1
+		<if test = "district != null">
+			and DISTRICT = #{district}
+		</if>
+		<if test = "search != null">
+			and NAME like CONCAT('%', #{search},'%')
+		</if>
+	</select>
 	<insert id="insertStation" parameterType="com.autoinspection.polaris.model.entity.StationEntity" >
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into bizstation (NAME, ADDRESS, LATITUDE, LONGITUDE, DESCRIPTION, PHONE, PRINCIPAL, PRINCIPALPHONE, DISTRICT,CREATETIME, UPDATETIME, OPERATORID) 

@@ -10,6 +10,7 @@ import com.autoinspection.polaris.model.entity.StationEntity;
 public interface StationMapper {
 	StationEntity getById(@Param("id") Integer id);
 	List<StationEntity> listAllStations();
+	List<StationEntity> listStations(@Param("district") String district, @Param("search") String search);
 	int insertStation(StationEntity entity);
 	int updateStation(StationEntity entity);
 	int deleteStation(@Param("id") Integer id, @Param("operatorId") Integer operatorId);

@@ -21,6 +21,7 @@ import com.autoinspection.polaris.vo.station.AddStationRequest;
 import com.autoinspection.polaris.vo.station.AddStationResponse;
 import com.autoinspection.polaris.vo.station.DeleteStationRequest;
 import com.autoinspection.polaris.vo.station.DeleteStationResponse;
+import com.autoinspection.polaris.vo.station.GetStationRequest;
 import com.autoinspection.polaris.vo.station.UpdateStationRequest;
 import com.autoinspection.polaris.vo.station.UpdateStationResponse;
 
@@ -30,10 +31,10 @@ public class StationController {
 	@Autowired
 	private StationService stationService;
 	
-	@RequestMapping(value="/stations", method = RequestMethod.GET)
+	@RequestMapping(value="/stations", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
-	public List<StationEntity> getStations() {
-		return stationService.listAllStations();
+	public List<StationEntity> getStations(@RequestBody GetStationRequest request) {
+		return stationService.listStations(request);
 	}
 	
 	@RequestMapping(value="/stations/{id}", method = RequestMethod.GET)
@@ -61,7 +62,7 @@ public class StationController {
 		return resp;
 	}
 	
-	@RequestMapping(value="/stations/update", method = RequestMethod.PUT)
+	@RequestMapping(value="/stations/update", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public UpdateStationResponse updateStation(@RequestBody UpdateStationRequest request, @CurrentUser UserVo user) throws BizException {
 		if (request == null) {
@@ -84,4 +85,10 @@ public class StationController {
 		resp.setAffectedRows(rows);
 		return resp;
 	}
+	
+//	@RequestMapping(value="/stations/listDisticts", method = RequestMethod.GET)
+//	@Permission( permissionTypes = { PermissionEnum.ADMIN })
+//	public List<DistrictEntity> listDistricts() {
+//		return stationService.listDistricts();
+//	}
 }

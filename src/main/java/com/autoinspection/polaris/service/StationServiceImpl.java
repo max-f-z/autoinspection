@@ -5,9 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.autoinspection.polaris.model.entity.DistrictEntity;
 import com.autoinspection.polaris.model.entity.StationEntity;
+import com.autoinspection.polaris.model.mapper.DistrictMapper;
 import com.autoinspection.polaris.model.mapper.StationMapper;
 import com.autoinspection.polaris.vo.station.AddStationRequest;
+import com.autoinspection.polaris.vo.station.GetStationRequest;
 import com.autoinspection.polaris.vo.station.UpdateStationRequest;
 
 @Service
@@ -16,9 +19,17 @@ public class StationServiceImpl implements StationService {
 	@Autowired
 	private StationMapper stationMapper;
 	
+	@Autowired
+	private DistrictMapper districtMapper;
+	
 	@Override
 	public StationEntity getStationById(int id) {
 		return stationMapper.getById(id);
+	}
+	
+	@Override
+	public List<StationEntity> listStations(GetStationRequest request) {
+		return stationMapper.listStations(request.getDistrict(), request.getSearch());
 	}
 	
 	@Override
@@ -64,6 +75,11 @@ public class StationServiceImpl implements StationService {
 	@Override
 	public int deleteStation(int id, int uid) {
 		return stationMapper.deleteStation(id, uid);
+	}
+
+	@Override
+	public List<DistrictEntity> listDistricts() {
+		return districtMapper.listDistricts();
 	}
 
 }

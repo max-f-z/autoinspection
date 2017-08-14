@@ -5,6 +5,7 @@ import com.autoinspection.polaris.model.BaseEntity;
 public class CustomerEntity extends BaseEntity {
 	private int id;
 	private String name;
+	private String code;
 	private String contactName;
 	private String contactPhone;
 	private String address;
@@ -20,6 +21,12 @@ public class CustomerEntity extends BaseEntity {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 	public String getContactName() {
 		return contactName;
