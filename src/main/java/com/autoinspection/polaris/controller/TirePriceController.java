@@ -38,7 +38,7 @@ public class TirePriceController {
 		return tirePriceService.listTirePrices();
 	}
 	
-	@RequestMapping(value="/search", method = RequestMethod.GET)
+	@RequestMapping(value="/search", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public List<TirePriceEntity> search(@RequestBody SearchTirePriceRequest request) {
 		return tirePriceService.findByBrand(request.search);
@@ -69,7 +69,7 @@ public class TirePriceController {
 		return resp;
 	}
 	
-	@RequestMapping(value="/prices/update", method = RequestMethod.PUT)
+	@RequestMapping(value="/prices/update", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public UpdateTirePriceResponse updateTirePrice(@RequestBody UpdateTirePriceRequest request, @CurrentUser UserVo user) throws BizException {
 		if (request == null) {

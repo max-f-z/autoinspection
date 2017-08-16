@@ -20,8 +20,7 @@ public class ServicePriceServiceImpl implements ServicePriceService {
 
 	@Override
 	public ServicePriceEntity getServicePriceById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return servicePriceMapper.getById(id);
 	}
-
+	
 }

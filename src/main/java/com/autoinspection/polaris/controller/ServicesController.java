@@ -21,6 +21,7 @@ import com.autoinspection.polaris.vo.service.AddServiceRequest;
 import com.autoinspection.polaris.vo.service.AddServiceResponse;
 import com.autoinspection.polaris.vo.service.DeleteServiceRequest;
 import com.autoinspection.polaris.vo.service.DeleteServiceResponse;
+import com.autoinspection.polaris.vo.service.SearchRequest;
 import com.autoinspection.polaris.vo.service.UpdateServiceRequest;
 import com.autoinspection.polaris.vo.service.UpdateServiceResponse;
 
@@ -62,7 +63,7 @@ public class ServicesController {
 		return resp;
 	}
 	
-	@RequestMapping(value="/services/update", method = RequestMethod.PUT)
+	@RequestMapping(value="/services/update", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public UpdateServiceResponse updateStation(@RequestBody UpdateServiceRequest request, @CurrentUser UserVo user) throws BizException {
 		if (request == null) {
@@ -86,4 +87,9 @@ public class ServicesController {
 		return resp;
 	}
 	
+	@RequestMapping(value="/services/search", method = RequestMethod.POST)
+	@Permission( permissionTypes = { PermissionEnum.ADMIN })
+	public List<ServiceEntity> search(@RequestBody SearchRequest request) {
+		return serviceService.search(request.getSearch());
+	}
 }

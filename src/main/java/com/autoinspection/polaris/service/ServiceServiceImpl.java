@@ -55,4 +55,9 @@ public class ServiceServiceImpl implements ServiceService {
 	public int deleteService(int id, int uid) {
 		return serviceMapper.deleteService(id, uid);
 	}
+
+	@Override
+	public List<ServiceEntity> search(String search) {
+		return serviceMapper.search(search);
+	}
 }

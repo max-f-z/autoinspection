@@ -51,6 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public int updateCustomer(UpdateCustomerRequest request, int uid) {
 		CustomerEntity entity = new CustomerEntity();
+		entity.setId(request.getId());
 		entity.setName(request.getName());
 		entity.setContactName(request.getContactName());
 		entity.setContactPhone(request.getContactPhone());

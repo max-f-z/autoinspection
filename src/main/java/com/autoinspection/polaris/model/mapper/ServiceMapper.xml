@@ -2,22 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.autoinspection.polaris.model.mapper.ServiceMapper">
 	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
-		select * from bizservice s where s.id=#{id}
+		select * from bizservice s where s.ENABLE = 1 and s.id=#{id}
+	</select>
+	<select id="search" resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
+		select * from bizservice where ENABLE = 1 and ( NAME like CONCAT('%', #{search}, '%') or DESCRIPTION like CONCAT('%', #{search}, '%') )
 	</select>
 	<select id="listAllServices" resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
 		select * from bizservice where enable = 1
 	</select>
 	<insert id="insertService" parameterType="com.autoinspection.polaris.model.entity.ServiceEntity" >
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizservice (NAME, DESCRIPTION, PRICE, STATUS, CREATETIME, UPDATETIME, OPERATORID) 
-		values (#{name}, #{description}, #{price}, #{status}, #{currentTime}, #{currentTime}, #{operatorId})
+		insert into bizservice (NAME, DESCRIPTION, STATUS, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{name}, #{description}, #{status}, #{currentTime}, #{currentTime}, #{operatorId})
 		<selectKey keyProperty="id" resultType="int">
             select LAST_INSERT_ID()
         </selectKey>
 	</insert>
 	<update id="updateService" parameterType="com.autoinspection.polaris.model.entity.ServiceEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update bizservice set NAME= #{name}, DESCRIPTION= #{description}, PRICE= #{price}, STATUS= #{status},
+		update bizservice set NAME= #{name}, DESCRIPTION= #{description}, STATUS= #{status},
 		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
 	</update>
 	<delete id="deleteService" parameterType="int">

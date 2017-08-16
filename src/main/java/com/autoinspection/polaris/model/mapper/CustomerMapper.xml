@@ -5,10 +5,10 @@
 		select * from bizcustomer c where c.id=#{id}
 	</select>
 	<select id="listAllCustomers" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
-		select * from bizcustomer where enable = 1 and id &lt;&gt; 1
+		select * from bizcustomer where enable = 1 
 	</select>
 	<select id="listCustomers" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
-		select * from bizcustomer where enable = 1 and id &lt;&gt; 1
+		select * from bizcustomer where enable = 1 
 			<if test = "search != null">
 			and ( NAME like CONCAT('%', #{search},'%') or CODE like CONCAT('%', #{search},'%') )
 			</if>
@@ -23,7 +23,7 @@
 	</insert>
 	<update id="updateCustomer" parameterType="com.autoinspection.polaris.model.entity.CustomerEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update bizcustomer set NAME= #{name}, CODE= @{code}, CONTACTNAME= #{contactName}, CONTACTPHONE= #{contactPhone}, ADDRESS= #{address}, SALESMAN= #{salesman}
+		update bizcustomer set NAME= #{name}, CODE= #{code}, CONTACTNAME= #{contactName}, CONTACTPHONE= #{contactPhone}, ADDRESS= #{address}, SALESMAN= #{salesman},
 		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
 	</update>
 	<delete id="deleteCustomer" parameterType="int">
