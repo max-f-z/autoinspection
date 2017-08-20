@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.autoinspection.polaris.model.mapper.ServicePriceMapper">
-	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
-		select * from bizserviceprice where id=#{id}
-	</select>
 	<select id="listAllServicePrices" resultType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
-		select * from bizserviceprice where enable = 1
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
+		where bsp.ENABLE = 1
 	</select>
 	<insert id="insertServicePrice" parameterType="com.autoinspection.polaris.model.entity.ServicePriceEntity" >
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizserviceprice (SERVICEID, CUSTOMERID, PRICE, CREATETIME, UPDATETIME, OPERATORID) 
-		values (#{serviceId}, #{customerId}, #{price}, #{currentTime}, #{currentTime}, #{operatorId})
+		insert into bizserviceprice (SERVICEID, CUSTOMERID, PRICE, PRICEDESC, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{serviceId}, #{customerId}, #{price}, #{priceDesc},#{currentTime}, #{currentTime}, #{operatorId})
 		<selectKey keyProperty="id" resultType="int">
             select LAST_INSERT_ID()
         </selectKey>
 	</insert>
 	<update id="updateServicePrice" parameterType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update bizserviceprice set SERVICEID= #{serviceId}, CUSTOMERID= #{customerId}, PRICE= #{price},
+		update bizserviceprice set SERVICEID= #{serviceId}, CUSTOMERID= #{customerId}, PRICE= #{price}, PRICEDESC=#{priceDesc},
 		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
 	</update>
 	<delete id="deleteServicePrice" parameterType="int">
 		<bind name="currentTime" value="new java.util.Date()" />
 		update bizserviceprice set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
 	</delete>
-	<select id="listServicePrices" parameterType="int" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
-		select bs.NAME, bs.DESCRIPTION, bsp.PRICE, bsp.id from bizserviceprice bsp inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
-		where bsp.CUSTOMERID = #{cid}
+	<select id="getById" parameterType="int" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
+		where bsp.id = #{id} and bsp.ENABLE = 1
+	</select>
+	<select id="search" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
+		where (bs.NAME like( CONCAT( '%', #{search}, '%' )) or bsp.PRICEDESC like ( CONCAT( '%', #{search}, '%' ) ) 
+		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  and bsp.ENABLE = 1
 	</select>
 </mapper>

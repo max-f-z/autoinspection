@@ -1,25 +1,10 @@
-package com.autoinspection.polaris.model.entity;
+package com.autoinspection.polaris.vo.serviceprice;
 
-import com.autoinspection.polaris.model.BaseEntity;
-
-public class ServicePriceEntity extends BaseEntity{
-	private int id;
+public class AddServicePriceRequest {
 	private int serviceId;
 	private int customerId;
 	private float price;
 	private String priceDesc;
-	public String getPriceDesc() {
-		return priceDesc;
-	}
-	public void setPriceDesc(String priceDesc) {
-		this.priceDesc = priceDesc;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	public int getServiceId() {
 		return serviceId;
 	}
@@ -37,5 +22,11 @@ public class ServicePriceEntity extends BaseEntity{
 	}
 	public void setPrice(float price) {
 		this.price = price;
+	}
+	public String getPriceDesc() {
+		return priceDesc;
+	}
+	public void setPriceDesc(String priceDesc) {
+		this.priceDesc = priceDesc;
 	}
 }

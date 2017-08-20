@@ -5,7 +5,20 @@ import com.autoinspection.polaris.model.BaseEntity;
 
 public class UserEntity extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -8813563970424171978L;
-	
+	private String station;
+	private int stationId;
+	public String getStation() {
+		return station;
+	}
+	public void setStation(String station) {
+		this.station = station;
+	}
+	public int getStationId() {
+		return stationId;
+	}
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
+	}
 	public String getName() {
 		return name;
 	}

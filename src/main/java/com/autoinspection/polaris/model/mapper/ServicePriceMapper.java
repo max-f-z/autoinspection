@@ -10,10 +10,10 @@ import com.autoinspection.polaris.model.entity.ServicePriceEntity;
 
 @Mapper
 public interface ServicePriceMapper {
-	ServicePriceEntity getById(@Param("id") Integer id);
-	List<ServicePriceEntity> listAllServicePrices();
+	ServicePriceDisplayEntity getById(@Param("id") Integer id);
+	List<ServicePriceDisplayEntity> listAllServicePrices();
 	int insertServicePrice(ServicePriceEntity entity);
 	int updateServicePrice(ServicePriceEntity entity);
 	int deleteServicePrice(@Param("id") Integer id, @Param("operatorId") Integer operatorId);
-	List<ServicePriceDisplayEntity> listServicePrices(@Param("cid") Integer cid);
+	List<ServicePriceDisplayEntity> search(@Param("search") String search);
 }

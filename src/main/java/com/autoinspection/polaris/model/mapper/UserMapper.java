@@ -1,5 +1,7 @@
 package com.autoinspection.polaris.model.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,5 +13,9 @@ public interface UserMapper {
 	
 	UserEntity getByNameAndPassword(@Param("name") String name, @Param("pwd") String pwd);
 	
+	List<UserEntity> listAllUsers();
 	
+	int insertUser(UserEntity user);
+	int updateUser(UserEntity user);
+	int deleteUser(@Param("id") Integer id, @Param("operatorId") Integer operatorId);
 }

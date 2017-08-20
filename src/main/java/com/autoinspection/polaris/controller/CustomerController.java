@@ -38,7 +38,7 @@ public class CustomerController {
 		return customerService.listCustomers(request);
 	}
 	
-	@RequestMapping(path = "/customers/{id}", method = RequestMethod.POST)
+	@RequestMapping(path = "/customers/{id}", method = RequestMethod.GET)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public CustomerEntity getCustomer(@PathVariable Integer id) throws BizException {
 		CustomerEntity customer = customerService.getCustomerById(id);

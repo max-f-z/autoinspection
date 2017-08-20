@@ -48,6 +48,7 @@ public class StationServiceImpl implements StationService {
 		entity.setPhone(request.getPhone());
 		entity.setPrincipal(request.getPrincipal());
 		entity.setPrincipalPhone(request.getPrincipalPhone());
+		entity.setDistrict(request.getDistrict());
 		entity.setEnable(true);
 		entity.setOperatorId(uid);
 		stationMapper.insertStation(entity);
@@ -68,6 +69,7 @@ public class StationServiceImpl implements StationService {
 		entity.setPrincipal(request.getPrincipal());
 		entity.setPrincipalPhone(request.getPrincipalPhone());
 		entity.setOperatorId(uid);
+		entity.setDistrict(request.getDistrict());
 			
 		return stationMapper.updateStation(entity);
 	}
