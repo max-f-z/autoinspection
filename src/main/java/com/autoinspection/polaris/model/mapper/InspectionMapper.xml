@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoinspection.polaris.model.mapper.InspectionMapper">
+	<select id="getById" parameterType="java.lang.Integer"
+		resultType="com.autoinspection.polaris.model.entity.InspectionEntity">
+		select * from bizinspection where bizinspection.id=#{id}
+	</select>
+	<select id="listInspections"
+		resultType="com.autoinspection.polaris.model.entity.InspectionEntity">
+		select * from bizinspection where enable = 1 order by id
+		LIMIT #{skip}, #{pageSize}
+	</select>
+	<insert id="insertInspection">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizinspection (PLATE, MILOMETER, SERVICEMILE,
+		CREATETIME, UPDATETIME, OPERATORID)
+		values (#{en.plate},
+		#{en.milometer}, #{en.serviceMile}, #{currentTime},
+		#{currentTime},
+		#{operatorId})
+		<selectKey keyProperty="en.id" resultType="int">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<delete id="deleteVehicle" parameterType="int">
+		delete from
+		bizinspection where id = #{id}
+	</delete>
+	<select id="search"
+		resultType="com.autoinspection.polaris.model.entity.InspectionEntity">
+		select * from bizinspection where PLATE like CONCAT('%',
+		#{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%')
+		order
+		by id LIMIT #{skip}, #{pageSize}
+	</select>
+</mapper>
