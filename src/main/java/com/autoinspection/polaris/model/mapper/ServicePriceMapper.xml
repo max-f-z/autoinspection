@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.autoinspection.polaris.model.mapper.ServicePriceMapper">
-	<select id="listAllServicePrices" resultType="com.autoinspection.polaris.model.entity.ServicePriceEntity">
+	<select id="listAllServicePrices" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
 		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where bsp.ENABLE = 1
