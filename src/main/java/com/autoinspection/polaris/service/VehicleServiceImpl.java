@@ -165,4 +165,17 @@ public class VehicleServiceImpl implements VehicleService {
 		}
 		return list;
 	}
+
+	@Override
+	public VehicleVo getDetailByPlate(String plate) {
+		VehicleVo vo = new VehicleVo();
+		VehicleInfoEntity en = vehicleMapper.getByPlate(plate);
+		if (en != null) {
+			vo.setId(en.getId());
+			vo.setCustomerName(en.getCustomerName());
+			vo.setPlate(en.getPlate());
+			vo.setVehicleType(en.getVehicleType());
+		}
+		return vo;
+	}
 }

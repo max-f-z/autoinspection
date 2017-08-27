@@ -4,6 +4,9 @@
 	<select id="getById"  parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
 		select * from bizvehicleinfo where bizvehicleinfo.id=#{id}
 	</select>
+	<select id="getByPlate"  parameterType="java.lang.String"  resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		select * from bizvehicleinfo where bizvehicleinfo.PLATE=#{plate}
+	</select>
 	<select id="listVehicles" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
 		select * from bizvehicleinfo where enable = 1 order by id LIMIT #{skip}, #{pageSize}
 	</select>

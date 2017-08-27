@@ -13,4 +13,5 @@ public interface AppointmentService {
 	public int register(RegisterRequest req, int wxid) throws BizException;
 	public List<RegistrationDisplayEntity> listRegistrations(int wxid) throws BizException;
 	public void cancelRegistration(int regId, int wxid) throws BizException;
+	public List<RegistrationDisplayEntity> listRegistrationsForEndUser(int stationId, String regDate) throws BizException;
 }

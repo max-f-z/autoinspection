@@ -8,6 +8,7 @@ import com.autoinspection.polaris.vo.vehicle.VehicleVo;
 public interface VehicleService {
 	public List<VehicleVo> listVehicles(int skip, int pageSize);
 	public VehicleVo getDetail(int vid);
+	public VehicleVo getDetailByPlate(String plate);
 	public int insertVehicle(VehicleVo vo, int uid) throws BizException;
 	public int updateVehicle(VehicleVo vo, int uid);
 	public int deleteVehicle(int vid);

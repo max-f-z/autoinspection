@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoinspection.polaris.model.mapper.MaintenanceDetailMapper">
+	<insert id="insertMaintenanceDetail">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizmaintenancedetail (MAINTENANCEID, TIREPOSITION, SERVICEPRICEID, SERVICEPRICENAME, SERVICEPRICEDESC
+		, NUM,STARTTIME,ENDTIME)
+		values (#{en.maintenanceId}, #{en.tireposition},
+		#{en.servicePriceId}, #{en.servicePriceName}, #{en.servicePriceDesc},
+		#{en.num}, #{en.startTime}, #{en.endTime})
+		<selectKey keyProperty="en.id" resultType="int">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<update id="updateMaintenanceDetail">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizmaintenancedetail set MAINTENANCEID=#{en.maintenanceId}, TIREPOSITION=#{en.tireposition}, 
+		SERVICEPRICEID=#{en.servicePriceId}, SERVICEPRICENAME=#{en.servicePriceName}, SERVICEPRICEDESC=#{en.servicePriceDesc},
+		NUM=#{en.num}, STARTTIME=#{en.startTime}, ENDTIME=#{en.endTime} where id = #{en.id}
+	</update>
+	<select id="listDetails" parameterType="java.lang.Long" resultType="com.autoinspection.polaris.model.entity.MaintenanceDetailEntity">
+		select * from bizmaintenancedetail where MAINTENANCEID = #{MaintenanceId}
+	</select>
+	
+</mapper>

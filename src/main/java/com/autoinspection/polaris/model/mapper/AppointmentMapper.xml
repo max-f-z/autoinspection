@@ -11,7 +11,7 @@
 	</insert>
 	<select id="listRegistrations" parameterType="java.lang.Integer" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
 	select ba.id regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
-	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate
 	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
 	left join BizService bs on ba.SERVICEID = bs.id
 	left join BizStation bst on ba.STATIONID = bst.id where ba.WXUSERID = #{wxid}
@@ -24,5 +24,12 @@
 	</select>
 	<select id="getByPlateAndDate" resultType="com.autoinspection.polaris.model.entity.AppointmentEntity">
 		select * from bizappointment where PLATE = #{plate} and APPOINTMENTDATE= #{appoDate}
+	</select>
+	<select id="listRegistrationsForEndUser" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
+	select ba.id regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate
+	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
+	left join BizService bs on ba.SERVICEID = bs.id
+	left join BizStation bst on ba.STATIONID = bst.id where ba.STATIONID = #{stationId} and ba.APPOINTMENTDATE = #{regDate}
 	</select>
 </mapper>

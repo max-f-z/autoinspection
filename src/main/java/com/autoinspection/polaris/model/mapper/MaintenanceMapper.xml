@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoinspection.polaris.model.mapper.MaintenanceMapper">
+	<insert id="insertMaintenance">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizmaintenance (INSPECTIONID, PLATE, DRIVERPHONE, OPERATORNAME,
+		CREATETIME, UPDATETIME, OPERATORID)
+		values (#{en.inspectionId}, #{en.plate},
+		#{en.driverPhone}, #{en.operatorName}, #{currentTime},
+		#{currentTime},
+		#{operatorId})
+		<selectKey keyProperty="en.id" resultType="int">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<update id="updateMaintenance">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizmaintenance set INSPECTIONID=#{en.inspectionId}, PLATE=#{en.plate}, 
+		DRIVERPHONE=#{en.driverPhone}, OPERATORNAME=#{en.operatorName}, UPDATETIME=#{currentTime},
+		OPERATORID=#{operatorId} where id = #{en.id}
+	</update>
+	<select id="getByInspectionId" parameterType="java.lang.Long" resultType="com.autoinspection.polaris.model.entity.MaintenanceEntity">
+		select * from bizmaintenance where inspectionId = #{inspectionId}
+	</select>
+	
+</mapper>

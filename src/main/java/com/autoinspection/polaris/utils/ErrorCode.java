@@ -1,18 +1,18 @@
 package com.autoinspection.polaris.utils;
 
 public class ErrorCode {
-	public static final ErrorCode TOKEN_INVALID = new ErrorCode("1001", "tokenå¤±æ•ˆ");
-	public static final ErrorCode USER_NOTFOUND = new ErrorCode("1002", "æ‰¾ä¸åˆ°ç”¨æˆ·");
-	public static final ErrorCode INVALID_USR_OR_PWD = new ErrorCode("1003", "é”™è¯¯çš„ç”¨æˆ·åæˆ–å¯†ç ");
-	public static final ErrorCode NOT_AUTHORIZED = new ErrorCode("1004", "æƒé™ä¸è¶³");
-	public static final ErrorCode INVALID_PARAM = new ErrorCode("1005", "éæ³•å‚æ•°");
-	public static final ErrorCode NOT_FOUND = new ErrorCode("1006", "æœªæ‰¾åˆ°èµ„æº");
-	public static final ErrorCode TOO_MANY_AUTH_CODE = new ErrorCode("1007", "å‘é€çŸ­ä¿¡å¤ªå¤šï¼Œè¯·ç¨åå†è¯•");
-	public static final ErrorCode ALREADY_SIGNED_UP = new ErrorCode("1008", "å·²ç»æ³¨å†Œï¼Œè¯·å°è¯•ç™»é™†");
-	public static final ErrorCode REGISTRATION_FULL = new ErrorCode("1008", "æ—¶é—´æ®µè¾¾åˆ°é¢„çº¦ä¸Šçº¿");
-	public static final ErrorCode EMPTY_AUTH_CODE = new ErrorCode("1009", "éªŒè¯ç ä¸ºç©º");
-	public static final ErrorCode INVALID_AUTH_CODE = new ErrorCode("1010", "éªŒè¯ç é”™è¯¯");
-	public static final ErrorCode ONCE_PER_DAY = new ErrorCode("1011", "åŒä¸€è½¦ç‰Œå·æ¯å¤©åªèƒ½é¢„çº¦ä¸€æ¬¡");
+	public static final ErrorCode TOKEN_INVALID = new ErrorCode("1001", "tokenÊ§Ğ§");
+	public static final ErrorCode USER_NOTFOUND = new ErrorCode("1002", "ÕÒ²»µ½ÓÃ»§");
+	public static final ErrorCode INVALID_USR_OR_PWD = new ErrorCode("1003", "´íÎóµÄÓÃ»§Ãû»òÃÜÂë");
+	public static final ErrorCode NOT_AUTHORIZED = new ErrorCode("1004", "È¨ÏŞ²»×ã");
+	public static final ErrorCode INVALID_PARAM = new ErrorCode("1005", "·Ç·¨²ÎÊı");
+	public static final ErrorCode NOT_FOUND = new ErrorCode("1006", "Î´ÕÒµ½×ÊÔ´");
+	public static final ErrorCode TOO_MANY_AUTH_CODE = new ErrorCode("1007", "·¢ËÍ¶ÌĞÅÌ«¶à£¬ÇëÉÔºóÔÙÊÔ");
+	public static final ErrorCode ALREADY_SIGNED_UP = new ErrorCode("1008", "ÒÑ¾­×¢²á£¬Çë³¢ÊÔµÇÂ½");
+	public static final ErrorCode REGISTRATION_FULL = new ErrorCode("1008", "Ê±¼ä¶Î´ïµ½Ô¤Ô¼ÉÏÏß");
+	public static final ErrorCode EMPTY_AUTH_CODE = new ErrorCode("1009", "ÑéÖ¤ÂëÎª¿Õ");
+	public static final ErrorCode INVALID_AUTH_CODE = new ErrorCode("1010", "ÑéÖ¤Âë´íÎó");
+	public static final ErrorCode ONCE_PER_DAY = new ErrorCode("1011", "Í¬Ò»³µÅÆºÅÃ¿ÌìÖ»ÄÜÔ¤Ô¼Ò»´Î");
 	
 	private String code;
 	private String msg;

@@ -10,6 +10,13 @@ public class RegistrationDisplayEntity {
 	private String createTime;
 	private int serviceId;
 	private String serviceName;
+	private String plate;
+	public String getPlate() {
+		return plate;
+	}
+	public void setPlate(String plate) {
+		this.plate = plate;
+	}
 	public int getRegId() {
 		return regId;
 	}

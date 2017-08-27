@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.InspectionDetailMapper" >
+	<select id="listDetails" resultType="com.autoinspection.polaris.model.entity.InspectionDetailEntity">
+		select * from bizinspectiondetail where enable = 1 and INSPECTIONID = #{inspectionId}
+	</select>
+	<insert id="insertInspectionDetail">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizinspectiondetail (INSPECTIONID, TIREID, TIREBRAND, TIREPOSITION, STRIPE, PRESSURE, DEPTH, BRAKE, CREATETIME, UPDATETIME, OPERATORID) 
+		values (#{en.inspectionId}, #{en.tireId}, #{en.tireBrand}, #{en.tirePosition}, #{en.stripe}, #{en.pressure}, #{en.depth},
+		#{en.brake}, #{currentTime}, #{currentTime}, #{operatorId})
+		<selectKey keyProperty="en.id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert>
+	<update id="updateInspectionDetail">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizinspectiondetail set INSPECTIONID=#{en.inspectionId}, TIREID=#{en.tireId},
+		TIREBRAND=#{en.tireBrand}, TIREPOSITION=#{en.tirePosition}, STRIPE=#{en.stripe}, PRESSURE=#{en.pressure}, DEPTH=#{en.depth}, BRAKE=#{en.brake},
+		UPDATETIME=#{currentTime}, OPERATORID=#{operatorId} where id = #{en.id}
+	</update>
+	<delete id="deleteInspectionDetail" parameterType="long">
+		delete from bizinspectiondetail where id = #{id}
+	</delete>
+</mapper>

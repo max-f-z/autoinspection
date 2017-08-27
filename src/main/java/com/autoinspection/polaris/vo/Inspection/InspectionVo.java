@@ -1,13 +1,27 @@
-package com.autoinspection.polaris.model.entity;
+package com.autoinspection.polaris.vo.Inspection;
 
-import com.autoinspection.polaris.model.BaseEntity;
+import java.util.List;
 
-public class InspectionEntity extends BaseEntity {
+public class InspectionVo {
 	private long id;
 	private String plate;
 	private float milometer;
 	private float serviceMile;
 	private String operatorName;
+	private String createTime;
+	private List<InspectionDetailVo> details;
+	public List<InspectionDetailVo> getDetails() {
+		return details;
+	}
+	public void setDetails(List<InspectionDetailVo> details) {
+		this.details = details;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
 	public String getOperatorName() {
 		return operatorName;
 	}

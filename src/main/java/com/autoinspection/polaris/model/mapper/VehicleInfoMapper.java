@@ -11,6 +11,7 @@ import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
 public interface VehicleInfoMapper {
 	List<VehicleInfoEntity> listVehicles(@Param("skip") Integer skip, @Param("pageSize") Integer pageSize);
 	VehicleInfoEntity getById(@Param("id") Integer id);
+	VehicleInfoEntity getByPlate(@Param("plate") String plate);
 	int insertVehicle(@Param("en") VehicleInfoEntity entity, @Param("operatorId") Integer operatorId);
 	int updateVehicle(@Param("en") VehicleInfoEntity entity, @Param("operatorId") Integer operatorId);
 	int deleteVehicle(@Param("id") Integer id);

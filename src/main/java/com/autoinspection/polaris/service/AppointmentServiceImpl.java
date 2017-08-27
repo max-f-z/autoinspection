@@ -75,6 +75,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public List<RegistrationDisplayEntity> listRegistrations(int wxid) throws BizException {
 		return appointmentMapper.listRegistrations(wxid);
 	}
+	
+	@Override
+	public List<RegistrationDisplayEntity> listRegistrationsForEndUser(int stationId, String regDate) throws BizException {
+		return appointmentMapper.listRegistrationsForEndUser(stationId, regDate);
+	}
 
 	@Override
 	public void cancelRegistration(int regId, int wxid) throws BizException {
