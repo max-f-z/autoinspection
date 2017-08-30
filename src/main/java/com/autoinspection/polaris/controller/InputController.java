@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -112,6 +113,12 @@ public class InputController {
 	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
 	public List<InspectionVo> listInspections(@RequestBody GetInspectionsRequest request) {
 		return inspectionService.listInspections((request.getPage()-1) * request.getPageSize(), request.getPageSize(), request.getPlate());
+	}
+	
+	@RequestMapping(path = "/inspection/{id}", method = RequestMethod.GET)
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	public InspectionVo getInspection(@PathVariable Long id) throws BizException {
+		return inspectionService.getById(id);
 	}
 	
 	@RequestMapping(path = "/inspection/add", method = RequestMethod.POST)

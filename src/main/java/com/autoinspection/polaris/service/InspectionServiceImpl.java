@@ -13,6 +13,8 @@ import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.model.mapper.InspectionDetailMapper;
 import com.autoinspection.polaris.model.mapper.InspectionMapper;
 import com.autoinspection.polaris.model.mapper.UserMapper;
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.Inspection.AddInspectionRequest;
 import com.autoinspection.polaris.vo.Inspection.DeleteInspectionRequest;
 import com.autoinspection.polaris.vo.Inspection.InspectionDetailVo;
@@ -68,8 +70,36 @@ public class InspectionServiceImpl implements InspectionService {
 	}
 
 	@Override
-	public InspectionEntity getById(long id) {
-		return inspectionMapper.getById(id);
+	public InspectionVo getById(long id) throws BizException {
+		InspectionEntity entity = inspectionMapper.getById(id);
+		if (entity == null) {
+			throw new BizException(ErrorCode.NOT_FOUND);
+		}
+		InspectionVo vo = new InspectionVo();
+		vo.setId(entity.getId());
+		vo.setMilometer(entity.getMilometer());
+		vo.setOperatorName(entity.getOperatorName());
+		vo.setServiceMile(entity.getServiceMile());
+		vo.setCreateTime(entity.getCreateTime());
+		vo.setPlate(entity.getPlate());
+		List<InspectionDetailEntity> list = inspectionDetailMapper.listDetails(entity.getId());
+		List<InspectionDetailVo> ds = new ArrayList<InspectionDetailVo>();
+		for (InspectionDetailEntity en : list) {
+			InspectionDetailVo dvo = new InspectionDetailVo();
+			dvo.setId(en.getId());
+			dvo.setInspectionId(en.getInspectionId());
+			dvo.setTireBrand(en.getTireBrand());
+			dvo.setTirePosition(en.getTirePosition());
+			dvo.setTireId(en.getTireId());
+			dvo.setStripe(en.getStripe());
+			dvo.setPressure(en.getPressure());
+			dvo.setDepth(en.getDepth());
+			dvo.setBrake(en.getBrake());
+			ds.add(dvo);
+		}
+		vo.setDetails(ds);
+		
+		return vo;
 	}
 
 	@Transactional( rollbackFor=Exception.class)
