@@ -2,6 +2,7 @@ package com.autoinspection.polaris.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +43,7 @@ import com.autoinspection.polaris.vo.Inspection.UpdateInspectionResponse;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceRequest;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceResponse;
 import com.autoinspection.polaris.vo.Inspection.VehicleInfoRequest;
+import com.autoinspection.polaris.vo.input.RegistrationVo;
 import com.autoinspection.polaris.vo.vehicle.VehicleInfoVo;
 import com.autoinspection.polaris.vo.vehicle.VehicleVo;
 
@@ -72,7 +74,7 @@ public class InputController {
 	
 	@RequestMapping(path = "/listRegistrations", method = RequestMethod.GET)
 	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
-	public List<RegistrationDisplayEntity> listRegistrations(@CurrentUser UserVo user) throws BizException {
+	public List<RegistrationVo> listRegistrations(@CurrentUser UserVo user) throws BizException {
 		int uid = user.getUid();
 		UserEntity userEntity = userService.getById(uid);
 		
@@ -80,7 +82,30 @@ public class InputController {
 		Date now = new Date();
 		String regDate = formatter.format(now);
 		
-		return appoitnmentService.listRegistrationsForEndUser(userEntity.getStationId(), regDate);
+		List<RegistrationDisplayEntity> list = appoitnmentService.listRegistrationsForEndUser(userEntity.getStationId(), regDate);
+		List<RegistrationVo> vos = new ArrayList<RegistrationVo>();
+		for (RegistrationDisplayEntity en : list) {
+			RegistrationVo vo = new RegistrationVo();
+			vo.setRegId(en.getRegId());
+			vo.setAppointmentDate(en.getAppointmentDate());
+			vo.setAppointmentSlot(en.getAppointmentSlot());
+			vo.setSlotName(en.getSlotName());
+			vo.setStationId(en.getStationId());
+			vo.setStationName(en.getStationName());
+			vo.setCreateTime(en.getCreateTime());
+			vo.setServiceId(en.getServiceId());
+			vo.setServiceName(en.getServiceName());
+			vo.setPlate(en.getPlate());
+			
+			List<InspectionVo> ivos = inspectionService.listInspections(1, 1, en.getPlate());
+			if (ivos != null && ivos.size() > 0) {
+				vo.setLastInspector(ivos.get(0).getOperatorName());
+				vo.setLastInspectTime(ivos.get(0).getCreateTime());
+			}
+			vos.add(vo);
+		}
+		
+		return vos;
 	}
 	
 	@RequestMapping(path = "/inspection/inspections", method = RequestMethod.POST)

@@ -91,4 +91,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointmentMapper.deleteAppointment(regId, wxid);
 	}
 
+	@Override
+	public List<RegistrationDisplayEntity> search(int stationId, String regDate, String search) throws BizException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
