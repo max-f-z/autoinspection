@@ -32,4 +32,17 @@
 	left join BizService bs on ba.SERVICEID = bs.id
 	left join BizStation bst on ba.STATIONID = bst.id where ba.STATIONID = #{stationId} and ba.APPOINTMENTDATE = #{regDate}
 	</select>
+	
+	<select id="search" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
+	select ba.id regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate
+	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
+	left join BizService bs on ba.SERVICEID = bs.id
+	left join BizStation bst on ba.STATIONID = bst.id 
+	left join bizvehicleinfo bvi on ba.PLATE = bvi.PLATE
+	where ba.STATIONID = #{stationId} and ba.APPOINTMENTDATE = #{regDate}
+	<if test = "search != null">
+		and (bvi.CUSTOMERNAME like CONCAT('%', #{search},'%') or (ba.PLATE like CONCAT('%', #{search}, '%')) )
+	</if>
+	</select>
 </mapper>

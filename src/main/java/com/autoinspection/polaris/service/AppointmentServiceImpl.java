@@ -10,8 +10,12 @@ import com.autoinspection.polaris.model.entity.AppointmentEntity;
 import com.autoinspection.polaris.model.entity.RegistrationDisplayEntity;
 import com.autoinspection.polaris.model.entity.RemainEntity;
 import com.autoinspection.polaris.model.entity.ReservedEntity;
+import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
+import com.autoinspection.polaris.model.entity.WXUserEntity;
 import com.autoinspection.polaris.model.mapper.AppointmentLimitMapper;
 import com.autoinspection.polaris.model.mapper.AppointmentMapper;
+import com.autoinspection.polaris.model.mapper.VehicleInfoMapper;
+import com.autoinspection.polaris.model.mapper.WXUserMapper;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.wx.AppointmentRequest;
@@ -25,6 +29,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 	@Autowired
 	private AppointmentMapper appointmentMapper;
+	
+	@Autowired
+	private VehicleInfoMapper vehicleMapper;
+	
+	@Autowired
+	private WXUserMapper wxUserMapper;
 	
 	@Override
 	public List<RemainEntity> listAppointments(AppointmentRequest req) {
@@ -45,6 +55,17 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Override
 	@Transactional
 	public int register(RegisterRequest req, int wxid) throws BizException {
+		
+		VehicleInfoEntity en = vehicleMapper.getByPlate(req.getPlate());
+		if (en == null) {
+			en = new VehicleInfoEntity();
+			en.setPlate(req.getPlate());
+			WXUserEntity entity = wxUserMapper.getById(wxid);
+			en.setCustomerName(entity.getName());
+			vehicleMapper.insertVehicle(en, wxid);
+		}
+		
+		
 		int limit = alMapper.getLimitByDate(req.getAppointmentDate());
 		Integer reserved = alMapper.getReservedByDateAndSlot(req.getAppointmentDate(), req.getAppointmentSlot());
 		
@@ -93,8 +114,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<RegistrationDisplayEntity> search(int stationId, String regDate, String search) throws BizException {
-		// TODO Auto-generated method stub
-		return null;
+		return appointmentMapper.search(stationId, regDate, search);
 	}
 
 }

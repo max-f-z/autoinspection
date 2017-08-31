@@ -16,4 +16,5 @@ public interface AppointmentMapper {
 	List<AppointmentEntity> getById(@Param("id") Integer regId, @Param("wxid") Integer wxid);
 	List<AppointmentEntity> getByPlateAndDate(@Param("plate") String plate, @Param("appoDate") String appoDate);
 	List<RegistrationDisplayEntity> listRegistrationsForEndUser(@Param("stationId") Integer stationId, @Param("regDate") String regDate);
+	List<RegistrationDisplayEntity> search(@Param("stationId") Integer stationId, @Param("regDate") String regDate, @Param("search") String search);
 }

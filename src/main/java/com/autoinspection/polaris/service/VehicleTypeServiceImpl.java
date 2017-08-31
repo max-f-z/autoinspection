@@ -1,5 +1,7 @@
 package com.autoinspection.polaris.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,4 +19,8 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
 		return vehicleTypeMapper.getById(id);
 	}
 
+	@Override
+	public List<VehicleTypeEntity> listVehicleTypes() {
+		return vehicleTypeMapper.listVehicleTypes();
+	}
 }

@@ -45,6 +45,7 @@ import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceRequest;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceResponse;
 import com.autoinspection.polaris.vo.Inspection.VehicleInfoRequest;
 import com.autoinspection.polaris.vo.input.RegistrationVo;
+import com.autoinspection.polaris.vo.input.SearchRegRequest;
 import com.autoinspection.polaris.vo.vehicle.VehicleInfoVo;
 import com.autoinspection.polaris.vo.vehicle.VehicleVo;
 
@@ -84,6 +85,42 @@ public class InputController {
 		String regDate = formatter.format(now);
 		
 		List<RegistrationDisplayEntity> list = appoitnmentService.listRegistrationsForEndUser(userEntity.getStationId(), regDate);
+		List<RegistrationVo> vos = new ArrayList<RegistrationVo>();
+		for (RegistrationDisplayEntity en : list) {
+			RegistrationVo vo = new RegistrationVo();
+			vo.setRegId(en.getRegId());
+			vo.setAppointmentDate(en.getAppointmentDate());
+			vo.setAppointmentSlot(en.getAppointmentSlot());
+			vo.setSlotName(en.getSlotName());
+			vo.setStationId(en.getStationId());
+			vo.setStationName(en.getStationName());
+			vo.setCreateTime(en.getCreateTime());
+			vo.setServiceId(en.getServiceId());
+			vo.setServiceName(en.getServiceName());
+			vo.setPlate(en.getPlate());
+			
+			List<InspectionVo> ivos = inspectionService.listInspections(1, 1, en.getPlate());
+			if (ivos != null && ivos.size() > 0) {
+				vo.setLastInspector(ivos.get(0).getOperatorName());
+				vo.setLastInspectTime(ivos.get(0).getCreateTime());
+			}
+			vos.add(vo);
+		}
+		
+		return vos;
+	}
+	
+	@RequestMapping(path = "/search", method = RequestMethod.POST)
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	public List<RegistrationVo> search(@RequestBody SearchRegRequest request,@CurrentUser UserVo user) throws BizException {
+		int uid = user.getUid();
+		UserEntity userEntity = userService.getById(uid);
+		
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date now = new Date();
+		String regDate = formatter.format(now);
+		
+		List<RegistrationDisplayEntity> list = appoitnmentService.search(userEntity.getStationId(), regDate, request.getSearch());
 		List<RegistrationVo> vos = new ArrayList<RegistrationVo>();
 		for (RegistrationDisplayEntity en : list) {
 			RegistrationVo vo = new RegistrationVo();
@@ -173,6 +210,12 @@ public class InputController {
 	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
 	public List<ServiceEntity> getStations() {
 		return serviceService.listAllServices();
+	}
+	
+	@RequestMapping(value="/vehicleTypes", method = RequestMethod.GET) 
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	public List<VehicleTypeEntity> listVehicleTypes() {
+		return vehicleTypeService.listVehicleTypes();
 	}
 	
 	@RequestMapping(path = "/inspection/vehicleInfo", method = RequestMethod.POST)
