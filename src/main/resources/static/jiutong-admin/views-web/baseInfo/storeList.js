@@ -25,7 +25,7 @@ storeList = {
 	service: {
 
 		doSearch: function() {
-			
+
 			var search = $("#storeList #search").val();
 			var district = $("#storeList #district").val();
 			debugger;
@@ -33,8 +33,8 @@ storeList = {
 			var token = localStorage.getItem("Authorization");
 			mui.ajax(GLOBAL.SERVER_URL + "api/station/stations", {
 				data: {
-					search:search,
-					district:district
+					search: search,
+					district: district
 				},
 				headers: {
 					'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ storeList = {
 						html += "<td>" + result.phone + "</td>";
 						html += "<td>" + result.principal + "</td>";
 						html += "<td>" + result.principalPhone + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -114,7 +114,7 @@ storeList = {
 						html += "<td>" + result.phone + "</td>";
 						html += "<td>" + result.principal + "</td>";
 						html += "<td>" + result.principalPhone + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='storeList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -187,7 +187,7 @@ storeList = {
 		doAdd: function(callBackFunc) {
 			$.ajax({
 				type: "get",
-				url: "../views/baseInfo/addStore.html",
+				url: "baseInfo/addStore.html",
 				success: function(data) {
 					debugger;
 					var dialog = bootbox.dialog({
@@ -206,10 +206,54 @@ storeList = {
 
 										if(rs.result == 1) {
 
-											swal("Good!", "弹出了一个操作成功的提示框", "成功");
 											// 重新查询
 											storeList.service.doQuery();
 
+											// 关闭对话框
+											dialog.modal("hide");
+										} else {
+											alert("保存失败");
+										}
+									});
+									return false;
+
+								}
+							},
+							cancel: {
+								label: "取消",
+								className: "btn-default",
+							}
+						}
+					});
+				}
+			});
+		},
+
+		doEdit: function(id) {
+			localStorage.setItem("storeId",id);
+			$.ajax({
+				type: "get",
+				url: "baseInfo/editStore.html",
+				success: function(data) {
+					debugger;
+					var dialog = bootbox.dialog({
+						size: "large",
+						title: "查看详情",
+						message: data,
+						buttons: {
+							save: {
+								label: "保存",
+								className: "btn-success",
+
+								callback: function() {
+
+									// 保存
+									editStore.service.doSave(function(rs) {
+
+										if(rs.result == 1) {
+
+											// 重新查询
+											storeList.service.doQuery();
 											// 关闭对话框
 											dialog.modal("hide");
 										} else {

@@ -17,11 +17,47 @@ addMail = {
 	// 表单验证
 	validate: function() {
 
+		if(null == $("#addMail-form #name").val() ||  0 == $("#addMail-form #name").val().length) {
+			alert("您输入的客户名称为空");
+			return false;
+		}
+
+		if(null == $("#addMail-form #code").val()||  0 == $("#addMail-form #code").val().length) {
+			alert("您输入的客户代码为空");
+			return false;
+		}
+
+		if(null == $("#addMail-form #contactName").val() ||  0 == $("#addMail-form #contactName").val().length ) {
+			alert("您输入的联系人为空");
+			return false;
+		}
+
+		if(null == $("#addMail-form #contactPhone").val()||  0 == $("#addMail-form #contactPhone	").val().length) {
+			alert("您的输入的联系电话为空");
+			return false;
+		}
+
+		if(null == $("#addMail-form #address").val() ||  0 == $("#addMail-form #address").val().length ) {
+			alert("您的输入的地址为空");
+			return false;
+		}
+
+		if(null == $("#addMail-form #salesman").val() ||  0 == $("#addMail-form #salesman").val().length ) {
+			alert("您的输入的销售员为空");
+			return false;
+		}
+
 	},
 
 	service: {
 
 		doSave: function(callBackFunc) {
+			
+			if(!addMail.validate()){
+				return false;
+			}
+			
+			
 			var name = $("#addMail-form #name").val();
 			var code = $("#addMail-form #code").val();
 			var contactName = $("#addMail-form #contactName").val();
@@ -52,8 +88,8 @@ addMail = {
 					callBackFunc(data);
 				}
 			});
+		},
 
-		}
 	},
 
 	dao: {},

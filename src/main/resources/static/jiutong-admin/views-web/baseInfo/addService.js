@@ -16,12 +16,25 @@ addService = {
 
 	// 表单验证
 	validate: function() {
+		if(null == $("#addMail-form #name").val() || 0 == $("#addMail-form #name").val().length) {
+			alert("您输入的服务类型为空");
+			return false;
+		}
 
+		if(null == $("#addMail-form #description").val()  || 0 == $("#addMail-form #description").val().length) {
+			alert("您输入的描述为空");
+			return false;
+		}
 	},
 
 	service: {
 
 		doSave: function(callBackFunc) {
+			
+			if(!addService.validate()){
+				return false;
+			}
+			
 			var name = $("#addMail-form #name").val();
 			var description = $("#addMail-form #description").val();
 

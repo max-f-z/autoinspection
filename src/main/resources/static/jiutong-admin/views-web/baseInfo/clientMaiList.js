@@ -21,11 +21,14 @@ clientMaiList = {
 
 	// 表单验证
 	validate: function() {
+		
+		
+		
 
 	},
 
 	service: {
-		
+
 		doSearch: function() {
 
 			var search = $("#clientMailList #search").val();
@@ -34,7 +37,7 @@ clientMaiList = {
 			var token = localStorage.getItem("Authorization");
 			mui.ajax(GLOBAL.SERVER_URL + "api/customer/customers", {
 				data: {
-					search:search
+					search: search
 				},
 				headers: {
 					'Content-Type': 'application/json',
@@ -65,7 +68,7 @@ clientMaiList = {
 						html += "<td>" + result.contactPhone + "</td>";
 						html += "<td>" + result.address + "</td>";
 						html += "<td>" + result.salesman + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -106,7 +109,7 @@ clientMaiList = {
 						html += "<td>" + result.contactPhone + "</td>";
 						html += "<td>" + result.address + "</td>";
 						html += "<td>" + result.salesman + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -180,7 +183,7 @@ clientMaiList = {
 		doAdd: function(callBackFunc) {
 			$.ajax({
 				type: "get",
-				url: "../views/baseInfo/addMail.html",
+				url: "baseInfo/addMail.html",
 				success: function(data) {
 					debugger;
 					var dialog = bootbox.dialog({
@@ -206,6 +209,50 @@ clientMaiList = {
 											dialog.modal("hide");
 
 											swal("添加", "您的店面已经添加", "success");
+										} else {
+											alert("保存失败");
+										}
+									});
+									return false;
+
+								}
+							},
+							cancel: {
+								label: "取消",
+								className: "btn-default",
+							}
+						}
+					});
+				}
+			});
+		},
+		doEdit: function(id) {
+			localStorage.setItem("mailId", id);
+			$.ajax({
+				type: "get",
+				url: "baseInfo/editMail.html",
+				success: function(data) {
+					debugger;
+					var dialog = bootbox.dialog({
+						size: "large",
+						title: "查看详情",
+						message: data,
+						buttons: {
+							save: {
+								label: "保存",
+								className: "btn-success",
+
+								callback: function() {
+
+									// 保存
+									editMail.service.doSave(function(rs) {
+
+										if(rs.result == 1) {
+
+											// 重新查询
+											clientMaiList.service.doQuery();
+											// 关闭对话框
+											dialog.modal("hide");
 										} else {
 											alert("保存失败");
 										}

@@ -31,8 +31,8 @@ serviceList = {
 			var search = $("#serviceList #search").val();
 			var token = localStorage.getItem("Authorization");
 			mui.ajax(GLOBAL.SERVER_URL + "api/service/services/search", {
-				data:{
-					search:search
+				data: {
+					search: search
 				},
 				headers: {
 					'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ serviceList = {
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.description + "</td>";
 						html += "<td>" + result.description + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button><button type='button' class='btn btn-info' onclick='serviceList.service.doClose(" + result.id + ")'>禁用</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -100,7 +100,7 @@ serviceList = {
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.description + "</td>";
 						html += "<td>" + result.description + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -174,7 +174,7 @@ serviceList = {
 		doAdd: function(callBackFunc) {
 			$.ajax({
 				type: "get",
-				url: "../views/baseInfo/addService.html",
+				url: "baseInfo/addService.html",
 				success: function(data) {
 					debugger;
 					var dialog = bootbox.dialog({
@@ -197,6 +197,51 @@ serviceList = {
 											serviceList.service.doQuery();
 
 											swal("成功！", "您的服务添加成功", "success");
+											// 关闭对话框
+											dialog.modal("hide");
+										} else {
+											alert("保存失败");
+										}
+									});
+									return false;
+
+								}
+							},
+							cancel: {
+								label: "取消",
+								className: "btn-default",
+							}
+						}
+					});
+				}
+			});
+		},
+
+		doEdit: function(id) {
+			localStorage.setItem("serviceId", id);
+			$.ajax({
+				type: "get",
+				url: "baseInfo/editService.html",
+				success: function(data) {
+					debugger;
+					var dialog = bootbox.dialog({
+						size: "large",
+						title: "查看详情",
+						message: data,
+						buttons: {
+							save: {
+								label: "保存",
+								className: "btn-success",
+
+								callback: function() {
+									debugger
+									// 保存
+									editService.service.doSave(function(rs) {
+										debugger
+										if(rs.result == 1) {
+
+											// 重新查询
+											serviceList.service.doQuery();
 											// 关闭对话框
 											dialog.modal("hide");
 										} else {

@@ -17,11 +17,38 @@ addPrice = {
 	// 表单验证
 	validate: function() {
 
+		if(null == $("#addPrice-form #serviceId").val() || 0 == $("#addPrice-form #serviceId").val().length) {
+			alert("您输入的服务类型为空");
+			return false;
+		}
+
+		if(null == $("#addPrice-form #customerId").val() || 0 == $("#addPrice-form #customerId").val().length) {
+			alert("您输入的客户名称为空");
+			return false;
+		}
+
+		if(null == $("#addPrice-form #price").val() || 0 == $("#addPrice-form #price").val().length) {
+			alert("您输入的价格为空");
+			return false;
+		}
+
+		if(null == $("#addPrice-form #priceDesc").val() || 0 == $("#addPrice-form #priceDesc").val().length) {
+			alert("您的输入的价格描述为空");
+			return false;
+		}
+
+		return true;
+
 	},
 
 	service: {
 
 		doSave: function(callBackFunc) {
+
+			if(!addPrice.validate()) {
+				return false;
+			}
+
 			var serviceId = $("#addPrice-form #serviceId").val();
 			var customerId = $("#addPrice-form #customerId").val();
 			var price = $("#addPrice-form #price").val();
@@ -49,8 +76,7 @@ addPrice = {
 				}
 			});
 		},
-		
-		
+
 	},
 
 	dao: {},

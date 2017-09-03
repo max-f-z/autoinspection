@@ -29,15 +29,15 @@ tyrePriceList = {
 		doSearch: function() {
 			$("#tbody").empty();
 			var search = $("#tyrePriceList #search").val();
-			
+
 			var token = localStorage.getItem("Authorization");
 			mui.ajax(GLOBAL.SERVER_URL + "api/tireprice/search", {
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': token,
 				},
-				data:{
-					search:search	
+				data: {
+					search: search
 				},
 				dataType: 'json', //服务器返回json格式数据
 				type: 'post', //HTTP请求类型
@@ -64,7 +64,7 @@ tyrePriceList = {
 						html += "<td>" + result.description + "</td>";
 						html += "<td>" + result.stripe + "</td>";
 						html += "<td>" + result.price + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -105,7 +105,7 @@ tyrePriceList = {
 						html += "<td>" + result.description + "</td>";
 						html += "<td>" + result.stripe + "</td>";
 						html += "<td>" + result.price + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -178,7 +178,7 @@ tyrePriceList = {
 		doAdd: function(callBackFunc) {
 			$.ajax({
 				type: "get",
-				url: "../views/baseInfo/addTyrePrice.html",
+				url: "baseInfo/addTyrePrice.html",
 				success: function(data) {
 					debugger;
 					var dialog = bootbox.dialog({
@@ -219,7 +219,53 @@ tyrePriceList = {
 					});
 				}
 			});
+		},
+
+		doEdit: function(id) {
+			localStorage.setItem("tyrePriceId", id);
+			$.ajax({
+				type: "get",
+				url: "baseInfo/editTyrePrice.html",
+				success: function(data) {
+					debugger;
+					var dialog = bootbox.dialog({
+						size: "large",
+						title: "查看详情",
+						message: data,
+						buttons: {
+							save: {
+								label: "保存",
+								className: "btn-success",
+
+								callback: function() {
+
+									// 保存
+									editTyrePrice.service.doSave(function(rs) {
+
+										if(rs.result == 1) {
+
+											// 重新查询
+											tyrePriceList.service.doQuery();
+											// 关闭对话框
+											dialog.modal("hide");
+										} else {
+											alert("保存失败");
+										}
+									});
+									return false;
+
+								}
+							},
+							cancel: {
+								label: "取消",
+								className: "btn-default",
+							}
+						}
+					});
+				}
+			});
 		}
+
 	},
 
 	dao: {},

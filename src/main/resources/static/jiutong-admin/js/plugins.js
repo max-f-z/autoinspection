@@ -130,7 +130,7 @@ $(function() {
         
         //Bootstrap file input
         var feBsFileInput = function(){
-            
+            debugger
             if($("input.fileinput").length > 0){
                 $("input.fileinput").bootstrapFileInput();                               
             }
@@ -150,7 +150,7 @@ $(function() {
                     fePopover();
                     feTagsinput();
                     feiCheckbox();
-                    feBsFileInput();
+                   // feBsFileInput();
                     feDaterangepicker();
                 }
         }

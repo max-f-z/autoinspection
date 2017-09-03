@@ -16,12 +16,55 @@ addStore = {
 
 	// 表单验证
 	validate: function() {
+		debugger;
+		if(null == $("#addStore-form #name").val() || 0 == $("#addStore-form #name").val().length) {
+			alert("您输入的名称为空");
+			return false;
+		}
+
+		if(null == $("#addStore-form #district").val()||  0 == $("#addStore-form #district").val().length) {
+			alert("您输入的地区为空");
+			return false;
+		}
+
+		if(null == $("#addStore-form #address").val()||  0 == $("#addStore-form #address").val().length) {
+			alert("您输入的详细地址为空");
+			return false;
+		}
+
+		if(null == $("#addStore-form #latitude").val()||  0 == $("#addStore-form #latitude").val().length) {
+			alert("您输入的精度为空");
+			return false;
+		}
+
+		if(null == $("#addStore-form #phone").val()||  0 == $("#addStore-form #phone").val().length) {
+			alert("您输入的纬度为空");
+			return false;
+		}
+
+		if(null == $("#addStore-form #principal").val()|| 0 == $("#addStore-form #principal").val().length) {
+			alert("您输入的检测中心电话为空");
+			return false;
+		}
+
+
+		if(null == $("#addStore-form #principalPhone").val()|| 0 == $("#addStore-form #principal").val().length) {
+			alert("您输入的负责电话为空");
+			return false;
+		}
+		
+		return true;
 
 	},
 
 	service: {
 
 		doSave: function(callBackFunc) {
+			debugger;
+			if(!addStore.validate()){
+				return false;
+			}
+			
 			var name = $("#addStore-form #name").val();
 			var district = $("#addStore-form #district").val();
 			var address = $("#addStore-form #address").val();
@@ -49,8 +92,7 @@ addStore = {
 				},
 				dataType: 'json', //服务器返回json格式数据
 				type: 'post', //HTTP请求类型
-				error: function(xhr, type, errorThrown) {
-				},
+				error: function(xhr, type, errorThrown) {},
 				success: function(data) {
 					console.log(data);
 					debugger;

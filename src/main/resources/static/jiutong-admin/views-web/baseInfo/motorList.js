@@ -1,8 +1,3 @@
-mui.init({
-	swipeBack: true, //开启左滑关闭
-
-});
-
 (function($) {
 	$.init();
 })(mui);
@@ -13,9 +8,10 @@ motorList = {
 	event: function() {
 
 		$("#motorList #addBtn").on("click", motorList.service.doAdd);
-		
+
 		$("#motorList #searchBtn").on("click", motorList.service.doSearch);
-		
+
+		$("#motorList #doExpBtn").on("click", motorList.service.doExpload);
 
 	},
 
@@ -25,11 +21,10 @@ motorList = {
 	},
 
 	service: {
-		
-		
+
 		doSearch: function() {
-			var search = $("#motorList #search").val();
 			$("#tbody").empty();
+			var search = $("#search").val();
 			var token = localStorage.getItem("Authorization");
 			mui.ajax(GLOBAL.SERVER_URL + "api/vehicle/vehicles/search", {
 				data: {
@@ -70,7 +65,6 @@ motorList = {
 						html += '<td class="text-right" id="costermName"><strong>' + result.customerName + '</strong></td>';
 						html += '<td><strong>车辆类型编号</strong></td>';
 						html += '<td class="text-right"><strong><span id="tyreNo">' + result.vehicleType + '</span></strong></td>';
-						html += '<td class="text-right"><strong><span id="tyreNo">' <button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button> '</span></strong></td>';
 						html += '</tr>';
 						html += '</table>';
 						html += '<div class="panel-body" >';
@@ -181,22 +175,41 @@ motorList = {
 		},
 
 		//新建
-		doAdd: function() {
+		doExpload: function() {
+			//			var htmlUrl = "baseInfo/uploadFile.html";
+			//			$("#mainBody").empty();
+			//			$("#mainBody").load(htmlUrl, function() {});
+
 			$.ajax({
 				type: "get",
-				url: "../views/baseInfo/uploadFile.html",
+				url: "baseInfo/uploadFile.html",
 				success: function(data) {
 					debugger;
 					var dialog = bootbox.dialog({
 						size: "large",
-						title: "新建",
+						title: "上传excel",
 						message: data,
 						buttons: {
 							save: {
 								label: "保存",
 								className: "btn-success",
 								callback: function() {
+									uploadFile.service.doSave(function(rs) {
 
+										if(rs.result == 1) {
+
+											// 重新查询
+											motorList.service.doQuery();
+
+											// 关闭对话框
+											dialog.modal("hide");
+
+											swal("上传", "上传成功", "success");
+										} else {
+											alert("保存失败");
+										}
+									});
+									return false;
 								}
 							},
 							cancel: {
@@ -217,40 +230,6 @@ motorList = {
 		motorList.event();
 		motorList.service.doQuery();
 
-		$("#excelFile").fileinput({
-			uploadUrl: GLOBAL.SERVER_URL + "api/vehicle/vehicles/import", //上传的地址
-			uploadAsync: true,
-
-			language: "zh", //设置语言
-			showCaption: true, //是否显示标题
-			showUpload: true, //是否显示上传按钮
-			browseClass: "btn btn-primary", //按钮样式 
-			allowedFileExtensions: ["xls", "xlsx"], //接收的文件后缀
-			maxFileCount: 10, //最大上传文件数限制
-			uploadAsync: true,
-			previewFileIcon: '<i class="glyphicon glyphicon-file"></i>',
-			allowedPreviewTypes: null,
-			previewFileIconSettings: {
-				'docx': '<i class="glyphicon glyphicon-file"></i>',
-				'xlsx': '<i class="glyphicon glyphicon-file"></i>',
-				'pptx': '<i class="glyphicon glyphicon-file"></i>',
-				'jpg': '<i class="glyphicon glyphicon-picture"></i>',
-				'pdf': '<i class="glyphicon glyphicon-file"></i>',
-				'zip': '<i class="glyphicon glyphicon-file"></i>',
-			},
-			uploadExtraData: function() {
-				var extraValue = null;
-				var radios = document.getElementsByName('excelType');
-				for(var i = 0; i < radios.length; i++) {
-					if(radios[i].checked) {
-						extraValue = radios[i].value;
-					}
-				}
-				return {
-					"excelType": extraValue
-				};
-			}
-		});
 	}
 }
 motorList.init();

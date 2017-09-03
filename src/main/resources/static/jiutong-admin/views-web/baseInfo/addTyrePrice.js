@@ -17,11 +17,34 @@ addTyrePrice = {
 	// 表单验证
 	validate: function() {
 
+		if(null == $("#addTyrePrice-form #brand").val() || 0 == $("#addTyrePrice-form #brand").val().length) {
+			alert("您输入的名称为空");
+			return false;
+		}
+
+		if(null == $("#addTyrePrice-form #description").val() || 0 == $("#addTyrePrice-form #description").val().length) {
+			alert("您输入的地区为空");
+			return false;
+		}
+
+		if(null == $("#addTyrePrice-form #stripe").val() || 0 == $("#addTyrePrice-form #stripe").val().length) {
+			alert("您输入的详细地址为空");
+			return false;
+		}
+
+		if(null == $("#addTyrePrice-form #price").val() || 0 == $("#addTyrePrice-form #price").val().length) {
+			alert("您输入的精度为空");
+			return false;
+		}
 	},
 
 	service: {
 
 		doSave: function(callBackFunc) {
+
+			if(!addTyrePrice.validate()) {
+				return false;
+			}
 			var brand = $("#addTyrePrice-form #brand").val();
 			var description = $("#addTyrePrice-form #description").val();
 			var stripe = $("#addTyrePrice-form #stripe").val();
