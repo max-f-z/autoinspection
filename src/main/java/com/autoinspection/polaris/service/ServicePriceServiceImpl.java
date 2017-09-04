@@ -11,6 +11,7 @@ import com.autoinspection.polaris.model.mapper.ServicePriceMapper;
 import com.autoinspection.polaris.vo.serviceprice.AddServicePriceRequest;
 import com.autoinspection.polaris.vo.serviceprice.DeleteServicePriceRequest;
 import com.autoinspection.polaris.vo.serviceprice.UpdateServicePriceRequest;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class ServicePriceServiceImpl implements ServicePriceService {
@@ -65,6 +66,9 @@ public class ServicePriceServiceImpl implements ServicePriceService {
 
 	@Override
 	public List<ServicePriceDisplayEntity> search(String search) {
+		if (StringUtils.isNullOrEmpty(search)){
+			return servicePriceMapper.listAllServicePrices();
+		}
 		List<ServicePriceDisplayEntity> list = servicePriceMapper.search(search);
 		return list;
 	}
