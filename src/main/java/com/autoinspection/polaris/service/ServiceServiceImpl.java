@@ -9,6 +9,7 @@ import com.autoinspection.polaris.model.entity.ServiceEntity;
 import com.autoinspection.polaris.model.mapper.ServiceMapper;
 import com.autoinspection.polaris.vo.service.AddServiceRequest;
 import com.autoinspection.polaris.vo.service.UpdateServiceRequest;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class ServiceServiceImpl implements ServiceService {
@@ -58,6 +59,9 @@ public class ServiceServiceImpl implements ServiceService {
 
 	@Override
 	public List<ServiceEntity> search(String search) {
+		if (StringUtils.isNullOrEmpty(search)) {
+			return serviceMapper.listAllServices();
+		}
 		return serviceMapper.search(search);
 	}
 }

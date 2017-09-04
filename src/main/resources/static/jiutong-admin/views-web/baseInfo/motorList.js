@@ -226,7 +226,7 @@ motorList = {
 						message: data,
 						buttons: {
 							save: {
-								label: "保存",
+								label: "上传",
 								className: "btn-success",
 								callback: function() {
 									uploadFile.service.doSave(function(rs) {
