@@ -59,8 +59,23 @@ addMotor = {
 
 			console.log(tyreArray);
 			var plate = $("#plate").val();
-			var customerName = $("#customerName").val();
-			var vehicleType = $("#vehicleType").val();
+			var customerName = $("#customerName option:selected").text();
+			var vehicleType = $("#vehicleType option:selected").text();
+
+			if(null == plate || "" == plate) {
+				alert("请您输入车牌号");
+				return false;
+			}
+
+			if(null == customerName || 0 == $("#customerName").val()) {
+				alert("请您输入客户名称");
+				return false;
+			}
+			
+			if(null == vehicleType || 0 == vehicleType.val()) {
+				alert("请您输入车牌号");
+				return false;
+			}
 			var data = {
 				plate: plate,
 				customerName: customerName,
@@ -88,12 +103,45 @@ addMotor = {
 			});
 		},
 
+		getCustomerList: function() {
+			var token = localStorage.getItem("Authorization");
+			mui.ajax(GLOBAL.SERVER_URL + "api/customer/customers", {
+				data: {},
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': token,
+				},
+				dataType: 'json', //服务器返回json格式数据
+				type: 'post', //HTTP请求类型
+				error: function(xhr, type, errorThrown) {
+					mui.alert("登录失败");
+				},
+				success: function(data) {
+					if(data.result != 1) {
+						mui.toast(data.msg);
+						if(data.code == "1001") {
+							window.location.href = "login.html";
+						}
+						return;
+					}
+					var html = "";
+					var tbody = $("#addMoter-list #customerId");
+					$.each(data.data, function(index, result) {
+						html += "<option value='" + result.id + "'>" + result.name + "</option>"
+					});
+					tbody.append(html);
+				}
+			});
+		},
+
 	},
 
 	dao: {},
 	init: function() {
 
 		addMotor.event();
+		
+		addMotor.service.getCustomerList();
 	}
 }
 addMotor.init();

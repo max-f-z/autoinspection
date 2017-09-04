@@ -17,12 +17,12 @@ editPrice = {
 	// 表单验证
 	validate: function() {
 
-		if(null == $("#editPrice-form #serviceId").val() || 0 == $("#editPrice-form #serviceId").val().length) {
+		if(null == $("#editPrice-form #serviceId").val() || 0 == $("#editPrice-form #serviceId").val()) {
 			alert("您输入的服务类型为空");
 			return false;
 		}
 
-		if(null == $("#editPrice-form #customerId").val() || 0 == $("#editPrice-form #customerId").val().length) {
+		if(null == $("#editPrice-form #customerId").val() || 0 == $("#editPrice-form #customerId").val()) {
 			alert("您输入的客户名称为空");
 			return false;
 		}

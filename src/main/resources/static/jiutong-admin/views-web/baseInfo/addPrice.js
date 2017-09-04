@@ -17,12 +17,12 @@ addPrice = {
 	// 表单验证
 	validate: function() {
 
-		if(null == $("#addPrice-form #serviceId").val() || 0 == $("#addPrice-form #serviceId").val().length) {
+		if(null == $("#addPrice-form #serviceId").val() || 0 == $("#addPrice-form #serviceId").val()) {
 			alert("您输入的服务类型为空");
 			return false;
 		}
 
-		if(null == $("#addPrice-form #customerId").val() || 0 == $("#addPrice-form #customerId").val().length) {
+		if(null == $("#addPrice-form #customerId").val() || 0 == $("#addPrice-form #customerId").val()) {
 			alert("您输入的客户名称为空");
 			return false;
 		}
@@ -106,7 +106,6 @@ addPrice = {
 					tbody.append(html);
 				}
 			});
-			
 		},
 
 		getServiceList: function() {

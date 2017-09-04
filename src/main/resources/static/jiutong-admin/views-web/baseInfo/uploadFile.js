@@ -24,7 +24,6 @@ uploadFile = {
 		doSave: function(callBackFunc) {
 			debugger;
 			var token = localStorage.getItem("Authorization");
-			alert($("#fileinfo0")[0]);
 			$.ajax({
 				headers: {
 					'Authorization': token,

@@ -145,7 +145,7 @@ storeList = {
 					error: function(xhr, type, errorThrown) {},
 					success: function(data) {
 						storeList.service.doQuery();
-						swal("删除！", "您的店面已经被删除", "success");
+						swal("删除！", "删除成功", "success");
 					}
 
 				});
@@ -209,9 +209,9 @@ storeList = {
 
 											// 重新查询
 											storeList.service.doQuery();
-
 											// 关闭对话框
 											dialog.modal("hide");
+											swal("添加！", "添加成功", "success");
 										} else {
 											alert("保存失败");
 										}
@@ -247,7 +247,7 @@ storeList = {
 								className: "btn-success",
 
 								callback: function() {
-
+								debugger;
 									// 保存
 									editStore.service.doSave(function(rs) {
 
@@ -257,6 +257,8 @@ storeList = {
 											storeList.service.doQuery();
 											// 关闭对话框
 											dialog.modal("hide");
+											
+											swal("修改", "修改成功", "success");
 										} else {
 											alert("保存失败");
 										}

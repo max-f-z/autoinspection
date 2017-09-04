@@ -22,7 +22,7 @@ addStore = {
 			return false;
 		}
 
-		if(null == $("#addStore-form #district").text()||  0 == $("#addStore-form #district").text().length) {
+		if(null == $("#addStore-form #district").text() ||  0 == $("#addStore-form #district").val()) {
 			alert("您输入的地区为空");
 			return false;
 		}

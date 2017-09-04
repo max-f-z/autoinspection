@@ -21,7 +21,7 @@ editStore = {
 			return false;
 		}
 
-		if(null == $("#editStore-form #district").text() || 0 == $("#editStore-form #district").text().length) {
+		if(null == $("#editStore-form #district").text() || 0 == $("#editStore-form #district").val()) {
 			alert("您输入的地区为空");
 			return false;
 		}

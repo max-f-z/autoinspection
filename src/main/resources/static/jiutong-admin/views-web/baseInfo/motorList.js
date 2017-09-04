@@ -201,7 +201,7 @@ motorList = {
 					error: function(xhr, type, errorThrown) {},
 					success: function(data) {
 						motorList.service.doQuery();
-						swal("删除！", "您的服务已经被删除", "success");
+						swal("删除！", "删除成功", "success");
 					}
 
 				});
@@ -283,7 +283,7 @@ motorList = {
 											// 重新查询
 											motorList.service.doQuery();
 
-											swal("成功！", "您的服务添加成功", "success");
+											swal("添加！", "添加成功", "success");
 											// 关闭对话框
 											dialog.modal("hide");
 										} else {

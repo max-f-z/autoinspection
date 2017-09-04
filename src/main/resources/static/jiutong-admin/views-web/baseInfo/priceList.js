@@ -135,7 +135,7 @@ priceList = {
 					error: function(xhr, type, errorThrown) {},
 					success: function(data) {
 						priceList.service.doQuery();
-						swal("删除！", "您的店面已经被删除", "success");
+						swal("删除！", "删除成功", "success");
 					}
 
 				});
@@ -200,9 +200,10 @@ priceList = {
 											// 重新查询
 											priceList.service.doQuery();
 
-											swal("成功！", "您的服务添加成功", "success");
 											// 关闭对话框
 											dialog.modal("hide");
+											
+											swal("添加", "添加成功", "success");
 										} else {
 											alert("保存失败");
 										}
@@ -248,6 +249,8 @@ priceList = {
 											priceList.service.doQuery();
 											// 关闭对话框
 											dialog.modal("hide");
+											
+											swal("修改", "修改成功", "success");
 										} else {
 											alert("保存失败");
 										}

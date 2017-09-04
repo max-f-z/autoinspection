@@ -141,7 +141,7 @@ clientMaiList = {
 					error: function(xhr, type, errorThrown) {},
 					success: function(data) {
 						clientMaiList.service.doQuery();
-						swal("删除！", "您的店面已经被删除", "success");
+						swal("删除！", "删除成功", "success");
 					}
 
 				});
@@ -208,7 +208,7 @@ clientMaiList = {
 											// 关闭对话框
 											dialog.modal("hide");
 
-											swal("添加", "您的店面已经添加", "success");
+											swal("添加", "添加成功", "success");
 										} else {
 											alert("保存失败");
 										}
@@ -253,6 +253,8 @@ clientMaiList = {
 											clientMaiList.service.doQuery();
 											// 关闭对话框
 											dialog.modal("hide");
+											
+											swal("修改", "修改成功", "success");
 										} else {
 											alert("保存失败");
 										}

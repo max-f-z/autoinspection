@@ -17,16 +17,25 @@
 	}
 </style>
 
-<table class="table table-bordered table-striped table-action">
+<table class="table table-bordered table-striped table-action" id="addMoter-list">
 	<tr>
 		<td width="200">车牌号</td>
-		<td class="text-center"><input id="plate"></input>
+		<td class="text-center" width="200"><input id="plate"></input>
 		</td>
 		<td width="200">客户</td>
-		<td class="text-center"><input id="customerName"></input>
+		<td class="text-center" width="200">
+			<select class="form-control select" id="customerId">
+				<option value="0">请选择</option>
+			</select>
+
 		</td>
 		<td width="200">车辆类型</td>
-		<td class="text-center"><input id="vehicleType"></input>
+		<td class="text-center" width="200">
+			<select class="form-control select" id="vehicleType" >
+				<option value="0">请选择</option>
+				<option value="1">牵引车</option>
+				<option value="2">挂车</option>
+			</select>
 		</td>
 	</tr>
 </table>
@@ -36,7 +45,7 @@
 			<th style="text-align: center;">轮位</th>
 			<th style="text-align: center;">品牌</th>
 			<th style="text-align: center;">轮胎编号</th>
-			
+
 		</tr>
 	</thead>
 	<tbody id="tBody">
