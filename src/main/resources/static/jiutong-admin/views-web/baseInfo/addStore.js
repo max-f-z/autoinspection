@@ -22,7 +22,7 @@ addStore = {
 			return false;
 		}
 
-		if(null == $("#addStore-form #district").val()||  0 == $("#addStore-form #district").val().length) {
+		if(null == $("#addStore-form #district").text()||  0 == $("#addStore-form #district").text().length) {
 			alert("您输入的地区为空");
 			return false;
 		}
@@ -66,7 +66,7 @@ addStore = {
 			}
 			
 			var name = $("#addStore-form #name").val();
-			var district = $("#addStore-form #district").val();
+			var district = $("#addStore-form #district option:selected").text();
 			var address = $("#addStore-form #address").val();
 			var latitude = $("#addStore-form #latitude").val();
 			var longitude = $("#addStore-form #longitude").val();
@@ -99,8 +99,7 @@ addStore = {
 					callBackFunc(data);
 				}
 			});
-
-		}
+		},
 	},
 
 	dao: {},

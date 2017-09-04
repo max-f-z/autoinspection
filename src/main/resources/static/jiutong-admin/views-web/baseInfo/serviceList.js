@@ -60,8 +60,7 @@ serviceList = {
 						html += "<td>" + result.id + "</td>";
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.description + "</td>";
-						html += "<td>" + result.description + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button><button type='button' class='btn btn-info' onclick='serviceList.service.doClose(" + result.id + ")'>禁用</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -99,8 +98,7 @@ serviceList = {
 						html += "<td>" + result.id + "</td>";
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.description + "</td>";
-						html += "<td>" + result.description + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);

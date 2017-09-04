@@ -12,6 +12,7 @@ import com.autoinspection.polaris.model.mapper.StationMapper;
 import com.autoinspection.polaris.vo.station.AddStationRequest;
 import com.autoinspection.polaris.vo.station.GetStationRequest;
 import com.autoinspection.polaris.vo.station.UpdateStationRequest;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class StationServiceImpl implements StationService {
@@ -29,6 +30,13 @@ public class StationServiceImpl implements StationService {
 	
 	@Override
 	public List<StationEntity> listStations(GetStationRequest request) {
+		if (StringUtils.isNullOrEmpty(request.getDistrict())) {
+			request.setDistrict(null);
+		}
+		if (StringUtils.isNullOrEmpty(request.getSearch())) {
+			request.setSearch(null);
+		}
+		
 		return stationMapper.listStations(request.getDistrict(), request.getSearch());
 	}
 	

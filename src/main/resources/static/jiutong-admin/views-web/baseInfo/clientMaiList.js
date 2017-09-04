@@ -68,7 +68,7 @@ clientMaiList = {
 						html += "<td>" + result.contactPhone + "</td>";
 						html += "<td>" + result.address + "</td>";
 						html += "<td>" + result.salesman + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -109,7 +109,7 @@ clientMaiList = {
 						html += "<td>" + result.contactPhone + "</td>";
 						html += "<td>" + result.address + "</td>";
 						html += "<td>" + result.salesman + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);

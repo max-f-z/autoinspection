@@ -61,7 +61,7 @@ priceList = {
 						html += "<td>" + result.contactName + "</td>";
 						html += "<td>" + result.price + "</td>";
 						html += "<td>" + result.priceDesc + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='priceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='priceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='priceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='priceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='priceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -94,15 +94,16 @@ priceList = {
 					var tbody = $("#priceList #tbody");
 					$.each(data.data, function(index, result) {
 						console.log(result);
+						
 						html += "<tr>";
 						var no = index + 1;
 						html += "<td>" + result.id + "</td>";
-						html += "<td>" + result.name + "</td>";
+						html += "<td>" + result.serviceName + "</td>";
 						html += "<td>" + result.priceDesc + "</td>";
-						html += "<td>" + result.contactName + "</td>";
+						html += "<td>" + result.customerName + "</td>";
 						html += "<td>" + result.price + "</td>";
 						html += "<td>" + result.priceDesc + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='priceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='priceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='priceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='priceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='priceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);

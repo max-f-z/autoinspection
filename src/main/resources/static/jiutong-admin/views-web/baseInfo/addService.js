@@ -25,6 +25,7 @@ addService = {
 			alert("您输入的描述为空");
 			return false;
 		}
+		return true;
 	},
 
 	service: {

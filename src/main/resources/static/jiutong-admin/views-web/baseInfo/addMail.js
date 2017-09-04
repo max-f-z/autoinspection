@@ -46,7 +46,7 @@ addMail = {
 			alert("您的输入的销售员为空");
 			return false;
 		}
-
+		return true;
 	},
 
 	service: {

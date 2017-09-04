@@ -64,7 +64,7 @@ tyrePriceList = {
 						html += "<td>" + result.description + "</td>";
 						html += "<td>" + result.stripe + "</td>";
 						html += "<td>" + result.price + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -105,7 +105,7 @@ tyrePriceList = {
 						html += "<td>" + result.description + "</td>";
 						html += "<td>" + result.stripe + "</td>";
 						html += "<td>" + result.price + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doClose(" + result.id + ")'>禁用</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='tyrePriceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
