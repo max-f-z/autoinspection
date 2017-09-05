@@ -61,14 +61,14 @@ clientMaiList = {
 					$.each(data.data, function(index, result) {
 						html += "<tr>";
 						var no = index + 1;
-						html += "<td>" + result.id + "</td>";
+						html += "<td>" + no + "</td>";
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.code + "</td>";
 						html += "<td>" + result.contactName + "</td>";
 						html += "<td>" + result.contactPhone + "</td>";
 						html += "<td>" + result.address + "</td>";
 						html += "<td>" + result.salesman + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' style='margin-right:5px' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' style='margin-left:5px' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -102,14 +102,14 @@ clientMaiList = {
 					$.each(data.data, function(index, result) {
 						html += "<tr>";
 						var no = index + 1;
-						html += "<td>" + result.id + "</td>";
+						html += "<td>" + no + "</td>";
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.code + "</td>";
 						html += "<td>" + result.contactName + "</td>";
 						html += "<td>" + result.contactPhone + "</td>";
 						html += "<td>" + result.address + "</td>";
 						html += "<td>" + result.salesman + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' style='margin-right:5px' class='btn btn-info' onclick='clientMaiList.service.doDelete(" + result.id + ")'>删除</button><button type='button' style='margin-left:5px' class='btn btn-info' onclick='clientMaiList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);

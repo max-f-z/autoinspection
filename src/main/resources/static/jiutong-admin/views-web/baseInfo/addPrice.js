@@ -133,7 +133,8 @@ addPrice = {
 					var tbody = $("#addPrice-form #serviceId");
 
 					$.each(data.data, function(index, result) {
-						html += "<option value='" + result.id + "'>" + result.name + "</option>"
+						debugger;
+						html += "<option value='" + result.id + "'>" + result.name +"-"+ result.description + "</option>"
 					});
 					tbody.append(html);
 				}

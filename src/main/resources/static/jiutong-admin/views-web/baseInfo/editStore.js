@@ -16,6 +16,7 @@ editStore = {
 
 	// 表单验证
 	validate: function() {
+		debugger;
 		if(null == $("#editStore-form #name").val() || 0 == $("#editStore-form #name").val().length) {
 			alert("您输入的名称为空");
 			return false;
@@ -31,33 +32,42 @@ editStore = {
 			return false;
 		}
 
+		if(null == $("#editStore-form #latitude").val() || 0 == $("#editStore-form #latitude").val().length) {
+			alert("您输入的精度为空");
+			return false;
+		}
+
 		if(null == $("#editStore-form #longitude").val() || 0 == $("#editStore-form #longitude").val().length) {
 			alert("您输入的纬度为空");
 			return false;
 		}
 
-		if(null == $("#editStore-form #latitude").val() || 0 == $("#editStore-form #latitude").val().length) {
-			alert("您输入的经度为空");
-			return false;
-		}
-
 		if(null == $("#editStore-form #phone").val() || 0 == $("#editStore-form #phone").val().length) {
-			alert("您输入的纬度为空");
+			alert("您输入的检测中心电话为空");
 			return false;
+		} else {
+			 if(!checkPhone($("#editStore-form #phone").val())){
+			 	return false;
+			 }
 		}
 
 		if(null == $("#editStore-form #principal").val() || 0 == $("#editStore-form #principal").val().length) {
-			alert("您输入的检测中心电话为空");
+			alert("您输入的负责人为空");
 			return false;
 		}
 
 		if(null == $("#editStore-form #principalPhone").val() || 0 == $("#editStore-form #principalPhone").val().length) {
-			alert("您输入的负责人为空");
+			alert("您输入的负责人电话为空");
 			return false;
+		}else{
+			 if(!checkPhone($("#editStore-form #principalPhone").val())){
+			 	return false;
+			 }
 		}
-		return true;
-	},
 
+		return true;
+
+	},
 	service: {
 
 		doSave: function(callBackFunc) {
@@ -161,3 +171,11 @@ editStore = {
 	}
 }
 editStore.init();
+
+function checkPhone(phone) {
+	if(!(/^1[34578]\d{9}$/.test(phone))) {
+		alert("手机号码有误，请重填");
+		return false;
+	}
+	return true;
+}

@@ -68,7 +68,7 @@ storeList = {
 						html += "<td>" + result.phone + "</td>";
 						html += "<td>" + result.principal + "</td>";
 						html += "<td>" + result.principalPhone + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' style='margin-right:5px' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' style='margin-left:5px' class='btn btn-info' onclick='storeList.service.doClose(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -114,7 +114,7 @@ storeList = {
 						html += "<td>" + result.phone + "</td>";
 						html += "<td>" + result.principal + "</td>";
 						html += "<td>" + result.principalPhone + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='storeList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' style='margin-right:5px' class='btn btn-info' onclick='storeList.service.doDelete(" + result.id + ")'>删除</button><button type='button' style='margin-right:5px' class='btn btn-info' onclick='storeList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);

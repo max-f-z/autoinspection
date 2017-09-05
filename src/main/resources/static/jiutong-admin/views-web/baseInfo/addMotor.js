@@ -61,7 +61,7 @@ addMotor = {
 			var plate = $("#plate").val();
 			var customerName = $("#customerName option:selected").text();
 			var vehicleType = $("#vehicleType option:selected").text();
-
+			var vehicleTypeCode = $("#vehicleType option:selected").val();
 			if(null == plate || "" == plate) {
 				alert("请您输入车牌号");
 				return false;
@@ -72,14 +72,14 @@ addMotor = {
 				return false;
 			}
 			
-			if(null == vehicleType || 0 == vehicleType.val()) {
+			if(null == vehicleType || 0 == $("#vehicleType").val()) {
 				alert("请您输入车牌号");
 				return false;
 			}
 			var data = {
 				plate: plate,
 				customerName: customerName,
-				vehicleType: vehicleType,
+				vehicleType: vehicleTypeCode,
 				tires: tyreArray
 			};
 			debugger
