@@ -65,11 +65,8 @@ public class ServicePriceServiceImpl implements ServicePriceService {
 	}
 
 	@Override
-	public List<ServicePriceDisplayEntity> search(String search) {
-		if (StringUtils.isNullOrEmpty(search)){
-			return servicePriceMapper.listAllServicePrices();
-		}
-		List<ServicePriceDisplayEntity> list = servicePriceMapper.search(search);
+	public List<ServicePriceDisplayEntity> search(String level1,String search) {
+		List<ServicePriceDisplayEntity> list = servicePriceMapper.search(level1,search);
 		return list;
 	}
 	

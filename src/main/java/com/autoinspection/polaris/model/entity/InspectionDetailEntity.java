@@ -8,6 +8,7 @@ public class InspectionDetailEntity extends BaseEntity {
 	private int tirePosition;
 	private String tireId;
 	private String tireBrand;
+	private String tireType;
 	private String stripe;
 	private float pressure;
 	private String depth;
@@ -65,5 +66,13 @@ public class InspectionDetailEntity extends BaseEntity {
 	}
 	public void setBrake(String brake) {
 		this.brake = brake;
+	}
+
+	public String getTireType() {
+		return tireType;
+	}
+
+	public void setTireType(String tireType) {
+		this.tireType = tireType;
 	}
 }

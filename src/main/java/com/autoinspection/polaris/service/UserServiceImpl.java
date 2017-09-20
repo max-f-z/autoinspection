@@ -13,15 +13,15 @@ import com.autoinspection.polaris.vo.user.DeleteUserRequest;
 import com.autoinspection.polaris.vo.user.UpdateUserRequest;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Override
 	public UserEntity getById(Integer id) {
 		return userMapper.getById(id);
 	}
-	
+
 	@Override
 	public Boolean validateUser(String uname, String pwd) {
 		UserEntity user = userMapper.getByNameAndPassword(uname, DigestUtils.sha256Hex(pwd));
@@ -36,25 +36,38 @@ public class UserServiceImpl implements UserService{
 		UserEntity user = userMapper.getByNameAndPassword(uname, DigestUtils.sha256Hex(pwd));
 		return user;
 	}
-	
+
 	@Override
 	public List<UserEntity> listAllUsers() {
 		return userMapper.listAllUsers();
 	}
 
 	@Override
+	public List<UserEntity> listUsersAdmin() {
+		return userMapper.listUsersAdmin();
+	}
+
+	@Override
+	public List<UserEntity> listUsersAdminSearch(String name) {
+		return userMapper.listUsersAdminSearch(name);
+	}
+	
+	@Override
 	public int addUser(AddUserRequest request, int uid) {
 		UserEntity entity = new UserEntity();
-		entity.setName(request.getUserName());
-		entity.setPassword(DigestUtils.sha256Hex(request.getPassword()));
-		entity.setStation(request.getStation());
-		entity.setStationId(request.getStationId());
-		entity.setRole(request.getRole());
-		entity.setOperatorId(uid);
-		
-		userMapper.insertUser(entity);
-		
-		return entity.getId();
+		entity = userMapper.getByName(request.getUserName());
+		if(null == entity){
+			entity.setName(request.getUserName());
+			entity.setPassword(DigestUtils.sha256Hex(request.getPassword()));
+			entity.setStation(request.getStation());
+			entity.setStationId(request.getStationId());
+			entity.setRole(request.getRole());
+			entity.setOperatorId(uid);
+			userMapper.insertUser(entity);
+			return entity.getId();
+		}
+		return 0;
+
 	}
 
 	@Override

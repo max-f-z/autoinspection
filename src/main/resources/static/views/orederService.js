@@ -42,7 +42,7 @@ orederService = {
 					if(data.result != 1) {
 						mui.toast(data.msg);
 						if(data.code == "1001") {
-							window.location.href = "login.html";
+							window.location.href = "login.jsp";
 						}
 						return;
 					}
@@ -68,7 +68,7 @@ orederService = {
 			localStorage.setItem("appointmentName", result.name);
 			localStorage.setItem("date", localStorage.getItem("checkDay"));
 
-			window.location.href = "serviceOrderList.html";
+			window.location.href = "serviceOrderList.jsp";
 		}
 
 	},

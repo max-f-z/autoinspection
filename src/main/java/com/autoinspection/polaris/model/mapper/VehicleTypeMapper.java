@@ -11,4 +11,5 @@ import com.autoinspection.polaris.model.entity.VehicleTypeEntity;
 public interface VehicleTypeMapper {
 	VehicleTypeEntity getById(@Param("id") Integer id);
 	List<VehicleTypeEntity> listVehicleTypes();
+	VehicleTypeEntity getByCode(@Param("code") String code,@Param("type") String type);
 }

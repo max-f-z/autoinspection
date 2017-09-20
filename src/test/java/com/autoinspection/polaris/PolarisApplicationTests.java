@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes = PolarisApplication.class)
 @SpringBootTest
 public class PolarisApplicationTests {
+	
 
 	@Test
 	public void contextLoads() {

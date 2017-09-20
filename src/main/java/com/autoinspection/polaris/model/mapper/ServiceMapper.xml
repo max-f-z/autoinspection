@@ -5,7 +5,17 @@
 		select * from bizservice s where s.ENABLE = 1 and s.id=#{id}
 	</select>
 	<select id="search" resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
-		select * from bizservice where ENABLE = 1 and ( NAME like CONCAT('%', #{search}, '%') or DESCRIPTION like CONCAT('%', #{search}, '%') )
+		select * from bizservice where ENABLE = 1 
+		
+		<if test=" level1 !=null and level1 != '' ">
+			and NAME ＝ #{level1} and  DESCRIPTION like CONCAT('%', #{search}, '%') 
+		</if>
+		
+		<if test=" level1 ==null or level1 == '' ">
+			and  DESCRIPTION like CONCAT('%', #{search}, '%') 
+		</if>
+		
+		
 	</select>
 	<select id="listAllServices" resultType="com.autoinspection.polaris.model.entity.ServiceEntity">
 		select * from bizservice where enable = 1

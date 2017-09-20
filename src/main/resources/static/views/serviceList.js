@@ -31,7 +31,7 @@ serviceList = {
 		// 生成列表
 		doDraw: function(list, rows) {
 			// 加载模板
-			mui.get("serviceList-tmpl.html", function(data) {
+			mui.get("serviceList-tmpl.jsp", function(data) {
 				var container = $("<div ></div>");
 				container.html(data);
 				var authToken = localStorage.getItem("Authorization");
@@ -47,7 +47,7 @@ serviceList = {
 						if(data.result != 1) {
 							mui.toast(data.msg);
 							if(data.code == "1001") {
-								window.location.href = "login.html";
+								window.location.href = "login.jsp";
 							}
 							return;
 						}
@@ -68,14 +68,14 @@ serviceList = {
 						'Authorization': authToken
 					},
 				});
-			}, "html");
+			}, "jsp");
 		},
 
 		showServiceInfo: function(serviceResult) {
 			localStorage.setItem("serviceId", serviceResult.id);
 			localStorage.setItem("serviceName", serviceResult.name);
 			localStorage.setItem("serviceDescription", serviceResult.description);
-			window.location.href = "orderService.html";
+			window.location.href = "orderService.jsp";
 		}
 	},
 

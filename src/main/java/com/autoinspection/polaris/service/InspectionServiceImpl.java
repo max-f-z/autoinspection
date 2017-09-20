@@ -1,5 +1,6 @@
 package com.autoinspection.polaris.service;
 
+import com.autoinspection.polaris.utils.Const;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.autoinspection.polaris.model.entity.InspectionDetailEntity;
 import com.autoinspection.polaris.model.entity.InspectionEntity;
 import com.autoinspection.polaris.model.entity.UserEntity;
+import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
 import com.autoinspection.polaris.model.mapper.InspectionDetailMapper;
 import com.autoinspection.polaris.model.mapper.InspectionMapper;
 import com.autoinspection.polaris.model.mapper.UserMapper;
+import com.autoinspection.polaris.model.mapper.VehicleInfoMapper;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.Inspection.AddInspectionRequest;
@@ -32,6 +35,12 @@ public class InspectionServiceImpl implements InspectionService {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private VehicleInfoMapper vehicleMapper;
+
+	@Autowired
+	private ParametersService parametersService;
 
 	@Override
 	public List<InspectionVo> listInspections(int skip, int pageSize, String plate) {
@@ -46,6 +55,7 @@ public class InspectionServiceImpl implements InspectionService {
 			vo.setServiceMile(entity.getServiceMile());
 			vo.setCreateTime(entity.getCreateTime());
 			vo.setPlate(entity.getPlate());
+			vo.setMaintained(entity.getMaintained());
 			
 			List<InspectionDetailEntity> list = inspectionDetailMapper.listDetails(entity.getId());
 			List<InspectionDetailVo> ds = new ArrayList<InspectionDetailVo>();
@@ -53,7 +63,7 @@ public class InspectionServiceImpl implements InspectionService {
 				InspectionDetailVo dvo = new InspectionDetailVo();
 				dvo.setId(en.getId());
 				dvo.setInspectionId(en.getInspectionId());
-				dvo.setTireBrand(en.getTireBrand());
+				dvo.setTireBrand(parametersService.decode(en.getTireBrand(), Const.TYRE_BRAND_TYPE));
 				dvo.setTirePosition(en.getTirePosition());
 				dvo.setTireId(en.getTireId());
 				dvo.setStripe(en.getStripe());
@@ -105,6 +115,12 @@ public class InspectionServiceImpl implements InspectionService {
 	@Transactional( rollbackFor=Exception.class)
 	@Override
 	public long insertInspection(AddInspectionRequest request, int uid) {
+		VehicleInfoEntity ven = vehicleMapper.getByPlate(request.getPlate());
+		if (ven == null || ven.getId() == 0) {
+			
+		}
+		
+		
 		InspectionEntity entity = new InspectionEntity();
 		entity.setPlate(request.getPlate());
 		entity.setMilometer(request.getMilometer());
@@ -172,5 +188,11 @@ public class InspectionServiceImpl implements InspectionService {
 			}
 		}
 		return rows;
+	}
+
+	@Override
+	public List<InspectionDetailEntity> findTyre(InspectionDetailEntity enity) {
+		
+		return this.inspectionDetailMapper.findTyre(enity);
 	}
 }

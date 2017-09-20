@@ -1,0 +1,88 @@
+<ul class="breadcrumb">
+	<li>
+		<a href="#">首页</a>
+	</li>
+	<li class="active">基础信息维护</li>
+	<li class="active">轮胎库存</li>
+</ul>
+<div class="page-content-wrap page-tabs-item active" id="skuList">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<form class="form-horizontal" role="form">
+						<div class="row">
+							<div class="col-xs-8">
+								<div class="col-xs-4 pull-left">
+									<div class="form-group">
+										<label class="col-md-4 control-label">品牌</label>
+										<div class="col-md-8">
+											<select class="form-control select" id="brand">
+												<option value="0">请选择</option>
+												<option value="1">普利司通</option>
+												<option value="2">米其林</option>
+												<option value="3">固特异</option>
+												<option value="4">倍耐力</option>
+												<option value="5">三角集团</option>
+												<option value="6">住友橡胶</option>
+												<option value="7">横滨橡胶</option>
+												<option value="8">韩泰轮胎</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="col-xs-4 pull-left">
+									<div class="form-group">
+										<label class="col-md-4 control-label">轮胎编码</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="barCode" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-xs-4">
+								<button type="button" class="btn btn-info pull-right" id="searchBtn">搜索</button>
+								<button type="button" class="btn btn-info  pull-right" style="margin-right: 5px;" id="doExpBtn">导入</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="page-content-wrap">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="panel panel-default">
+								<div class="panel-body ">
+									<div class="table-responsive">
+
+										<table class="table table-bordered table-striped table-actions " style="text-align: center;table-layout:fixed">
+											<thead>
+												<tr>
+													<th style="text-align: center" width="100">编号</th>
+													<th style="text-align: center" width="200">品牌</th>
+													<th style="text-align: center" width="200">型号</th>
+													<th style="text-align: center" width="200">轮胎DOT</th>
+													<th style="text-align: center" width="200">花纹</th>
+												</tr>
+											</thead>
+											<tbody id="tbody">
+											
+											</tbody>
+										</table>
+										<div style="text-align: center;" id="skuNoList">暂无数据</div>
+										<div class="pull-right">
+											<ul class="pagination"></ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="../js/page/jBootstrapPage.js"></script>
+<script type="text/javascript" src="../js/core/global.js"></script>
+<script type="text/javascript" src="baseInfo/skuList.js"></script>
+<script type="text/javascript" src="baseInfo/uploadFile.js"></script>

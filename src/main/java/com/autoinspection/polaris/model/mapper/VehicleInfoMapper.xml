@@ -5,15 +5,20 @@
 		select * from bizvehicleinfo where bizvehicleinfo.id=#{id}
 	</select>
 	<select id="getByPlate"  parameterType="java.lang.String"  resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
-		select * from bizvehicleinfo where bizvehicleinfo.PLATE=#{plate}
+		select * from bizvehicleinfo where bizvehicleinfo.PLATE=#{plate} limit 1
 	</select>
 	<select id="listVehicles" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
-		select * from bizvehicleinfo where enable = 1 order by id LIMIT #{skip}, #{pageSize}
+		select * from bizvehicleinfo where enable = 1 order by REGSTATUS desc LIMIT #{skip}, #{pageSize}
+	</select>
+	<select id="getCount" resultType="int">
+		select count(id) from bizvehicleinfo where enable = 1 
 	</select>
 	<insert id="insertVehicle" >
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizvehicleinfo (PLATE, CUSTOMERNAME, VEHICLETYPE, CREATETIME, UPDATETIME, OPERATORID) 
-		values (#{en.plate}, #{en.customerName}, #{en.vehicleType}, #{currentTime}, #{currentTime}, #{operatorId})
+		insert into bizvehicleinfo (PLATE, CUSTOMERNAME, VEHICLETYPE, CREATETIME, UPDATETIME, OPERATORID, line, initialdistance,vehiclemodel, REGSTATUS, REGTIME, REGDATE, STATIONID) 
+		values (#{en.plate}, #{en.customerName}, #{en.vehicleType}, #{currentTime}, #{currentTime}, #{operatorId},#{en.line},#{en.initialDistance},#{en.vehicleModel},
+		#{en.regStatus}, #{en.regTime}, #{en.regDate}, #{en.stationId}
+		)
 		<selectKey keyProperty="en.id" resultType="int">
             select LAST_INSERT_ID()
         </selectKey>
@@ -27,7 +32,43 @@
 		delete from bizvehicleinfo where id = #{id}
 	</delete>
 	<select id="search" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
-		select * from bizvehicleinfo where PLATE like CONCAT('%', #{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%')
+		select * from bizvehicleinfo where enable = 1 and PLATE like CONCAT('%', #{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%')
+		order by REGSTATUS LIMIT #{skip}, #{pageSize}
+	</select>
+	
+	<select id="countVehicles" resultType="Long">
+		select count(*) from bizvehicleinfo where enable = 1 
+		<if test = "search != null and search != ''">
+		and PLATE like CONCAT('%', #{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%')
+		</if>
+	</select>
+	<select id="searchExcludes" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		select * from bizvehicleinfo where (PLATE like CONCAT('%', #{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%'))
+		<if test="list!= null and list.size()>0">
+		and PLATE not in
+		<foreach item="item" index="index" collection="list"
+	             open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	    </if>
 		order by id LIMIT #{skip}, #{pageSize}
 	</select>
+	<select id="listVehiclesExclude" resultType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		select * from bizvehicleinfo where enable = 1 
+		<if test="list!= null and list.size()>0">
+		and PLATE not in 
+		<foreach item="item" index="index" collection="list"
+	             open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	    </if>
+	    LIMIT #{skip}, #{pageSize}
+	    
+	</select>
+	<update id="updateRegStatusById" parameterType="com.autoinspection.polaris.model.entity.VehicleInfoEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizvehicleinfo set REGSTATUS = #{en.regStatus}, REGTIME = #{en.regTime}, REGDATE = #{en.regDate}, STATIONID = #{en.stationId},
+		UPDATETIME= #{currentTime}, OPERATORID= #{operatorId}
+		where id = #{en.id}
+	</update>
 </mapper>

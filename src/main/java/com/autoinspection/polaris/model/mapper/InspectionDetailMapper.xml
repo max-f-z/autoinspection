@@ -6,8 +6,8 @@
 	</select>
 	<insert id="insertInspectionDetail">
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizinspectiondetail (INSPECTIONID, TIREID, TIREBRAND, TIREPOSITION, STRIPE, PRESSURE, DEPTH, BRAKE, CREATETIME, UPDATETIME, OPERATORID) 
-		values (#{en.inspectionId}, #{en.tireId}, #{en.tireBrand}, #{en.tirePosition}, #{en.stripe}, #{en.pressure}, #{en.depth},
+		insert into bizinspectiondetail (INSPECTIONID, TIREID, TIREBRAND, tiretype, TIREPOSITION, STRIPE, PRESSURE, DEPTH, BRAKE, CREATETIME, UPDATETIME, OPERATORID)
+		values (#{en.inspectionId}, #{en.tireId}, #{en.tireBrand}, #{en.tireType}, #{en.tirePosition}, #{en.stripe}, #{en.pressure}, #{en.depth},
 		#{en.brake}, #{currentTime}, #{currentTime}, #{operatorId})
 		<selectKey keyProperty="en.id" resultType="int">
             select LAST_INSERT_ID()
@@ -22,4 +22,7 @@
 	<delete id="deleteInspectionDetail" parameterType="long">
 		delete from bizinspectiondetail where id = #{id}
 	</delete>
+	<select id="findTyre" resultType="com.autoinspection.polaris.model.entity.InspectionDetailEntity">
+		select id from bizinspectiondetail where enable = 1 and  tireId=#{en.tireId} and tireBrand=#{en.tireBrand} and tireType=#{en.tireType}
+	</select>
 </mapper>

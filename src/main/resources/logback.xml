@@ -43,6 +43,7 @@
     <!--<logger name="org.springframework" level="DEBUG"/>-->
     <!--<logger name="org.apache" level="DEBUG"/>-->
     <!--<logger name="org.mybatis.spring" level="DEBUG"/>-->
+    <!--<logger name="com.autoinspection.polaris.model.mapper" level="DEBUG"/>-->
 
     <root level="INFO">
         <appender-ref ref="Console"/>

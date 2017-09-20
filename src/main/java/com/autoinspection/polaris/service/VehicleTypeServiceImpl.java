@@ -23,4 +23,9 @@ public class VehicleTypeServiceImpl implements VehicleTypeService {
 	public List<VehicleTypeEntity> listVehicleTypes() {
 		return vehicleTypeMapper.listVehicleTypes();
 	}
+	
+	@Override
+	public VehicleTypeEntity getByCode(String code, String type) {
+		return vehicleTypeMapper.getByCode(code, type);
+	}
 }

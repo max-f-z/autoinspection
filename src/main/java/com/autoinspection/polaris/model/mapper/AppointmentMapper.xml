@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.autoinspection.polaris.model.mapper.AppointmentMapper" >
-	<insert id="insertAppointment" parameterType="com.autoinspection.polaris.model.entity.AppointmentEntity">
+	<insert id="insertAppointment" parameterType="com.autoinspection.polaris.model.entity.InspectionEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into bizinspection (SLOTID, APPOINTMENTDATE, WXUSERID, SERVICEID, STATIONID, PLATE, CREATETIME, UPDATETIME)
+		values (#{appointmentSlot}, #{appointmentDate}, #{wxUserId}, #{serviceId}, #{stationId}, #{plate}, #{currentTime}, #{currentTime})
+		<selectKey keyProperty="id" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+	</insert >
+	<insert id="insertAppointmentWx" parameterType="com.autoinspection.polaris.model.entity.AppointmentEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into bizappointment (SLOTID, APPOINTMENTDATE, WXUSERID, SERVICEID, STATIONID, PLATE, CREATETIME, UPDATETIME)
 		values (#{appointmentSlot}, #{appointmentDate}, #{wxUserId}, #{serviceId}, #{stationId}, #{plate}, #{currentTime}, #{currentTime})
@@ -27,10 +35,22 @@
 	</select>
 	<select id="listRegistrationsForEndUser" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
 	select ba.id regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
-	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate, bvi.CUSTOMERNAME customerName
 	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
 	left join BizService bs on ba.SERVICEID = bs.id
-	left join BizStation bst on ba.STATIONID = bst.id where ba.STATIONID = #{stationId} and ba.APPOINTMENTDATE = #{regDate}
+	left join BizStation bst on ba.STATIONID = bst.id 
+	left join bizvehicleinfo bvi on ba.PLATE = bvi.PLATE
+	where 1 = 1
+	</select>
+	
+	<select id="listRegistrationsForAdmin" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
+	select ba.id regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate, bvi.CUSTOMERNAME customerName
+	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
+	left join BizService bs on ba.SERVICEID = bs.id
+	left join BizStation bst on ba.STATIONID = bst.id 
+	left join bizvehicleinfo bvi on ba.PLATE = bvi.PLATE
+	where 1 = 1
 	</select>
 	
 	<select id="search" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
@@ -40,9 +60,25 @@
 	left join BizService bs on ba.SERVICEID = bs.id
 	left join BizStation bst on ba.STATIONID = bst.id 
 	left join bizvehicleinfo bvi on ba.PLATE = bvi.PLATE
-	where ba.STATIONID = #{stationId} and ba.APPOINTMENTDATE = #{regDate}
+	where ba.APPOINTMENTDATE = #{regDate}
 	<if test = "search != null">
 		and (bvi.CUSTOMERNAME like CONCAT('%', #{search},'%') or (ba.PLATE like CONCAT('%', #{search}, '%')) )
 	</if>
+	</select>
+	
+	<select id="searchForAdmin" resultType="com.autoinspection.polaris.model.entity.RegistrationDisplayEntity">
+	select ba.id regId, bas.NAME slotName, ba.SLOTID appointmentSlot, bs.NAME serviceName, bs.id serviceId, ba.CREATETIME createTime,
+	ba.STATIONID stationId, bst.NAME stationName, ba.APPOINTMENTDATE appointmentDate, ba.PLATE plate
+	from bizappointment ba left join bizappointmentslot bas on ba.SLOTID = bas.id
+	left join BizService bs on ba.SERVICEID = bs.id
+	left join BizStation bst on ba.STATIONID = bst.id 
+	left join bizvehicleinfo bvi on ba.PLATE = bvi.PLATE
+	where ba.APPOINTMENTDATE = #{regDate}
+	<if test = "search != null">
+		and (bvi.CUSTOMERNAME like CONCAT('%', #{search},'%') or (ba.PLATE like CONCAT('%', #{search}, '%')) )
+	</if>
+	</select>
+	<select id="getSlotNameById" resultType="java.lang.String">
+		select NAME from bizappointmentslot where id = #{id}
 	</select>
 </mapper>

@@ -13,7 +13,8 @@
 		<if test = "district != null">
 			and DISTRICT = #{district}
 		</if>
-		<if test = "search != null">
+		
+		<if test = "search != null" >
 			and NAME like CONCAT('%', #{search},'%')
 		</if>
 	</select>

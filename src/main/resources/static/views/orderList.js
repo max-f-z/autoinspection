@@ -31,7 +31,7 @@ orderList = {
 		// 生成列表
 		doDraw: function(list, rows) {
 			// 加载模板
-			mui.get("orderList-tmpl.html", function(data) {
+			mui.get("orderList-tmpl.jsp", function(data) {
 				var container = $("<div style=''></div>");
 				container.html(data);
 
@@ -49,7 +49,7 @@ orderList = {
 						if(data.result != 1) {
 							mui.toast(data.msg);
 							if(data.code == "1001") {
-								window.location.href = "login.html";
+								window.location.href = "login.jsp";
 							}
 							return;
 						}
@@ -75,7 +75,7 @@ orderList = {
 					}
 				});
 
-			}, "html");
+			}, "jsp");
 		},
 
 		doCancle: function(regId) {
@@ -100,7 +100,7 @@ orderList = {
 							if(data.result != 1) {
 								mui.toast(data.msg);
 								if(data.code == "1001") {
-									window.location.href = "login.html";
+									window.location.href = "login.jsp";
 								}
 								return;
 							}

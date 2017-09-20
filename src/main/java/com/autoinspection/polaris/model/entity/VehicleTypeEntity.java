@@ -8,6 +8,13 @@ public class VehicleTypeEntity {
 	private int axle;
 	private int tireType;
 	private int tireNum;
+	private int backup;
+	public int getBackup() {
+		return backup;
+	}
+	public void setBackup(int backup) {
+		this.backup = backup;
+	}
 	public int getId() {
 		return id;
 	}

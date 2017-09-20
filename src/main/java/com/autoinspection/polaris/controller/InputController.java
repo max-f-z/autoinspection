@@ -44,8 +44,10 @@ import com.autoinspection.polaris.vo.Inspection.UpdateInspectionResponse;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceRequest;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceResponse;
 import com.autoinspection.polaris.vo.Inspection.VehicleInfoRequest;
+import com.autoinspection.polaris.vo.input.ListVehiclesRequest;
 import com.autoinspection.polaris.vo.input.RegistrationVo;
 import com.autoinspection.polaris.vo.input.SearchRegRequest;
+import com.autoinspection.polaris.vo.input.SearchRequest;
 import com.autoinspection.polaris.vo.vehicle.VehicleInfoVo;
 import com.autoinspection.polaris.vo.vehicle.VehicleVo;
 
@@ -74,8 +76,23 @@ public class InputController {
 	@Autowired
 	private VehicleService vehicleService;
 	
+	@RequestMapping(path = "/listVehicles", method = RequestMethod.POST)
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
+	public List<VehicleVo> listVehicles(@RequestBody ListVehiclesRequest request, @CurrentUser UserVo user) throws BizException {
+		List<VehicleVo> vos = vehicleService.listVehicles((request.getPage()-1) * request.getPageSize(),request.getPageSize());
+ 		
+		return vos;
+	}
+	
+	@RequestMapping(path = "/searchVehicles")
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
+	public List<VehicleVo> searchVehicles(@RequestBody SearchRequest request,@CurrentUser UserVo user) throws BizException {
+		List<VehicleVo> vos = vehicleService.search((request.getPage()-1) * request.getPageSize(),request.getPageSize(), request.getSearch());
+		return vos;
+	}
+	
 	@RequestMapping(path = "/listRegistrations", method = RequestMethod.GET)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public List<RegistrationVo> listRegistrations(@CurrentUser UserVo user) throws BizException {
 		int uid = user.getUid();
 		UserEntity userEntity = userService.getById(uid);
@@ -111,7 +128,7 @@ public class InputController {
 	}
 	
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public List<RegistrationVo> search(@RequestBody SearchRegRequest request,@CurrentUser UserVo user) throws BizException {
 		int uid = user.getUid();
 		UserEntity userEntity = userService.getById(uid);
@@ -147,19 +164,19 @@ public class InputController {
 	}
 	
 	@RequestMapping(path = "/inspection/inspections", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public List<InspectionVo> listInspections(@RequestBody GetInspectionsRequest request) {
 		return inspectionService.listInspections((request.getPage()-1) * request.getPageSize(), request.getPageSize(), request.getPlate());
 	}
 	
 	@RequestMapping(path = "/inspection/{id}", method = RequestMethod.GET)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public InspectionVo getInspection(@PathVariable Long id) throws BizException {
 		return inspectionService.getById(id);
 	}
 	
 	@RequestMapping(path = "/inspection/add", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public AddInspectionResponse addInspection(@RequestBody AddInspectionRequest request, @CurrentUser UserVo user) {
 		AddInspectionResponse resp = new AddInspectionResponse();
 		resp.setId(inspectionService.insertInspection(request, user.getUid()));
@@ -167,7 +184,7 @@ public class InputController {
 	}
 	
 	@RequestMapping(path = "/inspection/update", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public UpdateInspectionResponse addInspection(@RequestBody UpdateInspectionRequest request, @CurrentUser UserVo user) {
 		UpdateInspectionResponse resp = new UpdateInspectionResponse();
 		resp.setAffectedRows(inspectionService.updateInspection(request, user.getUid()));
@@ -175,7 +192,7 @@ public class InputController {
 	}
 	
 	@RequestMapping(path = "/inspection/delete", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public DeleteInspectionResponse deleteInspection(@RequestBody DeleteInspectionRequest request, @CurrentUser UserVo user) {
 		DeleteInspectionResponse resp = new DeleteInspectionResponse();
 		resp.setAffectedRows(inspectionService.deletInspection(request));
@@ -183,13 +200,13 @@ public class InputController {
 	}
 	
 	@RequestMapping(path = "/maintenance/info", method = RequestMethod.POST) 
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER})
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN})
 	public MaintenanceVo getMaintenance(@RequestBody GetMaintenanceRequest request) {
 		return maintenanceService.getMaintenance(request.getInspectionId());
 	}
 	
 	@RequestMapping(path = "/maintenance/update", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER})
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN})
 	public UpdateMaintenanceResponse updateMaintenance(@RequestBody UpdateMaintenanceRequest request, @CurrentUser UserVo user) {
 		UpdateMaintenanceResponse resp = new UpdateMaintenanceResponse();
 		int rows = maintenanceService.updateMaintenance(request, user.getUid());
@@ -198,8 +215,8 @@ public class InputController {
 	}
 	
 	@RequestMapping(path = "/maintenance/add", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER})
-	public AddMaintenanceResponse addMaintenance(@RequestBody AddMaintenanceRequest request, @CurrentUser UserVo user) {
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN})
+	public AddMaintenanceResponse addMaintenance(@RequestBody AddMaintenanceRequest request, @CurrentUser UserVo user) throws BizException {
 		AddMaintenanceResponse resp = new AddMaintenanceResponse();
 		long id = maintenanceService.insertMaintenance(request, user.getUid());
 		resp.setId(id);
@@ -207,30 +224,30 @@ public class InputController {
 	}
 	
 	@RequestMapping(value="/services", method = RequestMethod.GET)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public List<ServiceEntity> getStations() {
 		return serviceService.listAllServices();
 	}
 	
 	@RequestMapping(value="/vehicleTypes", method = RequestMethod.GET) 
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public List<VehicleTypeEntity> listVehicleTypes() {
 		return vehicleTypeService.listVehicleTypes();
 	}
 	
 	@RequestMapping(path = "/inspection/vehicleInfo", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public VehicleInfoVo getVehicleInfo(@RequestBody VehicleInfoRequest request) {
 		VehicleVo vo = vehicleService.getDetailByPlate(request.getPlate());
 		VehicleInfoVo info = new VehicleInfoVo();
 		if (vo != null && vo.getId() != 0) {
 			info.setCustomerName(vo.getCustomerName());
 			info.setPlate(vo.getPlate());
-			VehicleTypeEntity en = vehicleTypeService.getById(vo.getVehicleType());
+			VehicleTypeEntity en = vehicleTypeService.getByCode(vo.getVehicleModel(), vo.getVehicleType());
 			info.setTypeCode(en.getCode());
 			info.setTypeName(en.getType());
 			info.setTireNum(en.getTireNum());
-			info.setBackUp(2);
+			info.setBackUp(en.getBackup());
 		}
 		return info;
 	}

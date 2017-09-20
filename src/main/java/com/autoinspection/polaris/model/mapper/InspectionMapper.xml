@@ -7,7 +7,9 @@
 	</select>
 	<select id="listInspections"
 		resultType="com.autoinspection.polaris.model.entity.InspectionEntity">
-		select * from bizinspection where enable = 1 and PLATE = #{plate} order by id
+		select insp.*, IFNULL(maint.id,'0') maintained from bizinspection insp 
+			left join bizmaintenance maint on  insp.id=maint.INSPECTIONID
+			where insp.enable = 1 and  insp.PLATE = #{plate} order by insp.id
 		LIMIT #{skip}, #{pageSize}
 	</select>
 	<insert id="insertInspection">

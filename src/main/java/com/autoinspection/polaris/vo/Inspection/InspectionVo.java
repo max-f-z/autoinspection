@@ -9,6 +9,13 @@ public class InspectionVo {
 	private float serviceMile;
 	private String operatorName;
 	private String createTime;
+	private String maintained;
+	public String getMaintained() {
+		return maintained;
+	}
+	public void setMaintained(String maintained) {
+		this.maintained = maintained;
+	}
 	private List<InspectionDetailVo> details;
 	public List<InspectionDetailVo> getDetails() {
 		return details;

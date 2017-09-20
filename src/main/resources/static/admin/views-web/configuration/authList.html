@@ -1,0 +1,77 @@
+<ul class="breadcrumb">
+    <li><a href="#">首页</a></li>
+    <li >配置中心</li>
+    <li class="active">权限管理</li>
+</ul>
+<form class="form-horizontal">
+    <div class="page-content-wrap page-tabs-item active" id="allAuth">
+        <div class="content-frame">
+            <div class="content-frame-left">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="push-up-0">权限列表</h3>
+                        <div id="jstree_demo_div"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-frame-body push-up-10" >
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3>角色管理</h3>
+                        <div class="form-group">
+                            <label class="col-md-3  control-label" >角色名称</label>
+                            <div class="col-md-9 ">
+                                <div class="input-group" style="width: 80%">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                                <span class="help-block">角色名称请尽量使用汉字</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3  control-label" >角色标识码</label>
+                            <div class="col-md-9 ">
+                                <div class="input-group" style="width: 80%">
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <span class="help-block">角色标识码请尽量使用英文</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3  control-label" >排序</label>
+                            <div class="col-md-9 ">
+                                <div class="input-group" style="width: 80%">
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <span class="help-block">请输入数字</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3  control-label">是否有效</label>
+                            <div class="col-md-9 ">
+                                <div class="input-group" style="width: 40%">
+                                    <select class="form-control select">
+                                        <option>请选择</option>
+                                        <option>是</option>
+                                        <option>否</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3  control-label"></label>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-info " >保存</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-info " >重置</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" src="../js/plugins/jstree/jstree.min.js"></script>
+<script type="text/javascript" src="../js/authList.js"></script>

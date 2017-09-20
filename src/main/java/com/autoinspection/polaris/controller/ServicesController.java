@@ -90,6 +90,6 @@ public class ServicesController {
 	@RequestMapping(value="/services/search", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public List<ServiceEntity> search(@RequestBody SearchRequest request) {
-		return serviceService.search(request.getSearch());
+		return serviceService.search(request.getLevel1(),request.getSearch());
 	}
 }

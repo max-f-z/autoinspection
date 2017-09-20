@@ -4,6 +4,9 @@
 	<select id="getById" resultType="com.autoinspection.polaris.model.entity.VehicleTypeEntity">
 		select * from bizvehicletype where id = #{id}
 	</select>
+	<select id="getByCode" resultType="com.autoinspection.polaris.model.entity.VehicleTypeEntity">
+		select * from bizvehicletype where code = #{code} and type=#{type}
+	</select>
 	<select id="listVehicleTypes" resultType="com.autoinspection.polaris.model.entity.VehicleTypeEntity">
 		select * from bizvehicletype
 	</select>

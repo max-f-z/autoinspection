@@ -8,12 +8,19 @@
 		select * from biztireprice where enable = 1
 	</select>
 	<select id="findByTireBrand" resultType="com.autoinspection.polaris.model.entity.TirePriceEntity">
-		select * from biztireprice where enable = 1 and BRAND like CONCAT('%', #{brand}, '%')
+		select * from biztireprice where enable = 1 
+		<if test=" brand != null and brand != '' ">
+			and BRAND = #{brand}
+		</if>
+		<if test=" search != null and search != '' ">
+			and description like CONCAT('%', #{search},'%')
+		</if>
+		 
 	</select>
 	<insert id="insertTirePrice">
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into biztireprice (BRAND, DESCRIPTION, STRIPE, PRICE, CREATETIME, UPDATETIME, OPERATORID)
-		values (#{brand}, #{description}, #{stripe}, #{price}, #{currentTime}, #{currentTime}, #{operatorId})
+		insert into biztireprice (BRAND, DESCRIPTION, STRIPE, PRICE, CREATETIME, UPDATETIME, OPERATORID,model)
+		values (#{brand}, #{description}, #{stripe}, #{price}, #{currentTime}, #{currentTime}, #{operatorId},#{model})
 		<selectKey keyProperty="id" resultType="int">
 			select LAST_INSERT_ID()
 		</selectKey>

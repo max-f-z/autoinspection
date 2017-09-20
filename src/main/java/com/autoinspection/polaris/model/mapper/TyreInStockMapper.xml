@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.TyreInStockMapper" >
+<!-- 	<select id="getById"  parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.TyreInstockEntity"> -->
+<!-- 		select * from biztyreinstock where bizvehicleinfo.id=#{id} -->
+<!-- 	</select> -->
+	
+	<insert id="insertTyreInStock" >
+		<bind name="currentTime" value="new java.util.Date()" />
+		insert into biztyreinstock (tyrebrand, tyretype, barcode, createtime, OPERATORID,used, enable,supersingle,figure)
+		values (#{en.tyreBrand}, #{en.tyreType}, #{en.barCode},  #{currentTime},  #{operatorId},#{en.used},#{en.enable},#{en.supersingle},#{en.figure})
+		
+	</insert>
+	<update id="updateTyreInStock" parameterType="com.autoinspection.polaris.model.entity.TyreInstockEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update biztyreinstock set PLATE= #{en.plate}, CUSTOMERNAME= #{en.customerName}, VEHICLETYPE= #{en.vehicleType},
+		UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{en.id}
+	</update>
+	<update id="updateStockStatus" parameterType="com.autoinspection.polaris.model.entity.TyreInstockEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update biztyreinstock set used=1, operatorid=#{operatorId}  where barCode= #{en.barCode} and tyrebrand=#{en.tyreBrand} and tyretype=#{en.tyreType}
+	</update>
+	
+	<delete id="deleteTyreInStock" parameterType="int">
+		delete from biztyreinstock where id = #{id}
+	</delete>
+	<select id="search" resultType="com.autoinspection.polaris.model.entity.TyreInstockEntity">
+		select * from biztyreinstock where PLATE like CONCAT('%', #{search},'%') or CUSTOMERNAME like CONCAT('%', #{search}, '%')
+		order by id LIMIT #{skip}, #{pageSize}
+	</select>
+	
+	<select id="getList" resultType="com.autoinspection.polaris.model.entity.TyreInstockEntity" >
+		select * from biztyreinstock 
+		where 1=1  
+		<if test=" en.tyreBrand != null and en.tyreBrand != '' ">
+			and tyrebrand = #{en.tyreBrand}
+		</if>
+		<if test=" en.barcode != null and en.barcode != '' ">
+			and barcode = #{en.barCode}
+		</if>
+		<if test=" en.enable != null and en.enable != '' ">
+			and enable = #{en.enable}
+		</if>
+		order by id LIMIT #{skip}, #{pageSize}
+	</select>
+	
+	<select id="getCount" resultType="int" >
+		select count(id) from biztyreinstock 
+		where 1=1  
+		<if test=" en.tyreBrand != null and en.tyreBrand != '' ">
+			and tyrebrand = #{en.tyreBrand}
+		</if>
+		<if test=" en.barCode != null and en.barCode != '' ">
+			and barcode = #{en.barCode}
+		</if>
+		<if test=" en.enable != null and en.enable != '' ">
+			and enable = #{en.enable}
+		</if>
+	</select>
+	
+	<select id="getTyreInstock" resultType="com.autoinspection.polaris.model.entity.TyreInstockEntity">
+		select id, tyrebrand, barcode, createtime,used,enable from biztyreinstock 
+		
+		where 1=1 
+		<if test=" en.tyreBrand != null and en.tyreBrand != '' ">
+			and tyrebrand = #{en.tyreBrand}
+		</if>
+		<if test=" en.barCode != null and en.barCode != '' ">
+			and barcode = #{en.barCode}
+		</if>
+		<if test=" en.enable != null and en.enable != '' ">
+			and enable = #{en.enable}
+		</if>
+	</select>
+	
+	
+	
+	
+</mapper>

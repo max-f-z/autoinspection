@@ -75,7 +75,7 @@ login = {
 							mui.toast("登录成功");
 							console.log(data.data.token);
 							localStorage.setItem("Authorization", data.data.token);
-							window.location.href = "serviceCenter.html";
+							window.location.href = "serviceCenter.jsp";
 						}
 					});
 				}

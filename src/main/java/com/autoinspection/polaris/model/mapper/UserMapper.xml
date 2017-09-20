@@ -7,9 +7,22 @@
 	<select id="getByNameAndPassword" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.UserEntity">
 		select * from User u where u.enable = 1 and u.NAME=#{name} and u.PASSWORD=#{pwd}
 	</select>
+	<select id="getByName" parameterType="java.lang.String" resultType="com.autoinspection.polaris.model.entity.UserEntity">
+		select * from User u where u.enable = 1 and u.NAME=#{name}
+	</select>
 	<select id="listAllUsers" resultType="com.autoinspection.polaris.model.entity.UserEntity">
 		select * from User u where enable = 1
 	</select>
+	<select id="listUsersAdmin" resultType="com.autoinspection.polaris.model.entity.UserEntity">
+		select * from User u where enable = 1 and role = 1
+	</select>
+	<select id="listUsersAdminSearch" resultType="com.autoinspection.polaris.model.entity.UserEntity">
+		select * from User u where enable = 1 and role = 1
+		<if test = "name != null and name != '' " >
+			and NAME like CONCAT('%', #{name},'%')
+		</if>
+	</select>
+	
 	<insert id="insertUser" parameterType="com.autoinspection.polaris.model.entity.UserEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into user (NAME, PASSWORD, ROLE, STATION, STATIONID,CREATETIME, UPDATETIME, OPERATORID)

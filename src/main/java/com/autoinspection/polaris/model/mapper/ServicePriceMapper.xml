@@ -28,10 +28,24 @@
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where bsp.id = #{id} and bsp.ENABLE = 1
 	</select>
+	
+	<select id="getByServiceIdAndcustomerId"  resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
+		where bsp.serviceId = #{serviceId} and bsp.customerId = #{customerId}
+	</select>
+	
 	<select id="search" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
 		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
-		where (bs.NAME like( CONCAT( '%', #{search}, '%' )) or bsp.PRICEDESC like ( CONCAT( '%', #{search}, '%' ) ) 
-		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  and bsp.ENABLE = 1
+		where 1=1 and bsp.ENABLE = 1
+		<if test=" level1 != null and level1 != '' ">
+			and (bs.NAME = #{level1} or bsp.PRICEDESC like ( CONCAT( '%', #{search}, '%' ) ) 
+		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  
+		</if>
+		<if test=" level1 == null or level1 == '' ">
+			and (bsp.PRICEDESC like ( CONCAT( '%', #{search}, '%' ) ) 
+		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  
+		</if>
 	</select>
 </mapper>

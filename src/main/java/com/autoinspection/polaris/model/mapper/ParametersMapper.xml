@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.ParametersMapper" >	
+
+	<select id="getParametersByType"  resultType="com.autoinspection.polaris.model.entity.ParametersEntity">
+	
+		select id, paratype, keycode,keyvalues,createtime, updatetime, enable,operatorid  from bizsysparameters 
+		
+		where  enable =1
+		<if test=" paraType != null and paraType != '' ">
+			and paratype=#{paraType}
+		</if>
+	</select>
+	
+</mapper>

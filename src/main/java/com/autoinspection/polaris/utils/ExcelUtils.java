@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -49,5 +51,12 @@ public class ExcelUtils {
 	      System.out.println();  
 	    }  
 	  
+	}
+
+	public static String convertCellValueToString(HSSFCell cell) {
+		if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+			return String.valueOf((int) cell.getNumericCellValue());
+		}
+		return cell.getStringCellValue();
 	}
 }

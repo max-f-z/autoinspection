@@ -2,6 +2,7 @@ package com.autoinspection.polaris.service;
 
 import java.util.List;
 
+import com.autoinspection.polaris.model.entity.InspectionDetailEntity;
 import com.autoinspection.polaris.model.entity.InspectionEntity;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.vo.Inspection.AddInspectionRequest;
@@ -16,4 +17,5 @@ public interface InspectionService {
 	public int updateInspection(UpdateInspectionRequest request, int uid);
 	public int deletInspection(DeleteInspectionRequest request);
 	public List<InspectionEntity> search(int skip, int pageSize, String search);
+	public List<InspectionDetailEntity> findTyre(InspectionDetailEntity enity);
 }

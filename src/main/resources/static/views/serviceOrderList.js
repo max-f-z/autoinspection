@@ -19,10 +19,10 @@ serviceOrderList = {
 
 		doRegister: function(){
 			
-			if($("#plateNo").val() == null || $("#plateNo").val() == ""){
+			if($("#plateNo").val() == null || $("#plateNo").val() == "" || $("#plateNo").val() == undefined){
 				mui.toast("请输入车牌号");
+				return
 			}
-			
 			var token = localStorage.getItem("Authorization");
 			var appointmentDate = localStorage.getItem("date");
 			var appointmentSlot = localStorage.getItem("appointmentSlot");
@@ -51,7 +51,7 @@ serviceOrderList = {
 					if(data.result != 1) {
 						mui.toast(data.msg);
 						if(data.code == "1001") {
-							window.location.href = "login.html";
+							window.location.href = "login.jsp";
 						}
 						return;
 					}
@@ -59,7 +59,7 @@ serviceOrderList = {
 					var html = "";
 					$.each(data.data, function(index, result) {
 						mui.alert("恭喜您预约成功");
-						window.location.href = "orderList.html";
+						window.location.href = "orderList.jsp";
 					});
 					$("#time").append(html);
 				}

@@ -8,6 +8,21 @@ public class InspectionEntity extends BaseEntity {
 	private float milometer;
 	private float serviceMile;
 	private String operatorName;
+	private String maintained;
+	private String appointmentDate;
+	private int appointmentSlot;
+	private int wxUserId;
+	private int serviceId;
+	private int stationId;
+	
+	
+	
+	public String getMaintained() {
+		return maintained;
+	}
+	public void setMaintained(String maintained) {
+		this.maintained = maintained;
+	}
 	public String getOperatorName() {
 		return operatorName;
 	}
@@ -38,4 +53,35 @@ public class InspectionEntity extends BaseEntity {
 	public void setServiceMile(float serviceMile) {
 		this.serviceMile = serviceMile;
 	}
+	public String getAppointmentDate() {
+		return appointmentDate;
+	}
+	public void setAppointmentDate(String appointmentDate) {
+		this.appointmentDate = appointmentDate;
+	}
+	public int getAppointmentSlot() {
+		return appointmentSlot;
+	}
+	public void setAppointmentSlot(int appointmentSlot) {
+		this.appointmentSlot = appointmentSlot;
+	}
+	public int getWxUserId() {
+		return wxUserId;
+	}
+	public void setWxUserId(int wxUserId) {
+		this.wxUserId = wxUserId;
+	}
+	public int getServiceId() {
+		return serviceId;
+	}
+	public void setServiceId(int serviceId) {
+		this.serviceId = serviceId;
+	}
+	public int getStationId() {
+		return stationId;
+	}
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
+	}
+	
 }

@@ -13,5 +13,5 @@ public interface ServiceMapper {
 	int insertService(ServiceEntity entity);
 	int updateService(ServiceEntity entity);
 	int deleteService(@Param("id") Integer id, @Param("operatorId") Integer operatorId);
-	List<ServiceEntity> search(@Param("search") String search);
+	List<ServiceEntity> search(@Param("level1") String level1,@Param("search") String search);
 }

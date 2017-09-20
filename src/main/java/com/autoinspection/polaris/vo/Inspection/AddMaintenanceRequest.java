@@ -7,6 +7,7 @@ public class AddMaintenanceRequest {
 	private String plate;
 	private String driverPhone;
 	private List<MaintenanceDetailVo> details;
+	private int costomerId;
 	public long getInspectionId() {
 		return inspectionId;
 	}
@@ -30,5 +31,11 @@ public class AddMaintenanceRequest {
 	}
 	public void setDetails(List<MaintenanceDetailVo> details) {
 		this.details = details;
+	}
+	public int getCostomerId() {
+		return costomerId;
+	}
+	public void setCostomerId(int costomerId) {
+		this.costomerId = costomerId;
 	}
 }

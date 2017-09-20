@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.autoinspection.polaris.model.mapper.VehicleMileageMapper" >
+	<insert id="insertVehicleMileage" parameterType="com.autoinspection.polaris.model.entity.VehicleMileageEntity">
+		<bind name="currentTime" value="new java.util.Date()" />
+		INSERT INTO bizmileage (plate, month, mile, CREATETIME, OPERATORID, period,averagespeed, begmile, endmile)
+			VALUES (#{plate}, #{month}, #{mile}, #{currentTime}, #{operatorId},#{period},#{averageSpeed},#{begMile},#{endMile});
+	</insert>
+
+	<select id="getVehicleMileage"  resultType="com.autoinspection.polaris.model.entity.VehicleMileageEntity">
+		SELECT
+			plate, month, mile, createtime, operatorid, period, averagespeed, begmile, endmile
+			FROM
+			bizmileage
+			<include refid="VehicleMileageWhereClause"/>
+			order by month
+			<if test="offset != null and limit != null">
+				limit #{offset}, #{limit}
+			</if>
+	</select>
+
+	<select id="countVehicleMileage" resultType="Long" >
+		select count(*) from bizmileage
+		<include refid="VehicleMileageWhereClause"/>
+	</select>
+
+	<sql id="VehicleMileageWhereClause">
+		<where>
+			1 = 1
+			<if test="monthStart != null">
+				and month >= #{monthStart}
+			</if>
+			<if test="monthEnd">
+				and #{monthEnd} >= month
+			</if>
+			<if test="plate != null">
+				and plate = #{plate}
+			</if>
+			<if test="plateLike != null">
+				and plate like CONCAT ('%', #{plateLike}, '%')
+			</if>
+		</where>
+	</sql>
+
+</mapper>

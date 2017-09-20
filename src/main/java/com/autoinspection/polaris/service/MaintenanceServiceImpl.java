@@ -1,6 +1,8 @@
 package com.autoinspection.polaris.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.autoinspection.polaris.model.entity.MaintenanceDetailEntity;
 import com.autoinspection.polaris.model.entity.MaintenanceEntity;
+import com.autoinspection.polaris.model.entity.OrderEntity;
+import com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity;
 import com.autoinspection.polaris.model.entity.UserEntity;
+import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
 import com.autoinspection.polaris.model.mapper.MaintenanceDetailMapper;
 import com.autoinspection.polaris.model.mapper.MaintenanceMapper;
+import com.autoinspection.polaris.model.mapper.OrderMapper;
+import com.autoinspection.polaris.model.mapper.ServicePriceMapper;
 import com.autoinspection.polaris.model.mapper.UserMapper;
+import com.autoinspection.polaris.model.mapper.VehicleInfoMapper;
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
+import com.autoinspection.polaris.utils.RandomUtil;
 import com.autoinspection.polaris.vo.Inspection.AddMaintenanceRequest;
 import com.autoinspection.polaris.vo.Inspection.MaintenanceDetailVo;
 import com.autoinspection.polaris.vo.Inspection.MaintenanceVo;
@@ -25,10 +36,29 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	private MaintenanceMapper maintenanceMapper;
 	
 	@Autowired
+	private ServicePriceMapper servicePriceMapper;
+	
+	@Autowired
 	private UserMapper userMapper;
 	
 	@Autowired
+	private VehicleInfoMapper vehicleMapper;
+	
+	@Autowired
 	private MaintenanceDetailMapper maintenanceDetailMapper;
+	
+	
+	@Autowired
+	private OrderMapper orderMapper;
+	
+	
+	private static final int ORDER_START = 0;
+	
+	private static final String IS_VALID = "T";
+	
+	private static final String ZERO ="0.00";
+	
+	
 
 	@Override
 	public MaintenanceVo getMaintenance(long inspectionId) {
@@ -64,9 +94,13 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
 	@Override
 	@Transactional( rollbackFor=Exception.class )
-	public long insertMaintenance(AddMaintenanceRequest request, int uid) {
+	public long insertMaintenance(AddMaintenanceRequest request, int uid) throws BizException {
 		MaintenanceEntity entity = new MaintenanceEntity();
 		
+		MaintenanceEntity exists = maintenanceMapper.getByInspectionId(request.getInspectionId());
+		if (exists != null && exists.getId() != 0) {
+			throw new BizException(ErrorCode.INSPECTIONID_EXISTS);
+		}
 		UserEntity userEntity = userMapper.getById(uid);
 		entity.setOperatorName(userEntity.getName());
 		entity.setInspectionId(request.getInspectionId());
@@ -74,20 +108,47 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		entity.setDriverPhone(request.getDriverPhone());
 		
 		maintenanceMapper.insertMaintenance(entity, uid);
-		
+		BigDecimal orderTotalAmount = new BigDecimal(ZERO);
 		for (MaintenanceDetailVo vo : request.getDetails()) {
 			MaintenanceDetailEntity en = new MaintenanceDetailEntity();
 			en.setMaintenanceId(entity.getId());
 			en.setTireposition(vo.getTirePosition());
 			en.setServicePriceDesc(vo.getServiceDesc());
+			
+			//wei
+			ServicePriceDisplayEntity servicePrice = servicePriceMapper.getByServiceIdAndcustomerId(vo.getServiceId(),41);
+			float price = servicePrice.getPrice();
+			BigDecimal totalPrice = new BigDecimal(price);
+			totalPrice = totalPrice.multiply(new BigDecimal(vo.getNum()));
 			en.setServicePriceId(vo.getServiceId());
 			en.setServicePriceName(vo.getServiceName());
 			en.setNum(vo.getNum());
 			en.setStartTime(vo.getStartTime());
 			en.setEndTime(vo.getEndTime());
+			orderTotalAmount = orderTotalAmount.add(totalPrice);
+			en.setServicePrice(totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 			maintenanceDetailMapper.insertMaintenanceDetail(en, uid);
 		}
 		
+		VehicleInfoEntity en = vehicleMapper.getByPlate(request.getPlate());
+		en.setRegStatus(false);
+		en.setStationId(null);
+		en.setRegDate(null);
+		en.setRegTime(null);
+		vehicleMapper.updateRegStatusById(en, uid);
+		OrderEntity orderEntity = new OrderEntity();
+		orderEntity.setCreateDate(new Date());
+		orderEntity.setOrderNo(RandomUtil.getOrderNo());
+		orderEntity.setTotalAmount(orderTotalAmount.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+		orderEntity.setStatus(ORDER_START);
+		orderEntity.setIsValid(IS_VALID);
+		orderEntity.setCustomerName(request.getPlate());
+		orderEntity.setPlate(request.getPlate());
+		orderEntity.setLeftAmount(ZERO);
+		orderEntity.setOperatorName(userEntity.getName());
+		orderEntity.setPayAmount(ZERO);
+		orderEntity.setMaintenanceId(en.getId());
+		orderMapper.insertOrder(orderEntity);
 		return entity.getId();
 	}
 
@@ -125,5 +186,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 		
 		return rows;
 	}
+	
 
 }

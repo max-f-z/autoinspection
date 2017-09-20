@@ -41,7 +41,7 @@ public class TirePriceController {
 	@RequestMapping(value="/search", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public List<TirePriceEntity> search(@RequestBody SearchTirePriceRequest request) {
-		return tirePriceService.findByBrand(request.search);
+		return tirePriceService.findByBrand(request.getBrand(),request.search);
 	}
 	
 	@RequestMapping(value="/prices/{id}", method = RequestMethod.GET)

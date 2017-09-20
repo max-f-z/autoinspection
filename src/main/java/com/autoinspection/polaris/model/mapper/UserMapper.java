@@ -13,7 +13,14 @@ public interface UserMapper {
 	
 	UserEntity getByNameAndPassword(@Param("name") String name, @Param("pwd") String pwd);
 	
+	UserEntity getByName(@Param("name") String name);
+	
+	
 	List<UserEntity> listAllUsers();
+	
+	List<UserEntity> listUsersAdmin();
+	
+	List<UserEntity> listUsersAdminSearch(@Param("name") String name);
 	
 	int insertUser(UserEntity user);
 	int updateUser(UserEntity user);

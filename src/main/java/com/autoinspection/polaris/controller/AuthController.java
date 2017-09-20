@@ -54,6 +54,8 @@ public class AuthController {
 		} else {
 			resp.setToken(token);
 		}
+		resp.setId(user.getId());
+		resp.setName(user.getName());
 		return resp;
 	}
 	
@@ -62,7 +64,7 @@ public class AuthController {
 		VehicleVo vo = new VehicleVo();
 		vo.setPlate("辽B 66666");
 		vo.setCustomerName("客户");
-		vo.setVehicleType(1);
+		vo.setVehicleType("1");
 		
 		List<VehicleTireVo> tireVos = new ArrayList<VehicleTireVo>();
 		VehicleTireVo tvo1 = new VehicleTireVo();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.autoinspection.polaris.model.mapper.OrderMapper">
+	<insert id="insertOrder">
+		insert into biz_order (CREATEDATE, TOTALAMOUNT,
+		ORDERNO,STATUS,ISVALID,LEFTAMOUNT,PAYAMOUNT,
+		OPERATORNAME,CRETEBY,UPDATEDATE,UPDATEBY,PLATE,CUSTOMERNAME,CUSTOMERTYPE,CUSTOMERTYPENAME,CUSTOMERPHONE,MAINTENANCEID)
+		values
+		(#{order.createDate},#{order.totalAmount},#{order.orderNo},#{order.status},#{order.isValid}
+		,#{order.leftAmount},#{order.payAmount},#{order.operatorName},#{order.createBy}
+		,#{order.updateDate},#{order.updateBy},#{order.plate},#{order.customerName},#{order.customerType},#{order.customerTypeName},
+		#{order.customerPhone},#{order.maintenanceId})
+	</insert>
+
+	<select id="listAllOrders" resultType="com.autoinspection.polaris.model.entity.OrderEntity">
+		select * from biz_order
+		where ISVALID = 'T'
+	</select>
+
+	<select id="listOrdersByKey" resultType="com.autoinspection.polaris.model.entity.OrderEntity">
+		select * from biz_order
+		where ISVALID = 'T'
+		<if test="status != null">
+			and STATUS = #{status}
+		</if>
+		<if test="search != null">
+			and ORDERNO like CONCAT('%', #{search},'%')
+		</if>
+	</select>
+</mapper>

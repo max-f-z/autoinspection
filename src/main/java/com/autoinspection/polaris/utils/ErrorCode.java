@@ -13,6 +13,9 @@ public class ErrorCode {
 	public static final ErrorCode EMPTY_AUTH_CODE = new ErrorCode("1010", "验证码为空");
 	public static final ErrorCode INVALID_AUTH_CODE = new ErrorCode("1011", "验证码错误");
 	public static final ErrorCode ONCE_PER_DAY = new ErrorCode("1012", "ͬ同一车牌号每天只能预约一次");
+	public static final ErrorCode EXISTING_PLATE = new ErrorCode("1013", "ͬ已经存在该车牌号");
+	public static final ErrorCode VEHICLETYPE_TIRES_DO_NOT_MATCH = new ErrorCode("1014", "ͬ车辆类型与轮胎数不匹配");
+	public static final ErrorCode INSPECTIONID_EXISTS = new ErrorCode("1015", "已添加过维修单，请更新维修单");
 	
 	private String code;
 	private String msg;

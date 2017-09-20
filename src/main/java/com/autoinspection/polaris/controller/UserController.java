@@ -29,6 +29,7 @@ import com.autoinspection.polaris.vo.user.UpdateUserResponse;
 @RequestMapping(path = "${api.path}")
 public class UserController {
 	@Autowired
+	
 	private UserService userService;
 	
 	@RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
@@ -38,7 +39,6 @@ public class UserController {
 		if (user == null) {
 			throw new BizException(ErrorCode.USER_NOTFOUND);
 		}
-		
 		return user;
 	}
 	
@@ -48,13 +48,23 @@ public class UserController {
 		return userService.listAllUsers();
 	}
 	
+	@RequestMapping(path = "/users/admin", method = RequestMethod.GET)
+	@Permission( permissionTypes = { PermissionEnum.ADMIN })
+	public List<UserEntity> listUsersAdmin() {
+		return userService.listUsersAdmin();
+	}
+	
+	@RequestMapping(path = "/users/admin/search", method = RequestMethod.POST)
+	@Permission( permissionTypes = { PermissionEnum.ADMIN })
+	public List<UserEntity> listUsersAdminSearch(@RequestBody UpdateUserRequest request) {
+		return userService.listUsersAdminSearch(request.getUserName());
+	}
+	
 	@RequestMapping(path = "/users/add", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public AddUserResponse addUser(@RequestBody AddUserRequest request, @CurrentUser UserVo user) {
 		AddUserResponse resp = new AddUserResponse();
-		
 		resp.setId(userService.addUser(request, user.getUid()));
-		
 		return resp;
 	}
 	

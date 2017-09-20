@@ -24,4 +24,31 @@
 		select * from bizmaintenance where inspectionId = #{inspectionId}
 	</select>
 	
+	<select id="search" parameterType="" resultType= "">
+	select 
+	bm.id,
+	bm.PLATE,
+	bm.CREATETIME,
+	bv.CUSTOMERNAME
+	from bizmaintenance bm left join bizvehicleinfo bv on bm.PLATE = bv.PLATE
+	where 1 = 1
+	<if test = "payStatus != null">
+		and PAYSTATUS = #{payStatus}
+	</if>
+	<if test = "startDate != null and startDate != ''">
+	and CREATETIME &gt; #{startDate} 
+	</if>
+	<if test = "endDate != null and endDate != ''">
+	and CREATETIME &lt; #{endDate}
+	</if>
+	<if test = "isRetail = 0">
+	and CUSTOMERNAME in (select NAME from bizcustomer)
+	</if>
+	<if test = "customerName != null and customerName != ''">
+	and bv.CUSTOMERNAME like concat ('%', #{customerName},'%')
+	</if>
+	<if test = "plate != null and plate != ''">
+	and bm.PLATE like concat ('%', #{plate}, '%')
+	</if>
+	</select>
 </mapper>

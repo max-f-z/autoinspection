@@ -4,10 +4,10 @@
 	<insert id="insertMaintenanceDetail">
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into bizmaintenancedetail (MAINTENANCEID, TIREPOSITION, SERVICEPRICEID, SERVICEPRICENAME, SERVICEPRICEDESC
-		, NUM,STARTTIME,ENDTIME)
+		, NUM,STARTTIME,ENDTIME,SERVICEPRICE)
 		values (#{en.maintenanceId}, #{en.tireposition},
 		#{en.servicePriceId}, #{en.servicePriceName}, #{en.servicePriceDesc},
-		#{en.num}, #{en.startTime}, #{en.endTime})
+		#{en.num}, #{en.startTime}, #{en.endTime}, #{en.servicePrice})
 		<selectKey keyProperty="en.id" resultType="int">
 			select
 			LAST_INSERT_ID()

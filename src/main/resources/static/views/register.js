@@ -64,7 +64,7 @@ register = {
 					mui.toast("注册成功");
 					console.log(data.data.token);
 					localStorage.setItem("Authorization", data.data.token);
-					window.location.href = "login.html";
+					window.location.href = "login.jsp";
 				}
 			});
 		},

@@ -12,5 +12,5 @@ public interface ServiceService {
 	public int insertService(AddServiceRequest request, int uid);
 	public int updateService(UpdateServiceRequest request, int uid);
 	public int deleteService(int id, int uid);
-	public List<ServiceEntity> search(String search);
+	public List<ServiceEntity> search(String level1,String search);
 }

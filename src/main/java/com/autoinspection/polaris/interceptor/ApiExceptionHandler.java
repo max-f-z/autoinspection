@@ -68,7 +68,7 @@ public class ApiExceptionHandler {
     @ResponseBody
     public ResponseEntity<Result<String>> handleUnexpectedServerError(RuntimeException ex) {
     	logger.error("***Error***", ex);
-        return new ResponseEntity<Result<String>>(new Result<String>("", "500", ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<Result<String>>(new Result<String>("", "500", "服务端错误"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	    
 	class ExceptionHandlerBridge extends ResponseEntityExceptionHandler{

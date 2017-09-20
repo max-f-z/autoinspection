@@ -13,5 +13,5 @@ public interface ServicePriceService {
 	public int addServicePrice(AddServicePriceRequest request, int uid);
 	public int updateServicePrice(UpdateServicePriceRequest request, int uid);
 	public int deleteServicePrice(DeleteServicePriceRequest request, int uid);
-	public List<ServicePriceDisplayEntity> search(String search);
+	public List<ServicePriceDisplayEntity> search(String level1,String search);
 }

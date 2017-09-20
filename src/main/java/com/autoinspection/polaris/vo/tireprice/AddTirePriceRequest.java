@@ -3,6 +3,13 @@ package com.autoinspection.polaris.vo.tireprice;
 public class AddTirePriceRequest {
 	private String brand;
 	private String description;
+	private String model;
+	public String getModel() {
+		return model;
+	}
+	public void setModel(String model) {
+		this.model = model;
+	}
 	private String stripe;
 	private float price;
 	public String getBrand() {

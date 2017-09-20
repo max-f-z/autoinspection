@@ -40,7 +40,7 @@ public class ServicePriceController {
 	@RequestMapping(value="/prices/search", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ADMIN })
 	public List<ServicePriceDisplayEntity> search(@RequestBody SearchRequest request) {
-		return spService.search(request.getSearch());
+		return spService.search(request.getLevel1(),request.getSearch());
 	}
 	
 	@RequestMapping(value="/prices/{id}", method = RequestMethod.GET)

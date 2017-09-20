@@ -38,6 +38,18 @@ public class Result<T> implements Serializable {
 		this.result = -1;
 	}
 
+	public static <T> Result<T> ok(T data) {
+		return new Result(data);
+	}
+
+	public static <T> Result<T> ng(T data, String ...code) {
+		String statusCode = "500";
+		if(code != null && code.length > 0) {
+			statusCode = code[0];
+		}
+		return new Result(data, statusCode);
+	}
+
 	public String getCode() {
 		return code;
 	}

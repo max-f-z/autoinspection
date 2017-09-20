@@ -53,13 +53,18 @@ personnal = {
 				} else {
 					var token = localStorage.getItem("Authorization");
 					var phone = $("#phone").val();
+					var authCode = $("#code").val();
+					alert(code);
+					
 					mui.ajax(GLOBAL.SERVER_URL + "wx/api/updateUser", {
 						headers: {
 							'Authorization': token,
 							'Content-Type': 'application/json',
 						},
 						data: {
-							phone: phone
+							phone: phone,
+							authCode:authCode
+							
 						},
 						dataType: 'json', //服务器返回json格式数据
 						type: 'post', //HTTP请求类型
@@ -70,7 +75,7 @@ personnal = {
 							if(data.result != 1) {
 								mui.toast(data.msg);
 								if(data.code == "1001") {
-									window.location.href = "login.html";
+									window.location.href = "login.jsp";
 								}
 								return;
 							}

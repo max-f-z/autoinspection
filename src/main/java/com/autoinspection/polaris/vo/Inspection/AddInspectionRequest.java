@@ -6,6 +6,8 @@ public class AddInspectionRequest {
 	private String plate;
 	private float milometer;
 	private float serviceMile;
+	private int vehicleTypeId;
+	private String customerName;
 	private List<InspectionDetailVo> details;
 	public List<InspectionDetailVo> getDetails() {
 		return details;
@@ -30,5 +32,17 @@ public class AddInspectionRequest {
 	}
 	public void setServiceMile(float serviceMile) {
 		this.serviceMile = serviceMile;
+	}
+	public int getVehicleTypeId() {
+		return vehicleTypeId;
+	}
+	public void setVehicleTypeId(int vehicleTypeId) {
+		this.vehicleTypeId = vehicleTypeId;
+	}
+	public String getCustomerName() {
+		return customerName;
+	}
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
 	}
 }

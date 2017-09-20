@@ -13,4 +13,5 @@ public interface InspectionDetailMapper {
 	int insertInspectionDetail(@Param("en") InspectionDetailEntity entity, @Param("operatorId") Integer operatorId);
 	int updateInspectionDetail(@Param("en") InspectionDetailEntity entity, @Param("operatorId") Integer operatorId);
 	int deleteInspectionDetail(@Param("id") Long id);
+	List<InspectionDetailEntity> findTyre(@Param("en") InspectionDetailEntity entity);
 }

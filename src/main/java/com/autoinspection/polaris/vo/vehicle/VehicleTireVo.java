@@ -3,6 +3,7 @@ package com.autoinspection.polaris.vo.vehicle;
 public class VehicleTireVo {
 	private int vehicleId;
 	private String tireId;
+	private String tireType;
 	private String tireBrand;
 	private int tirePosition;
 	private long id;
@@ -35,5 +36,13 @@ public class VehicleTireVo {
 	}
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getTireType() {
+		return tireType;
+	}
+
+	public void setTireType(String tireType) {
+		this.tireType = tireType;
 	}
 }

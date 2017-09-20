@@ -16,6 +16,7 @@ public class MaintenanceDetailVo {
 	private int num;
 	private String startTime;
 	private String endTime;
+	private String servicePrice;
 	public long getMaintenanceId() {
 		return maintenanceId;
 	}
@@ -65,4 +66,11 @@ public class MaintenanceDetailVo {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
+	public String getServicePrice() {
+		return servicePrice;
+	}
+	public void setServicePrice(String servicePrice) {
+		this.servicePrice = servicePrice;
+	}
+	
 }

@@ -16,6 +16,10 @@ public interface UserService {
 
 	public List<UserEntity> listAllUsers();
 	
+	public List<UserEntity> listUsersAdmin();
+	
+	public List<UserEntity> listUsersAdminSearch(String name);
+	
 	public int addUser(AddUserRequest request, int uid);
 	
 	public int updateUser(UpdateUserRequest request, int uid);

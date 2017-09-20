@@ -58,10 +58,8 @@ public class ServiceServiceImpl implements ServiceService {
 	}
 
 	@Override
-	public List<ServiceEntity> search(String search) {
-		if (StringUtils.isNullOrEmpty(search)) {
-			return serviceMapper.listAllServices();
-		}
-		return serviceMapper.search(search);
+	public List<ServiceEntity> search(String level1,String search) {
+		
+		return serviceMapper.search(level1,search);
 	}
 }

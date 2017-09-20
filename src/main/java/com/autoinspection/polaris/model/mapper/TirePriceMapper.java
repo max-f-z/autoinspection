@@ -11,7 +11,7 @@ import com.autoinspection.polaris.model.entity.TirePriceEntity;
 public interface TirePriceMapper {
 	TirePriceEntity getById(@Param("id") Integer id);
 	List<TirePriceEntity> listTirePrices();
-	List<TirePriceEntity> findByTireBrand(@Param("brand") String brand);
+	List<TirePriceEntity> findByTireBrand(@Param("brand") String brand, @Param("search") String search);
 	int insertTirePrice(TirePriceEntity entity);
 	int updateTirePrice(TirePriceEntity entity);
 	int deleteTirePrice(@Param("id") Integer id, @Param("operatorId") Integer operatorId);

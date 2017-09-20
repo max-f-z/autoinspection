@@ -15,5 +15,7 @@ public interface ServicePriceMapper {
 	int insertServicePrice(ServicePriceEntity entity);
 	int updateServicePrice(ServicePriceEntity entity);
 	int deleteServicePrice(@Param("id") Integer id, @Param("operatorId") Integer operatorId);
-	List<ServicePriceDisplayEntity> search(@Param("search") String search);
+	List<ServicePriceDisplayEntity> search(@Param("level1") String level1,@Param("search") String search);
+	ServicePriceDisplayEntity getByServiceIdAndcustomerId(@Param("serviceId") Integer serviceId,@Param("customerId") Integer customerId);
+	
 }

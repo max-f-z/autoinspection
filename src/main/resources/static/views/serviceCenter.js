@@ -30,7 +30,7 @@ serviceCenter = {
 		// 生成列表
 		doDraw: function(list, rows) {
 			// 加载模板
-			mui.get("serviceCenter-tmpl.html", function(data) {
+			mui.get("serviceCenter-tmpl.jsp", function(data) {
 				var container = $("<div style=''></div>");
 				container.html(data);
 				var authToken = localStorage.getItem("Authorization");
@@ -47,7 +47,7 @@ serviceCenter = {
 						if(data.result != 1) {
 							mui.toast(data.msg);
 							if(data.code == "1001") {
-								window.location.href = "login.html";
+								window.location.href = "login.jsp";
 							}
 							return;
 						}
@@ -72,7 +72,7 @@ serviceCenter = {
 					},
 				});
 
-			}, "html");
+			}, "jsp");
 		},
 		doMap: function() {
 			window.location.href = "http://uri.amap.com/navigation?from=116.478346,39.997361,startpoint&to=116.3246,39.966577,endpoint&via=116.402796,39.936915,midwaypoint&mode=car&policy=1&src=mypage&coordinate=gaode&callnative=0"
@@ -83,7 +83,7 @@ serviceCenter = {
 			localStorage.setItem("stationId", serviceResult.id);
 			localStorage.setItem("stationName", serviceResult.name);
 			localStorage.setItem("stationAddress", serviceResult.address);
-			window.location.href = "serviceList.html"
+			window.location.href = "serviceList.jsp"
 		}
 
 	},

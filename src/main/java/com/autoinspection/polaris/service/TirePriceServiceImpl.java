@@ -27,8 +27,8 @@ public class TirePriceServiceImpl implements TirePriceService {
 	}
 
 	@Override
-	public List<TirePriceEntity> findByBrand(String brand) {
-		return tirePriceMapper.findByTireBrand(brand);
+	public List<TirePriceEntity> findByBrand(String brand,String search) {
+		return tirePriceMapper.findByTireBrand(brand,search);
 	}
 
 	@Override

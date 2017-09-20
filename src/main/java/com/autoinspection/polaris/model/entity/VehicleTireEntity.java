@@ -10,6 +10,7 @@ public class VehicleTireEntity extends BaseEntity implements Serializable {
 	private long id;
 	private int vehicleId;
 	private String tireId;
+	private String tireType;
 	private String tireBrand;
 	private int tirePosition;
 	
@@ -42,5 +43,13 @@ public class VehicleTireEntity extends BaseEntity implements Serializable {
 	}
 	public void setTirePosition(int tirePosition) {
 		this.tirePosition = tirePosition;
+	}
+
+	public String getTireType() {
+		return tireType;
+	}
+
+	public void setTireType(String tireType) {
+		this.tireType = tireType;
 	}
 }
