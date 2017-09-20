@@ -32,9 +32,13 @@ addMail = {
 			return false;
 		}
 
-		if(null == $("#addMail-form #contactPhone").val()||  0 == $("#addMail-form #contactPhone	").val().length) {
+		if(null == $("#addMail-form #contactPhone").val()||  0 == $("#addMail-form #contactPhone").val().length) {
 			alert("您的输入的联系电话为空");
 			return false;
+		}else{
+			if(!checkPhone($("#addMail-form #contactPhone").val())){
+				return false;
+			}
 		}
 
 		if(null == $("#addMail-form #address").val() ||  0 == $("#addMail-form #address").val().length ) {
@@ -96,3 +100,11 @@ addMail = {
 	init: function() {}
 }
 addMail.init();
+
+function checkPhone(phone) {
+	if(!(/^1[34578]\d{9}$/.test(phone))) {
+		alert("手机号码有误，请重填");
+		return false;
+	}
+	return true;
+}

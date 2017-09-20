@@ -154,7 +154,7 @@ editPrice = {
 					var tbody = $("#editPrice-form #serviceId");
 
 					$.each(data.data, function(index, result) {
-						html += "<option value='" + result.id + "'>" + result.name + "</option>"
+						html += "<option value='" + result.id + "'>" + result.name + "-" + result.description + "</option>"
 					});
 					tbody.append(html);
 				}

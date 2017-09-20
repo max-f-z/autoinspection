@@ -16,6 +16,7 @@ serviceList = {
 		$("#serviceList #addBtn").on("click", serviceList.service.doAdd);
 
 		$("#serviceList #searchBtn").on("click", serviceList.service.doSearch);
+		
 
 	},
 
@@ -57,10 +58,10 @@ serviceList = {
 						console.log(result);
 						html += "<tr>";
 						var no = index + 1;
-						html += "<td>" + result.id + "</td>";
+						html += "<td>" + no + "</td>";
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.description + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' style='margin-right:5px' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' style='margin-left:5px' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -95,10 +96,10 @@ serviceList = {
 						console.log(result);
 						html += "<tr>";
 						var no = index + 1;
-						html += "<td>" + result.id + "</td>";
+						html += "<td>" + no + "</td>";
 						html += "<td>" + result.name + "</td>";
 						html += "<td>" + result.description + "</td>";
-						html += "<td><button type='button' class='btn btn-info' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
+						html += "<td><button type='button' class='btn btn-info' style='margin-right:5px' onclick='serviceList.service.doDelete(" + result.id + ")'>删除</button><button type='button' style='margin-left:5px' class='btn btn-info' onclick='serviceList.service.doEdit(" + result.id + ")'>查看</button></td>";
 						html += "</tr>";
 					});
 					tbody.append(html);
@@ -137,6 +138,7 @@ serviceList = {
 
 			});
 		},
+		
 		doClose: function(id) {
 			swal({
 				title: "您确定要禁用吗？",

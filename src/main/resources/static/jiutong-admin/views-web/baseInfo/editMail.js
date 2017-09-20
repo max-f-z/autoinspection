@@ -16,38 +16,42 @@ editMail = {
 
 	// 表单验证
 	validate: function() {
-		if(null == $("#editMail-form #name").val() || 0 == $("#editMail-form #name").val().length) {
+
+		if(null == $("#addMail-form #name").val() ||  0 == $("#addMail-form #name").val().length) {
 			alert("您输入的客户名称为空");
 			return false;
 		}
 
-		if(null == $("#editMail-form #code").val() || 0 == $("#editMail-form #code").val().length) {
+		if(null == $("#addMail-form #code").val()||  0 == $("#addMail-form #code").val().length) {
 			alert("您输入的客户代码为空");
 			return false;
 		}
 
-		if(null == $("#editMail-form #contactName").val() || 0 == $("#editMail-form #contactName").val().length) {
+		if(null == $("#addMail-form #contactName").val() ||  0 == $("#addMail-form #contactName").val().length ) {
 			alert("您输入的联系人为空");
 			return false;
 		}
 
-		if(null == $("#editMail-form #contactPhone").val() || 0 == $("#editMail-form #contactPhone").val().length) {
+		if(null == $("#addMail-form #contactPhone").val()||  0 == $("#addMail-form #contactPhone").val().length) {
 			alert("您的输入的联系电话为空");
 			return false;
+		}else{
+			if(!checkPhone($("#addMail-form #contactPhone").val())){
+				return false;
+			}
 		}
 
-		if(null == $("#editMail-form #address").val() || 0 == $("#editMail-form #address").val().length) {
+		if(null == $("#addMail-form #address").val() ||  0 == $("#addMail-form #address").val().length ) {
 			alert("您的输入的地址为空");
 			return false;
 		}
 
-		if(null == $("#editMail-form #salesman").val() || 0 == $("#editMail-form #salesman").val().length) {
+		if(null == $("#addMail-form #salesman").val() ||  0 == $("#addMail-form #salesman").val().length ) {
 			alert("您的输入的销售员为空");
 			return false;
 		}
 		return true;
 	},
-
 	service: {
 
 		doSave: function(callBackFunc) {
@@ -118,3 +122,11 @@ editMail = {
 	}
 }
 editMail.init();
+
+function checkPhone(phone) {
+	if(!(/^1[34578]\d{9}$/.test(phone))) {
+		alert("手机号码有误，请重填");
+		return false;
+	}
+	return true;
+}

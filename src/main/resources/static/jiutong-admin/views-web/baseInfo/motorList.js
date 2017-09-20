@@ -131,6 +131,7 @@ motorList = {
 
 					var html = "";
 					$.each(data.data, function(index, result) {
+						console.log(result);
 						html += '<table class="table table-striped">';
 						html += '<tr>';
 						html += '<td width="200">编号</td>';
@@ -140,7 +141,12 @@ motorList = {
 						html += '<td><strong>客户</strong></td>';
 						html += '<td class="text-right" id="costermName"><strong>' + result.customerName + '</strong></td>';
 						html += '<td><strong>车辆类型编号</strong></td>';
-						html += '<td class="text-right"><strong><span id="tyreNo">' + result.vehicleType + '</span></strong></td>';
+						if(result.vehicleType == 1){
+							html += '<td class="text-right"><strong><span id="tyreNo">牵引车</span></strong></td>';
+						}else{
+							html += '<td class="text-right"><strong><span id="tyreNo">挂车</span></strong></td>';
+						}
+						
 						html += '<td><strong>操作</strong></td>';
 						html += "<td><button type='button' class='btn btn-info' onclick='motorList.service.doDelete(" + result.id + ")'>删除</button></td>";
 						html += '</tr>';

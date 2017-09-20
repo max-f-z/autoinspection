@@ -22,37 +22,49 @@ addStore = {
 			return false;
 		}
 
-		if(null == $("#addStore-form #district").text() ||  0 == $("#addStore-form #district").val()) {
+		if(null == $("#addStore-form #district").text() || 0 == $("#addStore-form #district").val()) {
 			alert("您输入的地区为空");
 			return false;
 		}
 
-		if(null == $("#addStore-form #address").val()||  0 == $("#addStore-form #address").val().length) {
+		if(null == $("#addStore-form #address").val() || 0 == $("#addStore-form #address").val().length) {
 			alert("您输入的详细地址为空");
 			return false;
 		}
 
-		if(null == $("#addStore-form #latitude").val()||  0 == $("#addStore-form #latitude").val().length) {
+		if(null == $("#addStore-form #latitude").val() || 0 == $("#addStore-form #latitude").val().length) {
 			alert("您输入的精度为空");
 			return false;
 		}
 
-		if(null == $("#addStore-form #phone").val()||  0 == $("#addStore-form #phone").val().length) {
+		if(null == $("#addStore-form #longitude").val() || 0 == $("#addStore-form #longitude").val().length) {
 			alert("您输入的纬度为空");
 			return false;
 		}
 
-		if(null == $("#addStore-form #principal").val()|| 0 == $("#addStore-form #principal").val().length) {
+		if(null == $("#addStore-form #phone").val() || 0 == $("#addStore-form #phone").val().length) {
 			alert("您输入的检测中心电话为空");
 			return false;
+		} else {
+			 if(!checkPhone($("#addStore-form #phone").val())){
+			 	return false;
+			 }
 		}
 
-
-		if(null == $("#addStore-form #principalPhone").val()|| 0 == $("#addStore-form #principal").val().length) {
-			alert("您输入的负责电话为空");
+		if(null == $("#addStore-form #principal").val() || 0 == $("#addStore-form #principal").val().length) {
+			alert("您输入的负责人为空");
 			return false;
 		}
-		
+
+		if(null == $("#addStore-form #principalPhone").val() || 0 == $("#addStore-form #principalPhone").val().length) {
+			alert("您输入的负责人电话为空");
+			return false;
+		}else{
+			 if(!checkPhone($("#addStore-form #principalPhone").val())){
+			 	return false;
+			 }
+		}
+
 		return true;
 
 	},
@@ -61,10 +73,10 @@ addStore = {
 
 		doSave: function(callBackFunc) {
 			debugger;
-			if(!addStore.validate()){
+			if(!addStore.validate()) {
 				return false;
 			}
-			
+
 			var name = $("#addStore-form #name").val();
 			var district = $("#addStore-form #district option:selected").text();
 			var address = $("#addStore-form #address").val();
@@ -106,3 +118,11 @@ addStore = {
 	init: function() {}
 }
 addStore.init();
+
+function checkPhone(phone) {
+	if(!(/^1[34578]\d{9}$/.test(phone))) {
+		alert("手机号码有误，请重填");
+		return false;
+	}
+	return true;
+}
