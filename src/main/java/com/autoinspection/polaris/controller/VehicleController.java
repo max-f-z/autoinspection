@@ -249,28 +249,33 @@ public class VehicleController {
         vo.setVehicleType(vehicleType);
         //车型编码
         vo.setVehicleModel(convertCellValueToString(row.getCell(2)));
+        //业务类型
+        vo.setBizType(convertCellValueToString(row.getCell(3)));
         //路线
-        vo.setLine(convertCellValueToString(row.getCell(3)));
+        vo.setLine(convertCellValueToString(row.getCell(4)));
         //初始里程
-        vo.setInitialDistance(convertCellValueToString(row.getCell(4)));
+        vo.setInitialDistance(convertCellValueToString(row.getCell(5)));
 
         List<VehicleTireVo> tires = new ArrayList<VehicleTireVo>();
-        for (int cnt = 5; cnt < idAndTireNumMap.get(convertCellValueToString(row.getCell(2)).concat(vehicleType)) * 3 + 5; ) {
+        for (int cnt = 6; cnt < idAndTireNumMap.get(convertCellValueToString(row.getCell(2)).concat(vehicleType)) * 4 + 6; ) {
           VehicleTireVo tireVo = new VehicleTireVo();
           tireVo.setTireId(convertCellValueToString(row.getCell(cnt)));
           tireVo.setTireBrand(convertCellValueToString(row.getCell(cnt + 1)));
           tireVo.setTireType(convertCellValueToString(row.getCell(cnt + 2)));
-          tireVo.setTirePosition((cnt -5) / 3 + 1);
+          tireVo.setFigure(convertCellValueToString(row.getCell(cnt + 3)));
+          tireVo.setTirePosition((cnt -6) / 4 + 1);
           tires.add(tireVo);
-          cnt = cnt + 3;
+          cnt = cnt + 4;
         }
         //备胎
-        String b1Id = convertCellValueToString(row.getCell(12 * 3 + 5));
-        String b1Brand = convertCellValueToString(row.getCell(12 * 3 + 6));
-        String b1type = convertCellValueToString(row.getCell(12 * 3 + 7));
-        String b2Id = convertCellValueToString(row.getCell(13 * 3 + 5));
-        String b2Brand = convertCellValueToString(row.getCell(13 * 3 + 6));
-        String b2type = convertCellValueToString(row.getCell(13 * 3 + 7));
+        String b1Id = convertCellValueToString(row.getCell(12 * 4 + 5));
+        String b1Brand = convertCellValueToString(row.getCell(12 * 4 + 6));
+        String b1type = convertCellValueToString(row.getCell(12 * 4 + 7));
+        String b1Figure = convertCellValueToString(row.getCell(12 * 4 + 8));
+        String b2Id = convertCellValueToString(row.getCell(13 * 4 + 5));
+        String b2Brand = convertCellValueToString(row.getCell(13 * 4 + 6));
+        String b2type = convertCellValueToString(row.getCell(13 * 4 + 7));
+        String b2Figure = convertCellValueToString(row.getCell(13*5+8));
 
         if (org.springframework.util.StringUtils.isEmpty(b1Id) ||
             org.springframework.util.StringUtils.isEmpty(b1Brand) ||
@@ -281,6 +286,7 @@ public class VehicleController {
           tireVo.setTireBrand(b1Brand);
           tireVo.setTireType(b1type);
           tireVo.setTirePosition(13);
+          tireVo.setFigure(b1Figure);
           tires.add(tireVo);
         }
         if (org.springframework.util.StringUtils.isEmpty(b2Id) ||
@@ -292,6 +298,7 @@ public class VehicleController {
           tireVo.setTireBrand(b2Brand);
           tireVo.setTirePosition(14);
           tireVo.setTireType(b2type);
+          tireVo.setFigure(b2Figure);
           tires.add(tireVo);
         }
         vo.setTires(tires);
@@ -384,7 +391,7 @@ public class VehicleController {
         continue;
       }
       //车辆信息和轮胎数据必填项校验
-      for (int j = 0; j < tireNum * 3 + 5; j++) {
+      for (int j = 0; j < tireNum * 4 + 6; j++) {
         if (org.springframework.util.StringUtils
             .isEmpty(convertCellValueToString(row.getCell(j)))) {
           failedRows.add(i);
@@ -417,6 +424,7 @@ public class VehicleController {
       @RequestParam(value = "size", required = false) Integer size,
       @RequestParam(value = "monthStart", required = false) String monthStart,
       @RequestParam(value = "monthEnd", required = false) String monthEnd,
+      @RequestParam(value = "customerName", required = false) String customerName,
       @RequestParam(value = "plateLike", required = false) String plateLike) {
 	  SimpleDateFormat bartDateFormat =  new SimpleDateFormat("yyyy-MM-dd"); 
     Map<String, Object> parameters = new HashMap<>();

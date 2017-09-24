@@ -22,9 +22,7 @@ private String plate;
   private int minutes;
   private int seconds;
   
-  
-  
-  public String getPeriod() {
+public String getPeriod() {
 	return period;
 }
 

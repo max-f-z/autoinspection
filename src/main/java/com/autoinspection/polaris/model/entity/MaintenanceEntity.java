@@ -5,15 +5,15 @@ import com.autoinspection.polaris.model.BaseEntity;
 public class MaintenanceEntity extends BaseEntity{
 	private long id;
 	private long inspectionId;
-	private boolean payStatus;
+	private Integer payStatus;
 	private String plate;
 	private String driverPhone;
 	private String operatorName;
 	
-	public boolean getPayStatus() {
+	public Integer getPayStatus() {
 		return payStatus;
 	}
-	public void setPayStatus(boolean payStatus) {
+	public void setPayStatus(Integer payStatus) {
 		this.payStatus = payStatus;
 	}
 	public long getId() {

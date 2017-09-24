@@ -22,7 +22,14 @@ public class VehicleInfoEntity extends BaseEntity implements Serializable {
 	private String regTime;
 	private String regDate;
 	private Integer stationId;
+	private String bizType;
 	
+	public String getBizType() {
+		return bizType;
+	}
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
 	public Integer getStationId() {
 		return stationId;
 	}

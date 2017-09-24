@@ -1,10 +1,11 @@
 package com.autoinspection.polaris.service;
 
-import java.util.List;
-
-import com.autoinspection.polaris.model.entity.OrderPayEntity;
+import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.vo.payment.PaymentSearchRequest;
+import com.autoinspection.polaris.vo.payment.PaymentSearchResp;
+import com.autoinspection.polaris.vo.payment.PaymentUpdateReq;
 
 public interface PaymentService {
-	public List<OrderPayEntity> searchOrder(PaymentSearchRequest request);
+	public PaymentSearchResp searchOrder(PaymentSearchRequest request) throws BizException;
+	public void updateStatus(PaymentUpdateReq req, int operatorId) throws BizException;
 }

@@ -13,7 +13,14 @@ public class VehicleTireEntity extends BaseEntity implements Serializable {
 	private String tireType;
 	private String tireBrand;
 	private int tirePosition;
+	private String figure;
 	
+	public String getFigure() {
+		return figure;
+	}
+	public void setFigure(String figure) {
+		this.figure = figure;
+	}
 	public long getId() {
 		return id;
 	}

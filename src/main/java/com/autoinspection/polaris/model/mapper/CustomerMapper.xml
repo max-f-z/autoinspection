@@ -4,6 +4,9 @@
 	<select id="getById" parameterType="java.lang.Integer"  resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
 		select * from bizcustomer c where c.id=#{id}
 	</select>
+	<select id="getByCode" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
+		select * from bizcustomer c where c.CODE=#{code}
+	</select>
 	<select id="listAllCustomers" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
 		select * from bizcustomer where enable = 1 
 	</select>

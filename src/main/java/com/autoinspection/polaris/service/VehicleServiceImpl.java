@@ -123,19 +123,20 @@ public class VehicleServiceImpl implements VehicleService {
 		entity.setCustomerName(vo.getCustomerName());
 		entity.setVehicleType(vo.getVehicleType());
 		entity.setVehicleModel(vo.getVehicleModel());
+		entity.setBizType(vo.getBizType());
 		
 		vehicleMapper.insertVehicle(entity, uid);
 
-		InspectionEntity inspectionEntity = new InspectionEntity();
-		inspectionEntity.setPlate(vo.getPlate());
-		inspectionEntity.setOperatorName("admin");
-		inspectionMapper.insertInspection(inspectionEntity, uid);
-
-		MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
-		maintenanceEntity.setInspectionId(inspectionEntity.getId());
-		maintenanceEntity.setPlate(vo.getPlate());
-		maintenanceEntity.setOperatorName("admin");
-		maintenanceMapper.insertMaintenance(maintenanceEntity, uid);
+//		InspectionEntity inspectionEntity = new InspectionEntity();
+//		inspectionEntity.setPlate(vo.getPlate());
+//		inspectionEntity.setOperatorName("admin");
+//		inspectionMapper.insertInspection(inspectionEntity, uid);
+//
+//		MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
+//		maintenanceEntity.setInspectionId(inspectionEntity.getId());
+//		maintenanceEntity.setPlate(vo.getPlate());
+//		maintenanceEntity.setOperatorName("admin");
+//		maintenanceMapper.insertMaintenance(maintenanceEntity, uid);
 
 		for (VehicleTireVo tireVo : vo.getTires()) {
 			VehicleTireEntity tireEntity = new VehicleTireEntity();
@@ -144,24 +145,25 @@ public class VehicleServiceImpl implements VehicleService {
 			tireEntity.setTireId(tireVo.getTireId());
 			tireEntity.setTirePosition(tireVo.getTirePosition());
 			tireEntity.setTireType(tireVo.getTireType());
+			tireEntity.setFigure(tireVo.getFigure());
 			vehicleTireMapper.insertVehicleTire(tireEntity, uid);
 
-			InspectionDetailEntity inspectionDetailEntity = new InspectionDetailEntity();
-			inspectionDetailEntity.setInspectionId(inspectionEntity.getId());
-			inspectionDetailEntity.setTireBrand(tireVo.getTireBrand());
-			inspectionDetailEntity.setTireId(tireVo.getTireId());
-			inspectionDetailEntity.setTirePosition(tireVo.getTirePosition());
-			inspectionDetailEntity.setTireType(tireVo.getTireType());
-			inspectionDetailMapper.insertInspectionDetail(inspectionDetailEntity, uid);
-
-			MaintenanceDetailEntity maintenanceDetailEntity = new MaintenanceDetailEntity();
-			maintenanceDetailEntity.setMaintenanceId(maintenanceEntity.getId());
-			maintenanceDetailEntity.setTireposition(tireVo.getTirePosition());
-			maintenanceDetailEntity.setServicePriceId(8);
-			maintenanceDetailEntity.setServicePriceName("租赁服务");
-			maintenanceDetailEntity.setServicePriceDesc("租赁服务");
-			maintenanceDetailEntity.setNum(1);
-			maintenanceDetailMapper.insertMaintenanceDetail(maintenanceDetailEntity, uid);
+//			InspectionDetailEntity inspectionDetailEntity = new InspectionDetailEntity();
+//			inspectionDetailEntity.setInspectionId(inspectionEntity.getId());
+//			inspectionDetailEntity.setTireBrand(tireVo.getTireBrand());
+//			inspectionDetailEntity.setTireId(tireVo.getTireId());
+//			inspectionDetailEntity.setTirePosition(tireVo.getTirePosition());
+//			inspectionDetailEntity.setTireType(tireVo.getTireType());
+//			inspectionDetailMapper.insertInspectionDetail(inspectionDetailEntity, uid);
+//
+//			MaintenanceDetailEntity maintenanceDetailEntity = new MaintenanceDetailEntity();
+//			maintenanceDetailEntity.setMaintenanceId(maintenanceEntity.getId());
+//			maintenanceDetailEntity.setTireposition(tireVo.getTirePosition());
+//			maintenanceDetailEntity.setServicePriceId(8);
+//			maintenanceDetailEntity.setServicePriceName("租赁服务");
+//			maintenanceDetailEntity.setServicePriceDesc("租赁服务");
+//			maintenanceDetailEntity.setNum(1);
+//			maintenanceDetailMapper.insertMaintenanceDetail(maintenanceDetailEntity, uid);
 			//更新库存状态
 			TyreInstockEntity entityParam = new TyreInstockEntity();
 			entityParam.setBarCode(tireVo.getTireId());

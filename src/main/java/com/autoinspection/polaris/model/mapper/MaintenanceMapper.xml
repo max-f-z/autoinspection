@@ -24,12 +24,38 @@
 		select * from bizmaintenance where inspectionId = #{inspectionId}
 	</select>
 	
-	<select id="search" parameterType="com.autoinspection.polaris.vo.payment.PaymentSearchRequest" resultType= "com.autoinspection.polaris.model.entity.OrderPayEntity">
+	<select id="search" resultType= "com.autoinspection.polaris.model.entity.OrderPayEntity">
 	select 
 	bm.id,
 	bm.PLATE,
 	bm.CREATETIME,
-	bv.CUSTOMERNAME
+	bv.CUSTOMERNAME,
+	bm.PAYSTATUS
+	from bizmaintenance bm left join bizvehicleinfo bv on bm.PLATE = bv.PLATE
+	where 1 = 1
+	<if test = "en.payStatus != null">
+		and bm.PAYSTATUS = #{en.payStatus}
+	</if>
+	<if test = "en.startDate != null and en.startDate != ''">
+	and bm.CREATETIME &gt; #{en.startDate} 
+	</if>
+	<if test = "en.endDate != null and en.endDate != ''">
+	and bm.CREATETIME &lt; #{en.endDate}
+	</if>
+	<if test = "en.isRetail != null and en.isRetail != 0">
+	and bv.CUSTOMERNAME not in (select CODE from bizcustomer)
+	</if>
+	<if test = "en.customerName != null and en.customerName != ''">
+	and bv.CUSTOMERNAME like concat ('%', #{en.customerName},'%')
+	</if>
+	<if test = "en.plate != null and en.plate != ''">
+	and bm.PLATE like concat ('%', #{en.plate}, '%')
+	</if>
+	LIMIT #{skip}, #{pageSize}
+	</select>
+	<select id="count" resultType = "java.lang.Integer">
+	select 
+	count(*)
 	from bizmaintenance bm left join bizvehicleinfo bv on bm.PLATE = bv.PLATE
 	where 1 = 1
 	<if test = "en.payStatus != null">
@@ -51,4 +77,11 @@
 	and bm.PLATE like concat ('%', #{en.plate}, '%')
 	</if>
 	</select>
+	<update id="updatePayStatusById">
+		<bind name="currentTime" value="new java.util.Date()" />
+		update bizmaintenance set PAYSTATUS = #{payStatus},
+		UPDATETIME=#{currentTime},
+		OPERATORID=#{operatorId}
+		where id = #{id}
+	</update>
 </mapper>

@@ -16,6 +16,7 @@ public class ErrorCode {
 	public static final ErrorCode EXISTING_PLATE = new ErrorCode("1013", "ͬ已经存在该车牌号");
 	public static final ErrorCode VEHICLETYPE_TIRES_DO_NOT_MATCH = new ErrorCode("1014", "ͬ车辆类型与轮胎数不匹配");
 	public static final ErrorCode INSPECTIONID_EXISTS = new ErrorCode("1015", "已添加过维修单，请更新维修单");
+	public static final ErrorCode NO_SERVICE_PRICE = new ErrorCode("1016", "存在没有设置的用户-服务价格关系");
 	
 	private String code;
 	private String msg;

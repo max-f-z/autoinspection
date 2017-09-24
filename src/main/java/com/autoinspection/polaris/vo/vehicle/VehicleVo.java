@@ -19,7 +19,14 @@ public class VehicleVo {
 	private String regDate;
 	private boolean regStatus;
 	private int stationId;
+	private String bizType;
 	
+	public String getBizType() {
+		return bizType;
+	}
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
 	public String getRegTime() {
 		return regTime;
 	}

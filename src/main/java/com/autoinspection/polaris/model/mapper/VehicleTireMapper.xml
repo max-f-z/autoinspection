@@ -15,8 +15,8 @@
 	</select>
 	<insert id="insertVehicleTire">
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizvehicletire (VEHICLEID, TIREID, TIREBRAND, TIRETYPE, TIREPOSITION, CREATETIME, UPDATETIME, OPERATORID)
-		values (#{en.vehicleId}, #{en.tireId}, #{en.tireBrand}, #{en.tireType}, #{en.tirePosition}, #{currentTime}, #{currentTime}, #{operatorId})
+		insert into bizvehicletire (VEHICLEID, TIREID, TIREBRAND, TIRETYPE, TIREPOSITION, CREATETIME, UPDATETIME, OPERATORID, figure)
+		values (#{en.vehicleId}, #{en.tireId}, #{en.tireBrand}, #{en.tireType}, #{en.tirePosition}, #{currentTime}, #{currentTime}, #{operatorId}, #{en.figure})
 		<selectKey keyProperty="en.id" resultType="int">
             select LAST_INSERT_ID()
         </selectKey>
@@ -24,6 +24,7 @@
 	<update id="updateVehicleTire" >
 		<bind name="currentTime" value="new java.util.Date()" />
 		update bizvehicletire set VEHICLEID= #{en.vehicleId}, TIREID= #{en.tireId}, TIREBRAND= #{en.tireBrand}, TIRETYPE = #{en.tireType}, TIREPOSITION= #{en.tirePosition},
+		figure= #{en.figure}
 		UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{en.id}
 	</update>
 	<delete id="deleteVehicleTire" parameterType="long">

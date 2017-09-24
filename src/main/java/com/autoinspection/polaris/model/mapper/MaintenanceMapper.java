@@ -14,5 +14,7 @@ public interface MaintenanceMapper {
 	int insertMaintenance(@Param("en") MaintenanceEntity entity, @Param("operatorId") Integer operatorId);
 	int updateMaintenance(@Param("en") MaintenanceEntity entity, @Param("operatorId") Integer operatorId);
 	MaintenanceEntity getByInspectionId(@Param("inspectionId") Long inspectionId);
-	List<OrderPayEntity> search(@Param("en") PaymentSearchRequest entity);
+	List<OrderPayEntity> search(@Param("en") PaymentSearchRequest entity, @Param("skip") Integer skip, @Param("pageSize") Integer pageSize);
+	int count(@Param("en") PaymentSearchRequest entity);
+	int updatePayStatusById(@Param("payStatus") Integer payStatus, @Param("operatorId") Integer operatorId, @Param("id") Long id);
 }

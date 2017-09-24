@@ -7,6 +7,14 @@ public class VehicleTireVo {
 	private String tireBrand;
 	private int tirePosition;
 	private long id;
+	private String figure;
+	
+	public String getFigure() {
+		return figure;
+	}
+	public void setFigure(String figure) {
+		this.figure = figure;
+	}
 	public int getVehicleId() {
 		return vehicleId;
 	}

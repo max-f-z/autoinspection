@@ -11,7 +11,7 @@
 		SELECT
 			plate, month, mile, createtime, operatorid, period, averagespeed, begmile, endmile
 			FROM
-			bizmileage
+			bizmileage 
 			<include refid="VehicleMileageWhereClause"/>
 			order by month
 			<if test="offset != null and limit != null">
