@@ -60,6 +60,17 @@ public class PaymentServiceImpl implements PaymentService {
 			List<MaintenanceDetailEntity> lists = maintenanceDetailMapper.listDetails(item.getId());
 			Map<String, PaymentDetail> map = new HashMap<String, PaymentDetail>();
 			
+			VehicleInfoEntity ven = vehicleMapper.getByPlate(item.getPlate());
+			CustomerEntity c = cMapper.getByCode(ven.getCustomerName());
+			String customerCode = "";
+			if (c != null) {
+				customerCode = ven.getCustomerName();
+				item.setRetail(false);
+			} else {
+				customerCode = "SH";
+				item.setRetail(true);
+			}
+			
 			for (MaintenanceDetailEntity en : lists) {
 				if (map.containsKey(en.getServicePrice())) {
 					PaymentDetail tmp = map.get(en.getServicePriceName());
@@ -69,21 +80,11 @@ public class PaymentServiceImpl implements PaymentService {
 					tmp.setDescription(en.getServicePriceDesc());
 					tmp.setServiceType(en.getServicePriceName());
 					tmp.setNum(1);
-					VehicleInfoEntity ven = vehicleMapper.getByPlate(item.getPlate());
-					
-					CustomerEntity c = cMapper.getByCode(ven.getCustomerName());
-					String customerCode = "";
-					if (c != null) {
-						customerCode = ven.getCustomerName();
-					} else {
-						customerCode = "SH";
-					}
 					
 					ServicePriceDisplayEntity spde = servicePriceMapper.getByServiceIdAndCustomerCode(en.getServicePriceId(), customerCode);
 					if (spde == null) {
 						throw new BizException(ErrorCode.NO_SERVICE_PRICE);
 					}
-					
 					tmp.setPrice(spde.getPrice());
 					map.put(en.getServicePriceName(), tmp);
 				}

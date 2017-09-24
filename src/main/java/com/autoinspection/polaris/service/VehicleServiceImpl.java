@@ -124,6 +124,8 @@ public class VehicleServiceImpl implements VehicleService {
 		entity.setVehicleType(vo.getVehicleType());
 		entity.setVehicleModel(vo.getVehicleModel());
 		entity.setBizType(vo.getBizType());
+		entity.setInitialDistance(vo.getInitialDistance());
+		entity.setLine(vo.getLine());
 		
 		vehicleMapper.insertVehicle(entity, uid);
 

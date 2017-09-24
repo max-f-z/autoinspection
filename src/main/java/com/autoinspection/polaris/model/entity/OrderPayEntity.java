@@ -9,19 +9,27 @@ public class OrderPayEntity {
 	private String plate;
 	private String createTime;
 	private String customerName;
-	private boolean payStatus;
+	private int payStatus;
 	private float total;
+	private boolean isRetail;
 	private List<PaymentDetail> detail;
+	
+	public boolean isRetail() {
+		return isRetail;
+	}
+	public void setRetail(boolean isRetail) {
+		this.isRetail = isRetail;
+	}
 	public float getTotal() {
 		return total;
 	}
 	public void setTotal(float total) {
 		this.total = total;
 	}
-	public boolean isPayStatus() {
+	public int getPayStatus() {
 		return payStatus;
 	}
-	public void setPayStatus(boolean payStatus) {
+	public void setPayStatus(int payStatus) {
 		this.payStatus = payStatus;
 	}
 	

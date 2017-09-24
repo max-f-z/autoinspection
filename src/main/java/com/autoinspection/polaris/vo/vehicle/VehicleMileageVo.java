@@ -17,6 +17,15 @@ public class VehicleMileageVo {
   private int hours;
   private int minutes;
   private int seconds;
+  private String customerName;
+
+public String getCustomerName() {
+	return customerName;
+}
+
+public void setCustomerName(String customerName) {
+	this.customerName = customerName;
+}
 
 public String getPeriod() {
 	return period;

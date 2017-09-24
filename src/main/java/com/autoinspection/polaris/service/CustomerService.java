@@ -14,4 +14,5 @@ public interface CustomerService {
 	public int insertCustomer(AddCustomerRequest request, int uid);
 	public int updateCustomer(UpdateCustomerRequest request, int uid);
 	public int deleteCustomer(int id, int uid);
+	public CustomerEntity getCustomerByPlate(String plate);
 }

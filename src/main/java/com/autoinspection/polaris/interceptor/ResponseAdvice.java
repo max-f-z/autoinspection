@@ -21,7 +21,6 @@ public class ResponseAdvice implements ResponseBodyAdvice {
 	@Override
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 			Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		
 		if (body.getClass().equals(com.autoinspection.polaris.vo.Result.class)) {
 			return body;
 		}

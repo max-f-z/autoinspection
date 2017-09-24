@@ -3,13 +3,13 @@
 <mapper namespace="com.autoinspection.polaris.model.mapper.VehicleMileageMapper" >
 	<insert id="insertVehicleMileage" parameterType="com.autoinspection.polaris.model.entity.VehicleMileageEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		INSERT INTO bizmileage (plate, month, mile, CREATETIME, OPERATORID, period,averagespeed, begmile, endmile)
-			VALUES (#{plate}, #{month}, #{mile}, #{currentTime}, #{operatorId},#{period},#{averageSpeed},#{begMile},#{endMile});
+		INSERT INTO bizmileage (plate, month, mile, CREATETIME, OPERATORID, period,averagespeed, begmile, endmile, customerName)
+			VALUES (#{plate}, #{month}, #{mile}, #{currentTime}, #{operatorId},#{period},#{averageSpeed},#{begMile},#{endMile}, #{customerName});
 	</insert>
 
 	<select id="getVehicleMileage"  resultType="com.autoinspection.polaris.model.entity.VehicleMileageEntity">
 		SELECT
-			plate, month, mile, createtime, operatorid, period, averagespeed, begmile, endmile
+			plate, month, mile, createtime, operatorid, period, averagespeed, begmile, endmile, customerName
 			FROM
 			bizmileage 
 			<include refid="VehicleMileageWhereClause"/>
@@ -39,6 +39,9 @@
 			<if test="plateLike != null">
 				and plate like CONCAT ('%', #{plateLike}, '%')
 			</if>
+			<if test="customerName != null">
+				and customerName like CONCAT('%', #{customerName}, '%')
+			</if> 
 		</where>
 	</sql>
 

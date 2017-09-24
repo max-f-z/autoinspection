@@ -2,9 +2,11 @@ package com.autoinspection.polaris.controller;
 
 import com.autoinspection.polaris.interceptor.Permission;
 import com.autoinspection.polaris.interceptor.PermissionEnum;
+import com.autoinspection.polaris.model.entity.CustomerEntity;
 import com.autoinspection.polaris.model.entity.VehicleTypeEntity;
 import com.autoinspection.polaris.model.mapper.SearchVehicleRequest;
 import com.autoinspection.polaris.resolver.CurrentUser;
+import com.autoinspection.polaris.service.CustomerService;
 import com.autoinspection.polaris.service.VehicleMileageService;
 import com.autoinspection.polaris.service.VehicleService;
 import com.autoinspection.polaris.service.VehicleTypeService;
@@ -73,6 +75,9 @@ public class VehicleController {
 
   @Autowired
   private VehicleTypeService vehicleTypeService;
+  
+  @Autowired
+  private CustomerService customerService;
 
   @Autowired
   private VehicleMileageService vehicleMileageService;
@@ -268,14 +273,14 @@ public class VehicleController {
           cnt = cnt + 4;
         }
         //备胎
-        String b1Id = convertCellValueToString(row.getCell(12 * 4 + 5));
-        String b1Brand = convertCellValueToString(row.getCell(12 * 4 + 6));
-        String b1type = convertCellValueToString(row.getCell(12 * 4 + 7));
-        String b1Figure = convertCellValueToString(row.getCell(12 * 4 + 8));
-        String b2Id = convertCellValueToString(row.getCell(13 * 4 + 5));
-        String b2Brand = convertCellValueToString(row.getCell(13 * 4 + 6));
-        String b2type = convertCellValueToString(row.getCell(13 * 4 + 7));
-        String b2Figure = convertCellValueToString(row.getCell(13*5+8));
+        String b1Id = convertCellValueToString(row.getCell(12 * 4 + 6));
+        String b1Brand = convertCellValueToString(row.getCell(12 * 4 + 7));
+        String b1type = convertCellValueToString(row.getCell(12 * 4 + 8));
+        String b1Figure = convertCellValueToString(row.getCell(12 * 4 + 9));
+        String b2Id = convertCellValueToString(row.getCell(13 * 4 + 6));
+        String b2Brand = convertCellValueToString(row.getCell(13 * 4 + 7));
+        String b2type = convertCellValueToString(row.getCell(13 * 4 + 8));
+        String b2Figure = convertCellValueToString(row.getCell(13*4+9));
 
         if (org.springframework.util.StringUtils.isEmpty(b1Id) ||
             org.springframework.util.StringUtils.isEmpty(b1Brand) ||
@@ -514,6 +519,8 @@ public class VehicleController {
         	  
           }
           
+          CustomerEntity cen = customerService.getCustomerByPlate(vo.getPlate());
+          vo.setCustomerName(cen.getName());
           vehicleMileageService.addVehicleMileage(vo);
         } catch (Exception e) {
           failedRows.add(i + 1);

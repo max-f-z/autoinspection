@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.autoinspection.polaris.model.entity.CustomerEntity;
+import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
 import com.autoinspection.polaris.model.mapper.CustomerMapper;
+import com.autoinspection.polaris.model.mapper.VehicleInfoMapper;
 import com.autoinspection.polaris.vo.customer.AddCustomerRequest;
 import com.autoinspection.polaris.vo.customer.GetCustomerRequest;
 import com.autoinspection.polaris.vo.customer.UpdateCustomerRequest;
@@ -16,6 +18,9 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Autowired
 	private CustomerMapper customerMapper;
+	
+	@Autowired
+	private VehicleInfoMapper vehicleMapper;
 
 	@Override
 	public List<CustomerEntity> listAllCustomers() {
@@ -68,5 +73,15 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public int deleteCustomer(int id, int uid) {
 		return customerMapper.deleteCustomer(id, uid);
+	}
+	
+	@Override
+	public CustomerEntity getCustomerByPlate(String plate) {
+		VehicleInfoEntity entity = vehicleMapper.getByPlate(plate);
+		CustomerEntity cen = customerMapper.getByCode(entity.getCustomerName());
+		if (cen == null) {
+			cen = customerMapper.getByCode("SH");
+		}
+		return cen;
 	}
 }

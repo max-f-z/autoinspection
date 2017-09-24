@@ -15,9 +15,9 @@
 	</select>
 	<insert id="insertVehicle" >
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizvehicleinfo (PLATE, CUSTOMERNAME, VEHICLETYPE, CREATETIME, UPDATETIME, OPERATORID, line, initialdistance,vehiclemodel, REGSTATUS, REGTIME, REGDATE, STATIONID) 
+		insert into bizvehicleinfo (PLATE, CUSTOMERNAME, VEHICLETYPE, CREATETIME, UPDATETIME, OPERATORID, line, initialdistance,vehiclemodel, REGSTATUS, REGTIME, REGDATE, STATIONID,BIZTYPE) 
 		values (#{en.plate}, #{en.customerName}, #{en.vehicleType}, #{currentTime}, #{currentTime}, #{operatorId},#{en.line},#{en.initialDistance},#{en.vehicleModel},
-		#{en.regStatus}, #{en.regTime}, #{en.regDate}, #{en.stationId}
+		#{en.regStatus}, #{en.regTime}, #{en.regDate}, #{en.stationId}, #{en.bizType}
 		)
 		<selectKey keyProperty="en.id" resultType="int">
             select LAST_INSERT_ID()
