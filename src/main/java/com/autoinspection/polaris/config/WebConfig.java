@@ -15,6 +15,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -120,6 +123,20 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	private int minIdle;
 	@Value("${redis.pool.maxWaitMillis}")
 	private int maxWaitMillis;
+	
+	@Bean  
+    public RestTemplate restTemplate(ClientHttpRequestFactory factory){  
+        return new RestTemplate(factory);  
+    } 
+
+	@Bean  
+    public ClientHttpRequestFactory simpleClientHttpRequestFactory(){  
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();  
+		factory.setReadTimeout(15000);// ms
+        factory.setConnectTimeout(5000);//ms  
+        return factory;  
+    } 
+
 	
     @Bean
     public RedisConnectionFactory jedisConnectionFactory(){
