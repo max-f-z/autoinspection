@@ -19,6 +19,8 @@ public class ErrorCode {
 	public static final ErrorCode NO_SERVICE_PRICE = new ErrorCode("1016", "存在没有设置的用户-服务价格关系");
 	public static final ErrorCode CANNOT_FIND_ORDER = new ErrorCode("1017", "找不到订单");
 	public static final ErrorCode INVALID_PAYSTATUS = new ErrorCode("1018", "订单状态不正确");
+	public static final ErrorCode ALREADY_PAID = new ErrorCode("1019", "订单已经支付");
+	public static final ErrorCode UNIFIEDORDER_FAILED = new ErrorCode("1020", "统一下单失败");
 	
 	private String code;
 	private String msg;

@@ -4,7 +4,16 @@ public class UnifiedOrderReq {
 	private String openId;
 	private String tradeType;
 	private Long orderId;
+	private String clientIP;
 	
+	
+	
+	public String getClientIP() {
+		return clientIP;
+	}
+	public void setClientIP(String clientIP) {
+		this.clientIP = clientIP;
+	}
 	public String getOpenId() {
 		return openId;
 	}

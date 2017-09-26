@@ -30,7 +30,7 @@
 	bm.CREATETIME,
 	bv.CUSTOMERNAME,
 	bm.PAYSTATUS
-	from bizmaintenance bm
+	from bizmaintenance bm left join bizvehicleinfo bv on bm.PLATE = bv.PLATE
 	where bm.id = #{id}
 	</select>
 	 

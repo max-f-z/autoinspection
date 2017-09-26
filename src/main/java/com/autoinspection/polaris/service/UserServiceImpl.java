@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity entity = new UserEntity();
 		entity = userMapper.getByName(request.getUserName());
 		if(null == entity){
+			entity = new UserEntity();
 			entity.setName(request.getUserName());
 			entity.setPassword(DigestUtils.sha256Hex(request.getPassword()));
 			entity.setStation(request.getStation());

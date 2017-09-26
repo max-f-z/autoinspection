@@ -18,7 +18,10 @@
 	</update>
 	<update id="updateStockStatus" parameterType="com.autoinspection.polaris.model.entity.TyreInstockEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update biztyreinstock set used=1, operatorid=#{operatorId}  where barCode= #{en.barCode} and tyrebrand=#{en.tyreBrand} and tyretype=#{en.tyreType}
+		update biztyreinstock set used=1, operatorid=#{operatorId}  where barCode= #{en.barCode} and tyrebrand=#{en.tyreBrand} 
+		<if test = "en.tyreType != null and en.tyreType != '' ">
+		and tyretype=#{en.tyreType}
+		</if>
 	</update>
 	
 	<delete id="deleteTyreInStock" parameterType="int">

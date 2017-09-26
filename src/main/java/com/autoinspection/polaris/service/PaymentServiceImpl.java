@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.autoinspection.polaris.model.entity.CustomerEntity;
 import com.autoinspection.polaris.model.entity.MaintenanceDetailEntity;
 import com.autoinspection.polaris.model.entity.OrderPayEntity;
+import com.autoinspection.polaris.model.entity.PaymentEntity;
 import com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity;
 import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
 import com.autoinspection.polaris.model.mapper.CustomerMapper;
 import com.autoinspection.polaris.model.mapper.MaintenanceDetailMapper;
 import com.autoinspection.polaris.model.mapper.MaintenanceMapper;
+import com.autoinspection.polaris.model.mapper.PaymentMapper;
 import com.autoinspection.polaris.model.mapper.ServicePriceMapper;
 import com.autoinspection.polaris.model.mapper.VehicleInfoMapper;
 import com.autoinspection.polaris.utils.BizException;
@@ -43,6 +45,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Autowired
 	private CustomerMapper cMapper;
+	
+	@Autowired
+	private PaymentMapper paymentMapper;
 
 	@Override
 	public PaymentSearchResp searchOrder(PaymentSearchRequest request) throws BizException {
@@ -63,7 +68,7 @@ public class PaymentServiceImpl implements PaymentService {
 			VehicleInfoEntity ven = vehicleMapper.getByPlate(item.getPlate());
 			CustomerEntity c = cMapper.getByCode(ven.getCustomerName());
 			String customerCode = "";
-			if (c != null) {
+			if (c != null && !"SH".equals(c.getCode())) {
 				customerCode = ven.getCustomerName();
 				item.setRetail(false);
 			} else {
@@ -83,9 +88,11 @@ public class PaymentServiceImpl implements PaymentService {
 					
 					ServicePriceDisplayEntity spde = servicePriceMapper.getByServiceIdAndCustomerCode(en.getServicePriceId(), customerCode);
 					if (spde == null) {
-						throw new BizException(ErrorCode.NO_SERVICE_PRICE);
+//						throw new BizException(ErrorCode.NO_SERVICE_PRICE);
+						tmp.setPrice(0F);
+					} else {
+						tmp.setPrice(spde.getPrice());
 					}
-					tmp.setPrice(spde.getPrice());
 					map.put(en.getServicePriceName(), tmp);
 				}
 			}
@@ -122,7 +129,7 @@ public class PaymentServiceImpl implements PaymentService {
 		VehicleInfoEntity ven = vehicleMapper.getByPlate(item.getPlate());
 		CustomerEntity c = cMapper.getByCode(ven.getCustomerName());
 		String customerCode = "";
-		if (c != null) {
+		if (c != null && !"SH".equals(c.getCode())) {
 			customerCode = ven.getCustomerName();
 			item.setRetail(false);
 		} else {
@@ -142,7 +149,10 @@ public class PaymentServiceImpl implements PaymentService {
 				
 				ServicePriceDisplayEntity spde = servicePriceMapper.getByServiceIdAndCustomerCode(en.getServicePriceId(), customerCode);
 				if (spde == null) {
-					throw new BizException(ErrorCode.NO_SERVICE_PRICE);
+//					throw new BizException(ErrorCode.NO_SERVICE_PRICE);
+					tmp.setPrice(0F);
+				} else {
+					tmp.setPrice(spde.getPrice());
 				}
 				tmp.setPrice(spde.getPrice());
 				map.put(en.getServicePriceName(), tmp);
@@ -159,5 +169,21 @@ public class PaymentServiceImpl implements PaymentService {
 		item.setTotal(total);
 		
 		return item;
+	}
+
+	@Override
+	public List<PaymentEntity> getPaymentsByOrderId(Long id) {
+		return paymentMapper.getByOrderId(id);
+	}
+
+	@Override
+	public void updatePaymentStatus(Long id, int status) {
+		paymentMapper.updatePayment(status, id);
+	}
+
+	@Override
+	public void insertPayment(PaymentEntity en) {
+		// TODO Auto-generated method stub
+		paymentMapper.insertPayment(en);
 	}
 }

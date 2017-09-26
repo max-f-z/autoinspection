@@ -10,10 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.autoinspection.polaris.model.entity.InspectionDetailEntity;
 import com.autoinspection.polaris.model.entity.InspectionEntity;
+import com.autoinspection.polaris.model.entity.TyreInstockEntity;
 import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
 import com.autoinspection.polaris.model.mapper.InspectionDetailMapper;
 import com.autoinspection.polaris.model.mapper.InspectionMapper;
+import com.autoinspection.polaris.model.mapper.TyreInStockMapper;
 import com.autoinspection.polaris.model.mapper.UserMapper;
 import com.autoinspection.polaris.model.mapper.VehicleInfoMapper;
 import com.autoinspection.polaris.utils.BizException;
@@ -41,6 +43,9 @@ public class InspectionServiceImpl implements InspectionService {
 
 	@Autowired
 	private ParametersService parametersService;
+	
+	@Autowired
+	private TyreInStockMapper  tyreInStockMapper;
 
 	@Override
 	public List<InspectionVo> listInspections(int skip, int pageSize, String plate) {
@@ -142,6 +147,11 @@ public class InspectionServiceImpl implements InspectionService {
 			en.setDepth(vo.getDepth());
 			en.setBrake(vo.getBrake());
 			inspectionDetailMapper.insertInspectionDetail(en, uid);
+			
+			TyreInstockEntity entityParam = new TyreInstockEntity();
+			entityParam.setBarCode(en.getTireId());
+			entityParam.setTyreBrand(en.getTireBrand());
+			tyreInStockMapper.updateStockStatus(entityParam, uid);
 		}
 		return entity.getId();
 	}

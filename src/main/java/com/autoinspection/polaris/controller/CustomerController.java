@@ -33,7 +33,7 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@RequestMapping(path = "/customers", method = RequestMethod.POST)
-	@Permission( permissionTypes = { PermissionEnum.ADMIN })
+	@Permission( permissionTypes = { PermissionEnum.ADMIN, PermissionEnum.ENDUSER })
 	public List<CustomerEntity> getCustomers(@RequestBody GetCustomerRequest request) {
 		return customerService.listCustomers(request);
 	}
