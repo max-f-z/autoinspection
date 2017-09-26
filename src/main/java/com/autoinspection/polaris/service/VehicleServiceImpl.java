@@ -14,6 +14,8 @@ import com.autoinspection.polaris.model.mapper.ParametersMapper;
 import com.autoinspection.polaris.model.mapper.TyreInStockMapper;
 import com.autoinspection.polaris.utils.Const;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -58,6 +60,9 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Autowired
 	private MaintenanceDetailMapper maintenanceDetailMapper;
+	
+	@Autowired
+	private ParametersMapper parametersMapper;
 
 	@Autowired
 	private ParametersService parametersService;
@@ -129,10 +134,10 @@ public class VehicleServiceImpl implements VehicleService {
 		
 		vehicleMapper.insertVehicle(entity, uid);
 
-//		InspectionEntity inspectionEntity = new InspectionEntity();
-//		inspectionEntity.setPlate(vo.getPlate());
-//		inspectionEntity.setOperatorName("admin");
-//		inspectionMapper.insertInspection(inspectionEntity, uid);
+		InspectionEntity inspectionEntity = new InspectionEntity();
+		inspectionEntity.setPlate(vo.getPlate());
+		inspectionEntity.setOperatorName("admin");
+		inspectionMapper.insertInspection(inspectionEntity, uid);
 //
 //		MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
 //		maintenanceEntity.setInspectionId(inspectionEntity.getId());
@@ -149,14 +154,22 @@ public class VehicleServiceImpl implements VehicleService {
 			tireEntity.setTireType(tireVo.getTireType());
 			tireEntity.setFigure(tireVo.getFigure());
 			vehicleTireMapper.insertVehicleTire(tireEntity, uid);
-
-//			InspectionDetailEntity inspectionDetailEntity = new InspectionDetailEntity();
-//			inspectionDetailEntity.setInspectionId(inspectionEntity.getId());
-//			inspectionDetailEntity.setTireBrand(tireVo.getTireBrand());
-//			inspectionDetailEntity.setTireId(tireVo.getTireId());
-//			inspectionDetailEntity.setTirePosition(tireVo.getTirePosition());
-//			inspectionDetailEntity.setTireType(tireVo.getTireType());
-//			inspectionDetailMapper.insertInspectionDetail(inspectionDetailEntity, uid);
+			Calendar now = Calendar.getInstance();
+			now.setTime(new Date());
+			List<ParametersEntity> pressures = parametersMapper.getParametersByTypeAndKey(tireVo.getTireBrand(), String.valueOf(now.get(Calendar.MONTH)+1));
+			
+			InspectionDetailEntity inspectionDetailEntity = new InspectionDetailEntity();
+			inspectionDetailEntity.setInspectionId(inspectionEntity.getId());
+			inspectionDetailEntity.setTireBrand(tireVo.getTireBrand());
+			inspectionDetailEntity.setTireId(tireVo.getTireId());
+			inspectionDetailEntity.setTirePosition(tireVo.getTirePosition());
+			inspectionDetailEntity.setTireType(tireVo.getTireType());
+			inspectionDetailEntity.setStripe(tireVo.getFigure());
+			if (pressures != null && pressures.size() > 0) {
+				float p = Float.parseFloat(pressures.get(0).getKeyValues());
+				inspectionDetailEntity.setPressure(p);
+			}
+			inspectionDetailMapper.insertInspectionDetail(inspectionDetailEntity, uid);
 //
 //			MaintenanceDetailEntity maintenanceDetailEntity = new MaintenanceDetailEntity();
 //			maintenanceDetailEntity.setMaintenanceId(maintenanceEntity.getId());
@@ -179,6 +192,12 @@ public class VehicleServiceImpl implements VehicleService {
 
 
 		return entity.getId();
+	}
+	
+	public static void main(String[] args) {
+		Calendar now = Calendar.getInstance();
+		now.setTime(new Date());
+		System.out.println(now.get(Calendar.MONTH));
 	}
 
 	@Override

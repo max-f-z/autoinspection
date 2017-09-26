@@ -23,7 +23,17 @@
 	<select id="getByInspectionId" parameterType="java.lang.Long" resultType="com.autoinspection.polaris.model.entity.MaintenanceEntity">
 		select * from bizmaintenance where inspectionId = #{inspectionId}
 	</select>
-	
+	<select id="getOrderById" parameterType="java.lang.Long" resultType="com.autoinspection.polaris.model.entity.OrderPayEntity">
+	select 
+	bm.id,
+	bm.PLATE,
+	bm.CREATETIME,
+	bv.CUSTOMERNAME,
+	bm.PAYSTATUS
+	from bizmaintenance bm
+	where bm.id = #{id}
+	</select>
+	 
 	<select id="search" resultType= "com.autoinspection.polaris.model.entity.OrderPayEntity">
 	select 
 	bm.id,

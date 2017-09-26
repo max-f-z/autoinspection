@@ -20,10 +20,9 @@ import org.springframework.web.client.RestTemplate;
 import com.autoinspection.polaris.utils.wxpay.utils.WXPayUtil;
 import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.payment.AccessTokenReq;
-import com.github.wxpay.sdk.WXPayConstants;
 
 @Controller
-@RequestMapping(value = "/v1/pay")
+@RequestMapping(value = "/v1/pay/auth")
 @Transactional
 public class WXAuthController {
 	

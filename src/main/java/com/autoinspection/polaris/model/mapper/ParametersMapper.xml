@@ -11,5 +11,17 @@
 			and paratype=#{paraType}
 		</if>
 	</select>
+	<select id="getParametersByTypeAndKey"  resultType="com.autoinspection.polaris.model.entity.ParametersEntity">
+	
+		select id, paratype, keycode,keyvalues,createtime, updatetime, enable,operatorid  from bizsysparameters 
+		
+		where  enable =1
+		<if test=" paraType != null and paraType != '' ">
+			and paratype=#{paraType}
+		</if>
+		<if test=" key != null and key != '' ">
+			and keycode=#{key}
+		</if>
+	</select>
 	
 </mapper>

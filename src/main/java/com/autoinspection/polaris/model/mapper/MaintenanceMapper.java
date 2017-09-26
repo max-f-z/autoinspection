@@ -17,4 +17,5 @@ public interface MaintenanceMapper {
 	List<OrderPayEntity> search(@Param("en") PaymentSearchRequest entity, @Param("skip") Integer skip, @Param("pageSize") Integer pageSize);
 	int count(@Param("en") PaymentSearchRequest entity);
 	int updatePayStatusById(@Param("payStatus") Integer payStatus, @Param("operatorId") Integer operatorId, @Param("id") Long id);
+	OrderPayEntity getOrderById(@Param("id") Long id);
 }

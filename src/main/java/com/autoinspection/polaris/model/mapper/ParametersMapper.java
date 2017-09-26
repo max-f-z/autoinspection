@@ -13,5 +13,6 @@ public interface ParametersMapper {
 	
 	
 	List<ParametersEntity> getParametersByType(@Param("paraType") String paraType);
+	List<ParametersEntity> getParametersByTypeAndKey(@Param("paraType") String paraType, @Param("key") String key);
 
 }
