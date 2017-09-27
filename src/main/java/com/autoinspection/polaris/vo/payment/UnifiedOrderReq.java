@@ -6,8 +6,6 @@ public class UnifiedOrderReq {
 	private Long orderId;
 	private String clientIP;
 	
-	
-	
 	public String getClientIP() {
 		return clientIP;
 	}

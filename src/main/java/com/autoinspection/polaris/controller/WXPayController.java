@@ -2,9 +2,12 @@ package com.autoinspection.polaris.controller;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.autoinspection.polaris.model.entity.OrderPayEntity;
@@ -38,6 +42,11 @@ import com.autoinspection.polaris.utils.wxpay.utils.WXPayUtil;
 import com.autoinspection.polaris.utils.wxpay.WXPayConstants;
 import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.payment.UnifiedOrderReq;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
 import com.mysql.jdbc.StringUtils;
 
 @RestController
@@ -189,5 +198,25 @@ public class WXPayController {
     	
     	HttpClient httpClient = HttpClientBuilder.create().setConnectionManager(connManager).build();
 		return httpClient;
+	}
+	
+	@RequestMapping(value = "/unifiedorder/image")
+	public void showIICodeImage(@RequestParam("qrcodekey")String qrcodekey , HttpServletResponse httpresponse) throws Exception {
+		int width = 300; 
+        int height = 300;		
+		Hashtable<EncodeHintType, String> hints = new Hashtable<EncodeHintType, String>();        
+        hints.put(EncodeHintType.CHARACTER_SET, "utf-8"); 
+        try {
+        	httpresponse.setContentType("image/jpeg"); 
+        	httpresponse.setDateHeader("expries", -1);  
+        	httpresponse.setHeader("Cache-Control", "no-cache");  
+        	httpresponse.setHeader("Pragma", "no-cache"); 
+        	
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(qrcodekey,BarcodeFormat.QR_CODE, width, height, hints); 
+            MatrixToImageWriter.writeToStream(bitMatrix, "gif", httpresponse.getOutputStream()); 
+            
+        }catch (Exception e) { 
+        	httpresponse.setStatus(400);
+        } 
 	}
 }

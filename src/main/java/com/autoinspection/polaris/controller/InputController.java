@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.autoinspection.polaris.interceptor.Permission;
 import com.autoinspection.polaris.interceptor.PermissionEnum;
+import com.autoinspection.polaris.model.entity.ParametersEntity;
 import com.autoinspection.polaris.model.entity.RegistrationDisplayEntity;
 import com.autoinspection.polaris.model.entity.ServiceEntity;
 import com.autoinspection.polaris.model.entity.UserEntity;
@@ -23,6 +24,7 @@ import com.autoinspection.polaris.resolver.CurrentUser;
 import com.autoinspection.polaris.service.AppointmentService;
 import com.autoinspection.polaris.service.InspectionService;
 import com.autoinspection.polaris.service.MaintenanceService;
+import com.autoinspection.polaris.service.ParametersService;
 import com.autoinspection.polaris.service.ServiceService;
 import com.autoinspection.polaris.service.UserService;
 import com.autoinspection.polaris.service.VehicleService;
@@ -72,6 +74,9 @@ public class InputController {
 	
 	@Autowired
 	private VehicleTypeService vehicleTypeService;
+	
+	@Autowired
+	private ParametersService parameterService;
 	
 	@Autowired
 	private VehicleService vehicleService;
@@ -233,6 +238,18 @@ public class InputController {
 	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
 	public List<VehicleTypeEntity> listVehicleTypes() {
 		return vehicleTypeService.listVehicleTypes();
+	}
+	
+	@RequestMapping(value="/tireTypes", method = RequestMethod.GET)
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	public List<ParametersEntity> listTireTypes() {
+		return parameterService.getParametersByType("tireType");
+	}
+	
+	@RequestMapping(value="/tireBrands", method = RequestMethod.GET)
+	@Permission( permissionTypes = { PermissionEnum.ENDUSER })
+	public List<ParametersEntity> listTireBrands() {
+		return parameterService.getParametersByType("tyreBrand");
 	}
 	
 	@RequestMapping(path = "/inspection/vehicleInfo", method = RequestMethod.POST)
