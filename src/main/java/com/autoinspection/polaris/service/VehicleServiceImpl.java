@@ -36,6 +36,7 @@ import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.vehicle.VehicleTireVo;
 import com.autoinspection.polaris.vo.vehicle.VehicleVo;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -149,6 +150,14 @@ public class VehicleServiceImpl implements VehicleService {
 //		maintenanceMapper.insertMaintenance(maintenanceEntity, uid);
 
 		for (VehicleTireVo tireVo : vo.getTires()) {
+			if (StringUtils.isNullOrEmpty(tireVo.getTireId()) 
+					|| StringUtils.isNullOrEmpty(tireVo.getTireBrand())
+					|| tireVo.getTirePosition() == 0
+					|| StringUtils.isNullOrEmpty(tireVo.getTireType())
+					) {
+				throw new BizException(ErrorCode.TIRE_PARAMETER_INVALIDE);
+			}
+			
 			VehicleTireEntity tireEntity = new VehicleTireEntity();
 			tireEntity.setVehicleId(entity.getId());
 			tireEntity.setTireBrand(tireVo.getTireBrand());

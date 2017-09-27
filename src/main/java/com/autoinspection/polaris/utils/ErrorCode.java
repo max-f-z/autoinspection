@@ -24,6 +24,7 @@ public class ErrorCode {
 	public static final ErrorCode INVALID_FLOWNO = new ErrorCode("1021", "不正确的流水号");
 	public static final ErrorCode QUERYDETAIL_FAILED = new ErrorCode("1022", "查询订单状态失败");
 	public static final ErrorCode PAY_FAILED = new ErrorCode("1023", "支付失败");
+	public static final ErrorCode TIRE_PARAMETER_INVALIDE = new ErrorCode("1024", "轮胎ID，轮胎品牌，轮位，轮胎类型都不能为空");
 	
 	private String code;
 	private String msg;
