@@ -183,7 +183,11 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public void insertPayment(PaymentEntity en) {
-		// TODO Auto-generated method stub
 		paymentMapper.insertPayment(en);
+	}
+
+	@Override
+	public PaymentEntity getPaymentByFlowNo(String flowNo) {
+		return paymentMapper.getByFlowNo(flowNo);
 	}
 }

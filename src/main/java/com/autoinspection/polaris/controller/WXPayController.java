@@ -36,12 +36,15 @@ import com.autoinspection.polaris.model.entity.PaymentEntity;
 import com.autoinspection.polaris.service.PaymentService;
 import com.autoinspection.polaris.utils.BizException;
 import com.autoinspection.polaris.utils.ErrorCode;
+import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderQueryRequest;
+import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderQueryResponse;
 import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderRequest;
 import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderResponse;
 import com.autoinspection.polaris.utils.wxpay.utils.WXPayUtil;
 import com.autoinspection.polaris.utils.wxpay.WXPayConstants;
 import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.payment.UnifiedOrderReq;
+import com.autoinspection.polaris.vo.payment.UnifiedOrderResp;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -69,8 +72,11 @@ public class WXPayController {
 	@Value("${wx.pay_sign_key}")
 	private String key;
 	
+	private static String clientIP = "123.185.17.154";
+	private static String tradeType = "NATIVE";
+	
 	@RequestMapping(path = "/unifiedOrder", method = RequestMethod.POST)
-	public Result<String> unifiedOrder(@RequestBody UnifiedOrderReq req) throws Exception {
+	public UnifiedOrderResp unifiedOrder(@RequestBody UnifiedOrderReq req) throws Exception {
 		
 		OrderPayEntity en = paymentService.getOrder(req.getOrderId());
 		if (en == null) {
@@ -99,8 +105,6 @@ public class WXPayController {
 		payment.setPayStatus(0);
 		payment.setAmount(en.getTotal());
 		
-		
-		
 		WXUnifiedOrderRequest request = new WXUnifiedOrderRequest();
 		request.setAppid(appId);
 		request.setMch_id(mchId);
@@ -109,11 +113,10 @@ public class WXPayController {
 		request.setOut_trade_no(payment.getFlowNo());
 		request.setBody("玖通轮胎订单");
 		DecimalFormat decimalFormat=new DecimalFormat("#");
-		request.setOpenid(req.getOpenId());
 		request.setTotal_fee(decimalFormat.format(payment.getAmount()*100));
-		request.setTrade_type(req.getTradeType());
+		request.setTrade_type(tradeType);
 		request.setAttach("玖通轮胎订单");
-		request.setSpbill_create_ip(req.getClientIP());
+		request.setSpbill_create_ip(clientIP);
 		
 		WXUnifiedOrderResponse response = doUnifiedOrder(request);
 		if( !"SUCCESS".equals(response.getReturn_code())) {
@@ -121,7 +124,10 @@ public class WXPayController {
 		}
 		paymentService.insertPayment(payment);
 		
-		return new Result<>("");
+		UnifiedOrderResp resp = new UnifiedOrderResp();
+		resp.setPayFlowNo(payment.getFlowNo());
+		resp.setQrCodeKey(response.getCode_url());
+		return resp;
 	}
 	
 	public WXUnifiedOrderResponse doUnifiedOrder(WXUnifiedOrderRequest request) throws Exception {
@@ -218,5 +224,86 @@ public class WXPayController {
         }catch (Exception e) { 
         	httpresponse.setStatus(400);
         } 
+	}
+
+	@RequestMapping(path = "/unifiedorder/queryByPayFlowNo")
+	public WXUnifiedOrderQueryResponse queryUnifiedOrderDetail(@RequestParam("payFlowNo") String payFlowNo) throws Exception {
+		PaymentEntity en = paymentService.getPaymentByFlowNo(payFlowNo);
+		if (en == null) {
+			throw new BizException(ErrorCode.INVALID_FLOWNO);
+		}
+		
+		WXUnifiedOrderQueryRequest request = new WXUnifiedOrderQueryRequest();
+		request.setAppid(appId);
+		request.setMch_id(mchId);
+		request.setNonce_str(WXPayUtil.generateNonceStr());
+		request.setOut_trade_no(payFlowNo);
+		
+		WXUnifiedOrderQueryResponse response= unifiedOrderQuery(request);
+		if( !"SUCCESS".equals(response.getReturn_code())) {
+			throw new BizException(ErrorCode.UNIFIEDORDER_FAILED);
+		}
+		return response;
+	}
+	
+	public WXUnifiedOrderQueryResponse unifiedOrderQuery(WXUnifiedOrderQueryRequest request) throws Exception {
+		Map<String, String> data = new HashMap<String, String>();    	
+    	data.put("appid",request.getAppid());
+    	data.put("mch_id",request.getMch_id());
+    	data.put("nonce_str", request.getNonce_str());
+    	data.put("out_trade_no", request.getOut_trade_no());
+    	
+    	String sign = null;    	
+    	try {
+	    	sign = WXPayUtil.generateSignedXml(data, key,WXPayConstants.SignType.MD5);
+    	}catch(Exception ex) {
+    		throw ex;
+    	}
+    	
+    	//build http client
+    	HttpClient httpClient = getHttpClient();
+
+        String url = "https://api.mch.weixin.qq.com/pay/orderquery";        
+        
+        HttpPost httpPost = new HttpPost(url);        
+
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(60000).setConnectTimeout(60000).build();
+        httpPost.setConfig(requestConfig);
+
+        StringEntity postEntity = new StringEntity(sign, "UTF-8");
+        httpPost.addHeader("Content-Type", "text/xml");
+        httpPost.addHeader("User-Agent", "wxpay sdk java v1.0 " + request.getMch_id());
+        httpPost.setEntity(postEntity);
+
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        HttpEntity httpEntity = httpResponse.getEntity();
+        String responseString = EntityUtils.toString(httpEntity, "UTF-8");
+        
+        WXUnifiedOrderQueryResponse response = new WXUnifiedOrderQueryResponse();		
+		Map<String, String> responseMap = WXPayUtil.xmlToMap(responseString);	
+		response.setXmlString(responseString);
+		response.setAppid(responseMap.get("appid"));
+		response.setMch_id(responseMap.get("mch_id"));
+		response.setReturn_code(responseMap.get("return_code"));
+		response.setReturn_msg(responseMap.get("return_msg"));
+		response.setNonce_str(responseMap.get("nonce_str"));	
+		response.setSign(responseMap.get("sign"));
+		response.setResult_code(responseMap.get("result_code"));
+		response.setErr_code(responseMap.get("err_code"));
+		response.setErr_code_des(responseMap.get("err_code_des"));	
+		response.setTrade_state(responseMap.get("trade_state"));
+		response.setTrade_state_desc(responseMap.get("trade_state_desc"));		
+		response.setOpenid(responseMap.get("openid"));
+		response.setIs_subscribe(responseMap.get("is_subscribe"));
+		response.setBank_type(responseMap.get("bank_type"));
+		response.setTotal_fee(responseMap.get("total_fee"));
+		response.setFee_type(responseMap.get("fee_type"));
+		response.setTransaction_id(responseMap.get("transaction_id"));
+		response.setOut_trade_no(responseMap.get("out_trade_no"));
+		response.setAttach(responseMap.get("attach"));
+		response.setTime_end(responseMap.get("time_end"));
+		response.setCash_fee(responseMap.get("cash_fee"));
+        
+		return response;
 	}
 }

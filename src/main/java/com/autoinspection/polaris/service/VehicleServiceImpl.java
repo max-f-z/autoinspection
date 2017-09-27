@@ -137,6 +137,9 @@ public class VehicleServiceImpl implements VehicleService {
 		InspectionEntity inspectionEntity = new InspectionEntity();
 		inspectionEntity.setPlate(vo.getPlate());
 		inspectionEntity.setOperatorName("admin");
+		float sm = Float.parseFloat(vo.getInitialDistance());
+		inspectionEntity.setServiceMile(sm);
+		inspectionEntity.setMilometer(sm);
 		inspectionMapper.insertInspection(inspectionEntity, uid);
 //
 //		MaintenanceEntity maintenanceEntity = new MaintenanceEntity();
@@ -248,6 +251,8 @@ public class VehicleServiceImpl implements VehicleService {
 		vo.setPlate(en.getPlate());
 		vo.setVehicleType(en.getVehicleType());
 		vo.setVehicleModel(en.getVehicleModel());
+		vo.setInitialDistance(en.getInitialDistance());
+		
 		
 		List<VehicleTireEntity> tires = vehicleTireMapper.listTires(vid);
 		List<VehicleTireVo> tiresVo = new ArrayList<VehicleTireVo>();

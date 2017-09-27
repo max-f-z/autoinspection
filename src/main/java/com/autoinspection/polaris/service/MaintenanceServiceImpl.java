@@ -115,18 +115,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			en.setTireposition(vo.getTirePosition());
 			en.setServicePriceDesc(vo.getServiceDesc());
 			
-			//wei
-			ServicePriceDisplayEntity servicePrice = servicePriceMapper.getByServiceIdAndcustomerId(vo.getServiceId(),41);
-			float price = servicePrice.getPrice();
-			BigDecimal totalPrice = new BigDecimal(price);
-			totalPrice = totalPrice.multiply(new BigDecimal(vo.getNum()));
 			en.setServicePriceId(vo.getServiceId());
 			en.setServicePriceName(vo.getServiceName());
 			en.setNum(vo.getNum());
 			en.setStartTime(vo.getStartTime());
 			en.setEndTime(vo.getEndTime());
-			orderTotalAmount = orderTotalAmount.add(totalPrice);
-			en.setServicePrice(totalPrice.setScale(2, BigDecimal.ROUND_HALF_UP).toString());
 			maintenanceDetailMapper.insertMaintenanceDetail(en, uid);
 		}
 		

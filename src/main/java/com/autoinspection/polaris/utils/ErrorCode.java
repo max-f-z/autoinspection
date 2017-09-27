@@ -21,6 +21,9 @@ public class ErrorCode {
 	public static final ErrorCode INVALID_PAYSTATUS = new ErrorCode("1018", "订单状态不正确");
 	public static final ErrorCode ALREADY_PAID = new ErrorCode("1019", "订单已经支付");
 	public static final ErrorCode UNIFIEDORDER_FAILED = new ErrorCode("1020", "统一下单失败");
+	public static final ErrorCode INVALID_FLOWNO = new ErrorCode("1021", "不正确的流水号");
+	public static final ErrorCode QUERYDETAIL_FAILED = new ErrorCode("1022", "查询订单状态失败");
+	public static final ErrorCode PAY_FAILED = new ErrorCode("1023", "支付失败");
 	
 	private String code;
 	private String msg;

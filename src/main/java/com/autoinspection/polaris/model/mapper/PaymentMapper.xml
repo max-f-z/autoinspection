@@ -4,7 +4,7 @@
 	<insert id="insertPayment" >
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into bizpayment (ORDERID, PAYSTATUS, AMOUNT, CREATETIME, UPDATETIME, FLOWNO) 
-		values (#{en.orderId}, #{en.payStatus}, #{en.amount}, #{currentTime}, #{currentTime}, #{flowNo}
+		values (#{en.orderId}, #{en.payStatus}, #{en.amount}, #{currentTime}, #{currentTime}, #{en.flowNo})
 		<selectKey keyProperty="id" resultType="java.lang.Long">
             select LAST_INSERT_ID()
         </selectKey>
@@ -15,5 +15,8 @@
 	</update>
 	<select id="getByOrderId" resultType="com.autoinspection.polaris.model.entity.PaymentEntity">
 		select * from bizpayment where ORDERID = #{orderId}
+	</select>
+	<select id="getByFlowNo" resultType="com.autoinspection.polaris.model.entity.PaymentEntity">
+		select * from bizpayment where FLOWNO = #{flowNo}
 	</select>
 </mapper>

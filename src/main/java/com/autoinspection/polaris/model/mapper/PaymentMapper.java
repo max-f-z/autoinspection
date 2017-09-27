@@ -12,4 +12,5 @@ public interface PaymentMapper {
 	public int insertPayment(@Param("en") PaymentEntity en);
 	public int updatePayment(@Param("payStatus") Integer payStatus, @Param("id") Long id);
 	public List<PaymentEntity> getByOrderId(@Param("orderId") Long orderId);
+	public PaymentEntity getByFlowNo(@Param("flowNo") String flowNo);
 }

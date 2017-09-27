@@ -16,4 +16,5 @@ public interface PaymentService {
 	public List<PaymentEntity> getPaymentsByOrderId(Long id);
 	public void updatePaymentStatus(Long id, int status);
 	public void insertPayment(PaymentEntity en);
+	public PaymentEntity getPaymentByFlowNo(String flowNo);
 }
