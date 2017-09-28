@@ -8,7 +8,15 @@ public class MaintenanceVo {
 	private String plate;
 	private String driverPhone;
 	private String operatorName;
+	private int payStatus;
 	private List<MaintenanceDetailVo> details;
+	
+	public int getPayStatus() {
+		return payStatus;
+	}
+	public void setPayStatus(int payStatus) {
+		this.payStatus = payStatus;
+	}
 	public long getId() {
 		return id;
 	}

@@ -43,7 +43,6 @@ import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderRequest;
 import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderResponse;
 import com.autoinspection.polaris.utils.wxpay.utils.WXPayUtil;
 import com.autoinspection.polaris.utils.wxpay.WXPayConstants;
-import com.autoinspection.polaris.vo.Result;
 import com.autoinspection.polaris.vo.payment.PaymentUpdateReq;
 import com.autoinspection.polaris.vo.payment.UnifiedOrderReq;
 import com.autoinspection.polaris.vo.payment.UnifiedOrderResp;

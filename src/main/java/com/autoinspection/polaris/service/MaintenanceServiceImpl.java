@@ -70,6 +70,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			vo.setPlate(entity.getPlate());
 			vo.setDriverPhone(entity.getDriverPhone());
 			vo.setOperatorName(entity.getOperatorName());
+			vo.setPayStatus(entity.getPayStatus());
 			
 			List<MaintenanceDetailEntity> details = maintenanceDetailMapper.listDetails(entity.getId());
 			List<MaintenanceDetailVo> ds = new ArrayList<MaintenanceDetailVo>();
