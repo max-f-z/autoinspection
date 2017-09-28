@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
+import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
 
 @Service
 public class SmsServiceImpl implements SmsService {
@@ -19,7 +22,7 @@ public class SmsServiceImpl implements SmsService {
 	final String accessKeySecret = "XOJ52fzuY23Pp74zqWoneEjEggW38f";
 	
 	@Override
-	public void sendSms(String phoneNo) {
+	public void sendSms(String phoneNo, String code) throws BizException {
 		// TODO Auto-generated method stub
 		IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId,accessKeySecret);
 		try {
@@ -37,14 +40,25 @@ public class SmsServiceImpl implements SmsService {
 		//必填:短信签名-可在短信控制台中找到
 		request.setSignName("玖通轮胎安装保养中心");
 		request.setTemplateCode("SMS_100030049");
-		request.setTemplateParam("{\"code\":\"" + generateCode() +"\"}");
+		request.setTemplateParam("{\"code\":\"" + code +"\"}");
+		
+		try {
+			SendSmsResponse resp = acsClient.getAcsResponse(request);
+			if (resp.getCode() == null || !resp.getCode().equals("OK")) {
+				throw new BizException(ErrorCode.SEND_SMS_FAILED);
+			}
+			
+		} catch (ClientException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
+	@Override
 	public String generateCode() {
 		return String.valueOf((int)((Math.random()*9+1)*100000)); 
 	}
 	
-	public static void main(String[] args){
-		System.out.println(String.valueOf((int)((Math.random()*9+1)*100000)));
-	}
 }
