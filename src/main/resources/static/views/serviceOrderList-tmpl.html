@@ -1,3 +1,0 @@
-<div class="mui-content">
-
-</div>
