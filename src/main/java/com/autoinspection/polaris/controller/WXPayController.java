@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.controller;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -43,6 +44,7 @@ import com.autoinspection.polaris.utils.wxpay.models.WXUnifiedOrderResponse;
 import com.autoinspection.polaris.utils.wxpay.utils.WXPayUtil;
 import com.autoinspection.polaris.utils.wxpay.WXPayConstants;
 import com.autoinspection.polaris.vo.Result;
+import com.autoinspection.polaris.vo.payment.PaymentUpdateReq;
 import com.autoinspection.polaris.vo.payment.UnifiedOrderReq;
 import com.autoinspection.polaris.vo.payment.UnifiedOrderResp;
 import com.google.zxing.BarcodeFormat;
@@ -241,8 +243,23 @@ public class WXPayController {
 		
 		WXUnifiedOrderQueryResponse response= unifiedOrderQuery(request);
 		if( !"SUCCESS".equals(response.getReturn_code())) {
-			throw new BizException(ErrorCode.UNIFIEDORDER_FAILED);
+			throw new BizException(ErrorCode.QUERYDETAIL_FAILED);
 		}
+		
+		if( !"SUCCESS".equals(response.getResult_code())) {
+			throw new BizException(ErrorCode.QUERYDETAIL_FAILED);
+		}
+		
+		if ("SUCCESS".equals(response.getTrade_state())) {
+			PaymentUpdateReq req = new PaymentUpdateReq();
+			List<Long> orderIds = new ArrayList<Long>();
+			orderIds.add(en.getOrderId());
+			req.setItems(orderIds);
+			req.setStatus(1);
+			paymentService.updateStatus(req, 1);
+			paymentService.updatePaymentStatus(en.getId(), 1);
+		}
+		
 		return response;
 	}
 	
