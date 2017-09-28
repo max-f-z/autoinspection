@@ -45,13 +45,13 @@ public class VehicleMileageServiceImpl implements VehicleMileageService{
       Calendar calendar2= Calendar.getInstance();
       calendar1.setTime(now);
       calendar2.setTime(voi.getMonth());
+      VehicleInfoEntity ven = vMapper.getByPlate(e.getPlate());
       if (calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR) && calendar1.get(Calendar.MONTH) == calendar2.get(Calendar.MONTH)) {
-    	  VehicleInfoEntity ven = vMapper.getByPlate(e.getPlate());
     	  double v1 = Double.parseDouble(e.getEndMile());
     	  double v2 = Double.parseDouble(ven.getInitialDistance());
     	  e.setMile(new BigDecimal(v1 - v2));
       }
-
+      voi.setBizType(ven.getBizType());
       resultList.add(voi);
     }
     return resultList;

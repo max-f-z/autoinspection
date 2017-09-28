@@ -227,7 +227,7 @@ public class WXPayController {
         } 
 	}
 
-	@RequestMapping(path = "/unifiedorder/queryByPayFlowNo")
+	@RequestMapping(value = "/unifiedorder/queryByPayFlowNo")
 	public WXUnifiedOrderQueryResponse queryUnifiedOrderDetail(@RequestParam("payFlowNo") String payFlowNo) throws Exception {
 		PaymentEntity en = paymentService.getPaymentByFlowNo(payFlowNo);
 		if (en == null) {

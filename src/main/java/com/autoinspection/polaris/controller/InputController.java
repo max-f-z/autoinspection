@@ -47,6 +47,7 @@ import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceRequest;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceResponse;
 import com.autoinspection.polaris.vo.Inspection.VehicleInfoRequest;
 import com.autoinspection.polaris.vo.input.ListVehiclesRequest;
+import com.autoinspection.polaris.vo.input.ListVehiclesResp;
 import com.autoinspection.polaris.vo.input.RegistrationVo;
 import com.autoinspection.polaris.vo.input.SearchRegRequest;
 import com.autoinspection.polaris.vo.input.SearchRequest;
@@ -83,10 +84,13 @@ public class InputController {
 	
 	@RequestMapping(path = "/listVehicles", method = RequestMethod.POST)
 	@Permission( permissionTypes = { PermissionEnum.ENDUSER,PermissionEnum.ADMIN })
-	public List<VehicleVo> listVehicles(@RequestBody ListVehiclesRequest request, @CurrentUser UserVo user) throws BizException {
+	public ListVehiclesResp listVehicles(@RequestBody ListVehiclesRequest request, @CurrentUser UserVo user) throws BizException {
 		List<VehicleVo> vos = vehicleService.listVehicles((request.getPage()-1) * request.getPageSize(),request.getPageSize());
- 		
-		return vos;
+		int cnt = vehicleService.getgetCount();
+		ListVehiclesResp resp = new ListVehiclesResp();
+		resp.setItems(vos);
+		resp.setCount(cnt);
+		return resp;
 	}
 	
 	@RequestMapping(path = "/searchVehicles")

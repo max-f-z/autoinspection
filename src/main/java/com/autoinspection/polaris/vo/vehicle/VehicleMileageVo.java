@@ -18,6 +18,15 @@ public class VehicleMileageVo {
   private int minutes;
   private int seconds;
   private String customerName;
+  private String bizType;
+
+public String getBizType() {
+	return bizType;
+}
+
+public void setBizType(String bizType) {
+	this.bizType = bizType;
+}
 
 public String getCustomerName() {
 	return customerName;
