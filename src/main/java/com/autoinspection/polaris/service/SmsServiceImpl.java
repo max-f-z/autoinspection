@@ -15,8 +15,8 @@ public class SmsServiceImpl implements SmsService {
 
 	final String product = "Dysmsapi";
 	final String domain = "dysmsapi.aliyuncs.com";
-	final String accessKeyId = "yourAccessKeyId";
-	final String accessKeySecret = "yourAccessKeySecret";
+	final String accessKeyId = "LTAIVN6oLnM51LNy";
+	final String accessKeySecret = "XOJ52fzuY23Pp74zqWoneEjEggW38f";
 	
 	@Override
 	public void sendSms(String phoneNo) {
@@ -37,6 +37,14 @@ public class SmsServiceImpl implements SmsService {
 		//必填:短信签名-可在短信控制台中找到
 		request.setSignName("玖通轮胎安装保养中心");
 		request.setTemplateCode("SMS_100030049");
-		request.setTemplateParam("{\"code\":\"Tom\"}");
+		request.setTemplateParam("{\"code\":\"" + generateCode() +"\"}");
+	}
+	
+	public String generateCode() {
+		return String.valueOf((int)((Math.random()*9+1)*100000)); 
+	}
+	
+	public static void main(String[] args){
+		System.out.println(String.valueOf((int)((Math.random()*9+1)*100000)));
 	}
 }
