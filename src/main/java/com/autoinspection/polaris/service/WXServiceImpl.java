@@ -47,6 +47,14 @@ public class WXServiceImpl implements WXService {
 			throw new BizException(ErrorCode.EMPTY_AUTH_CODE);
 		}
 		
+		if (StringUtils.isNullOrEmpty(req.getPhone())) {
+			throw new BizException(ErrorCode.INVALID_PARAM);
+		}
+		
+		if (redisTemplate.opsForValue().get(Const.WX_AUTH_CODE + req.getPhone()) == null) {
+			throw new BizException(ErrorCode.INVALID_PARAM);
+		}
+		
 		if (!redisTemplate.opsForValue().get(Const.WX_AUTH_CODE + req.getPhone()).equals(req.getAuthCode())) {
 			throw new BizException(ErrorCode.INVALID_AUTH_CODE);
 		}
@@ -75,7 +83,7 @@ public class WXServiceImpl implements WXService {
 		
 		String code = smsService.generateCode();
 		
-		smsService.sendSms(req.getPhone(), code);
+		
 		
 		if (req.getType() == 1) {
 			Integer history = null;
@@ -110,6 +118,7 @@ public class WXServiceImpl implements WXService {
 				redisTemplate.opsForValue().set(Const.WX_AUTH_CODE_UPDATE_USER_TIMES+req.getPhone(), "1", 10, TimeUnit.MINUTES);
 			}
 		}
+		smsService.sendSms(req.getPhone(), code);
 
 		return new Result<>("");
 	}

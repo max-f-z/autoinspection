@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.autoinspection.polaris.model.entity.AppointmentEntity;
-import com.autoinspection.polaris.model.entity.InspectionEntity;
 import com.autoinspection.polaris.model.entity.RegistrationDisplayEntity;
 import com.autoinspection.polaris.model.entity.RemainEntity;
 import com.autoinspection.polaris.model.entity.ReservedEntity;
@@ -39,8 +38,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 	@Override
 	public List<RemainEntity> listAppointments(AppointmentRequest req) {
-		List<RemainEntity> list = alMapper.selectRemainByDate(req.getDate());
-		List<ReservedEntity> reservedList = alMapper.selectReserveByDate(req.getDate());
+		List<RemainEntity> list = alMapper.selectRemainByDate(req.getDate(), req.getStationId());
+		List<ReservedEntity> reservedList = alMapper.selectReserveByDate(req.getDate(), req.getStationId());
 		for (ReservedEntity reserved : reservedList) {
 			for (RemainEntity remain : list) {
 				if (remain.getId() == reserved.getId()) {
@@ -78,8 +77,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 			vehicleMapper.updateRegStatusById(en, wxid);
 		}
 		
-		int limit = alMapper.getLimitByDate(req.getAppointmentDate());
-		Integer reserved = alMapper.getReservedByDateAndSlot(req.getAppointmentDate(), req.getAppointmentSlot());
+		int limit = alMapper.getLimitByDate(req.getAppointmentDate(), req.getStationId());
+		Integer reserved = alMapper.getReservedByDateAndSlot(req.getAppointmentDate(), req.getAppointmentSlot(), req.getStationId());
 		
 		if ((reserved != null) && (limit - reserved) <= 0){
 			throw new BizException(ErrorCode.REGISTRATION_FULL);

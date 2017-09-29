@@ -11,11 +11,12 @@ import com.autoinspection.polaris.model.entity.ReservedEntity;
 
 @Mapper
 public interface AppointmentLimitMapper {
-	int getLimitByDate(@Param("reqDate") String reqDate);
-	int getReservedByDateAndSlot(@Param("reqDate") String reqDate, @Param("slotId") Integer slotId);
+	int getLimitByDate(@Param("reqDate") String reqDate, @Param("stationId") Integer stationId);
+	int getReservedByDateAndSlot(@Param("reqDate") String reqDate, @Param("slotId") Integer slotId, @Param("stationId") Integer stationId);
 	int insertLimit(AppointmentLimitEntity entity);
 	int updateLimit(AppointmentLimitEntity entity);
 	int deleteLimit(@Param("id") Integer id, @Param("operatorId") Integer operatorId);
-	List<ReservedEntity> selectReserveByDate(@Param("reqDate") String reqDate);
-	List<RemainEntity> selectRemainByDate(@Param("reqDate") String reqDate);
+	List<ReservedEntity> selectReserveByDate(@Param("reqDate") String reqDate, @Param("stationId") Integer stationId);
+	List<RemainEntity> selectRemainByDate(@Param("reqDate") String reqDate, @Param("stationId") Integer stationId);
+	AppointmentLimitEntity check(@Param("reqDate") String reqDate, @Param("stationId") Integer stationId);
 }

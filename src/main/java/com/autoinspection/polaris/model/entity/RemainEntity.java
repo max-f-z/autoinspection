@@ -4,6 +4,13 @@ public class RemainEntity {
 	private int id;
 	private String name;
 	private int remain;
+	private int limit;
+	public int getLimit() {
+		return limit;
+	}
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
 	public int getId() {
 		return id;
 	}

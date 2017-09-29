@@ -6,6 +6,13 @@ public class AppointmentLimitEntity extends BaseEntity {
 	private int id;
 	private String appointmentDate;
 	private int limit;
+	private int stationId;
+	public int getStationId() {
+		return stationId;
+	}
+	public void setStationId(int stationId) {
+		this.stationId = stationId;
+	}
 	public int getId() {
 		return id;
 	}

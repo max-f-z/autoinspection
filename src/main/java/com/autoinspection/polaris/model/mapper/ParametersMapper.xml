@@ -23,5 +23,9 @@
 			and keycode=#{key}
 		</if>
 	</select>
+	<update id="updateAppointmentLimit" >
+		update bizsysparameters set keyvalues = #{limit} where paratype = 'appointmentLimit' and keycode = 1  
+	
+	</update>
 	
 </mapper>
