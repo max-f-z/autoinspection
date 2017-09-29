@@ -3,7 +3,7 @@
 <mapper namespace="com.autoinspection.polaris.model.mapper.AppointmentLimitMapper">
 	<insert id="insertLimit" parameterType="com.autoinspection.polaris.model.entity.AppointmentLimitEntity" >
 		<bind name="currentTime" value="new java.util.Date()" />
-		insert into bizappointmentlimit (APPOINTMENTDATE, LIMIT, CREATETIME, UPDATETIME, OPERATORID, STATIONID) 
+		insert into bizappointmentlimit (APPOINTMENTDATE, `LIMIT`, CREATETIME, UPDATETIME, OPERATORID, STATIONID) 
 		values (#{appointmentDate}, #{limit}, #{currentTime}, #{currentTime}, #{operatorId}, #{stationId})
 		<selectKey keyProperty="id" resultType="int">
             select LAST_INSERT_ID()
@@ -11,7 +11,7 @@
 	</insert>
 	<update id="updateLimit" parameterType="com.autoinspection.polaris.model.entity.AppointmentLimitEntity">
 		<bind name="currentTime" value="new java.util.Date()" />
-		update bizappointmentlimit set APPOINTMENTDATE= #{appointmentDate}, LIMIT= #{limit}, STATIONID= #{stationId},
+		update bizappointmentlimit set APPOINTMENTDATE= #{appointmentDate}, `LIMIT`= #{limit}, STATIONID= #{stationId},
 		 UPDATETIME= #{currentTime}, OPERATORID= #{operatorId} where id= #{id}
 	</update>
 	<delete id="deleteLimit" parameterType="int">
