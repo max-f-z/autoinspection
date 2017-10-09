@@ -40,6 +40,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	public List<RemainEntity> listAppointments(AppointmentRequest req) {
 		List<RemainEntity> list = alMapper.selectRemainByDate(req.getDate(), req.getStationId());
 		List<ReservedEntity> reservedList = alMapper.selectReserveByDate(req.getDate(), req.getStationId());
+		int limit = alMapper.getLimitByDate(req.getDate(), req.getStationId());
 		for (ReservedEntity reserved : reservedList) {
 			for (RemainEntity remain : list) {
 				if (remain.getId() == reserved.getId()) {
@@ -47,7 +48,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 				}
 			}
 		}
-		
+		for (RemainEntity remain : list) {
+			remain.setLimit(limit);
+		}
 		return list;
 	}
 

@@ -32,13 +32,13 @@
 	<select id="getByServiceIdAndcustomerId"  resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
 		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
-		where bsp.serviceId = #{serviceId} and bsp.customerId = #{customerId}
+		where bsp.serviceId = #{serviceId} and bsp.customerId = #{customerId} and bsp.ENABLE = 1
 	</select>
 	
 	<select id = "getByServiceIdAndCustomerCode" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
 		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
-		where bsp.serviceId = #{serviceId} and bc.CODE = #{customerCode}
+		where bsp.serviceId = #{serviceId} and bc.CODE = #{customerCode} and bsp.ENABLE = 1
 	</select>
 	
 	<select id="search" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
