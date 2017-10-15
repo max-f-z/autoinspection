@@ -299,6 +299,8 @@ public class VehicleServiceImpl implements VehicleService {
 				tireVo.setTireId(tire.getTireId());
 				tireVo.setTirePosition(tire.getTirePosition());
 				tireVo.setVehicleId(tire.getVehicleId());
+				tireVo.setFigure(tire.getFigure());
+				tireVo.setTireType(tire.getTireType());
 				tireVos.add(tireVo);
 			}
 			vo.setTires(tireVos);
