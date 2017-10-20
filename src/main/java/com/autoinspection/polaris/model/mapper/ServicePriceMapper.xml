@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.autoinspection.polaris.model.mapper.ServicePriceMapper">
 	<select id="listAllServicePrices" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
-		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bs.DESCRIPTION PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where bsp.ENABLE = 1
 	</select>
@@ -24,25 +24,25 @@
 		update bizserviceprice set UPDATETIME= #{currentTime}, ENABLE= 0, OPERATORID= #{operatorId} where id= #{id}
 	</delete>
 	<select id="getById" parameterType="int" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
-		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE,  bs.DESCRIPTION PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where bsp.id = #{id} and bsp.ENABLE = 1
 	</select>
 	
 	<select id="getByServiceIdAndcustomerId"  resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
-		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE,  bs.DESCRIPTION PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where bsp.serviceId = #{serviceId} and bsp.customerId = #{customerId} and bsp.ENABLE = 1
 	</select>
 	
 	<select id = "getByServiceIdAndCustomerCode" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
-		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE,  bs.DESCRIPTION PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where bsp.serviceId = #{serviceId} and bc.CODE = #{customerCode} and bsp.ENABLE = 1
 	</select>
 	
 	<select id="search" resultType="com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity">
-		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE, bsp.PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
+		select bs.NAME SERVICENAME, bs.ID SERVICEID, bsp.PRICE,  bs.DESCRIPTION PRICEDESC, bsp.id, bc.NAME CUSTOMERNAME, bc.ID CUSTOMERID from bizserviceprice bsp 
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where 1=1 and bsp.ENABLE = 1
 		<if test=" level1 != null and level1 != '' ">
@@ -50,7 +50,7 @@
 		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  
 		</if>
 		<if test=" level1 == null or level1 == '' ">
-			and (bsp.PRICEDESC like ( CONCAT( '%', #{search}, '%' ) ) 
+			and (bs.DESCRIPTION like ( CONCAT( '%', #{search}, '%' ) ) 
 		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  
 		</if>
 	</select>
