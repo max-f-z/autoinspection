@@ -10,6 +10,13 @@ public class InspectionVo {
 	private String operatorName;
 	private String createTime;
 	private String maintained;
+	private String bizType;
+	public String getBizType() {
+		return bizType;
+	}
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
 	public String getMaintained() {
 		return maintained;
 	}

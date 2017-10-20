@@ -20,7 +20,14 @@ public class VehicleVo {
 	private boolean regStatus;
 	private int stationId;
 	private String bizType;
+	private int isRetail; 
 	
+	public int getIsRetail() {
+		return isRetail;
+	}
+	public void setIsRetail(int isRetail) {
+		this.isRetail = isRetail;
+	}
 	public String getBizType() {
 		return bizType;
 	}

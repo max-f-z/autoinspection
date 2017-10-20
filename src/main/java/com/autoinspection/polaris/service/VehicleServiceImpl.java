@@ -1,11 +1,13 @@
 package com.autoinspection.polaris.service;
 
+import com.autoinspection.polaris.model.entity.CustomerEntity;
 import com.autoinspection.polaris.model.entity.InspectionDetailEntity;
 import com.autoinspection.polaris.model.entity.InspectionEntity;
 import com.autoinspection.polaris.model.entity.MaintenanceDetailEntity;
 import com.autoinspection.polaris.model.entity.MaintenanceEntity;
 import com.autoinspection.polaris.model.entity.ParametersEntity;
 import com.autoinspection.polaris.model.entity.TyreInstockEntity;
+import com.autoinspection.polaris.model.mapper.CustomerMapper;
 import com.autoinspection.polaris.model.mapper.InspectionDetailMapper;
 import com.autoinspection.polaris.model.mapper.InspectionMapper;
 import com.autoinspection.polaris.model.mapper.MaintenanceDetailMapper;
@@ -58,6 +60,9 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Autowired
 	private MaintenanceMapper maintenanceMapper;
+	
+	@Autowired
+	private CustomerMapper customerMapper;
 
 	@Autowired
 	private MaintenanceDetailMapper maintenanceDetailMapper;
@@ -89,6 +94,14 @@ public class VehicleServiceImpl implements VehicleService {
 			if (entity.getStationId() != null) {
 				vo.setStationId(entity.getStationId());
 			}			
+			
+			CustomerEntity cen = customerMapper.getByCode(entity.getCustomerName());
+			if (cen != null) {
+				vo.setIsRetail(0);
+			} else {
+				vo.setIsRetail(1);
+			}
+			
 			List<VehicleTireVo> tireVos = new ArrayList<VehicleTireVo>();
 			List<VehicleTireEntity> tires = vehicleTireMapper.listTires(entity.getId());
 			if (tires != null && tires.size() > 0) {
@@ -261,7 +274,14 @@ public class VehicleServiceImpl implements VehicleService {
 		vo.setVehicleType(en.getVehicleType());
 		vo.setVehicleModel(en.getVehicleModel());
 		vo.setInitialDistance(en.getInitialDistance());
+		vo.setBizType(en.getBizType());
 		
+		CustomerEntity cen = customerMapper.getByCode(en.getCustomerName());
+		if (cen != null) {
+			vo.setIsRetail(0);
+		} else {
+			vo.setIsRetail(1);
+		}
 		
 		List<VehicleTireEntity> tires = vehicleTireMapper.listTires(vid);
 		List<VehicleTireVo> tiresVo = new ArrayList<VehicleTireVo>();

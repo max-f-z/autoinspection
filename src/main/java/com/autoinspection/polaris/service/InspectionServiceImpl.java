@@ -61,6 +61,10 @@ public class InspectionServiceImpl implements InspectionService {
 			vo.setCreateTime(entity.getCreateTime());
 			vo.setPlate(entity.getPlate());
 			vo.setMaintained(entity.getMaintained());
+			VehicleInfoEntity ven = vehicleMapper.getByPlate(entity.getPlate());
+			if (ven != null) {
+				vo.setBizType(ven.getBizType());
+			}
 			
 			List<InspectionDetailEntity> list = inspectionDetailMapper.listDetails(entity.getId());
 			List<InspectionDetailVo> ds = new ArrayList<InspectionDetailVo>();
@@ -90,6 +94,10 @@ public class InspectionServiceImpl implements InspectionService {
 		if (entity == null) {
 			throw new BizException(ErrorCode.NOT_FOUND);
 		}
+		VehicleInfoEntity ven = vehicleMapper.getByPlate(entity.getPlate());
+		if (ven == null) {
+			throw new BizException(ErrorCode.NOT_FOUND);
+		}
 		InspectionVo vo = new InspectionVo();
 		vo.setId(entity.getId());
 		vo.setMilometer(entity.getMilometer());
@@ -97,6 +105,7 @@ public class InspectionServiceImpl implements InspectionService {
 		vo.setServiceMile(entity.getServiceMile());
 		vo.setCreateTime(entity.getCreateTime());
 		vo.setPlate(entity.getPlate());
+		vo.setBizType(ven.getBizType());
 		List<InspectionDetailEntity> list = inspectionDetailMapper.listDetails(entity.getId());
 		List<InspectionDetailVo> ds = new ArrayList<InspectionDetailVo>();
 		for (InspectionDetailEntity en : list) {

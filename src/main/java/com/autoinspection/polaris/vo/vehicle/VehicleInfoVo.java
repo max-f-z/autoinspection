@@ -13,6 +13,13 @@ public class VehicleInfoVo {
 	private String initialDistance;
 	//行驶线路
 	private String line;
+	private String bizType;
+	public String getBizType() {
+		return bizType;
+	}
+	public void setBizType(String bizType) {
+		this.bizType = bizType;
+	}
 	public String getCustomerName() {
 		return customerName;
 	}

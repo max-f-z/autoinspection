@@ -269,6 +269,7 @@ public class InputController {
 			info.setTypeName(en.getType());
 			info.setTireNum(en.getTireNum());
 			info.setBackUp(en.getBackup());
+			info.setBizType(vo.getBizType());
 		}
 		return info;
 	}
