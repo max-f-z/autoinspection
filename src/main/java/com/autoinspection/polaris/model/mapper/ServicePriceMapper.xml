@@ -46,7 +46,7 @@
 		inner join bizcustomer bc on bsp.CUSTOMERID = bc.ID inner join BizService bs on bsp.SERVICEID = bs.ID
 		where 1=1 and bsp.ENABLE = 1
 		<if test=" level1 != null and level1 != '' ">
-			and (bs.NAME = #{level1} or bsp.PRICEDESC like ( CONCAT( '%', #{search}, '%' ) ) 
+			and (bs.NAME = #{level1} or bs.DESCRIPTION like ( CONCAT( '%', #{search}, '%' ) ) 
 		or  bc.NAME like ( CONCAT('%', #{search}, '%')) or bc.CODE like ( CONCAT( '%', #{search}, '%' ) ) )  
 		</if>
 		<if test=" level1 == null or level1 == '' ">
