@@ -11,6 +11,7 @@ import com.autoinspection.polaris.model.entity.CustomerEntity;
 public interface CustomerMapper {
 	CustomerEntity getById(@Param("id") Integer id);
 	CustomerEntity getByCode(@Param("code") String code);
+	CustomerEntity getByName(@Param("name") String name);
 	List<CustomerEntity> listAllCustomers();
 	List<CustomerEntity> listCustomers(@Param("search") String search);
 	int insertCustomer(CustomerEntity entity);

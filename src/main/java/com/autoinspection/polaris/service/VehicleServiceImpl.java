@@ -136,10 +136,12 @@ public class VehicleServiceImpl implements VehicleService {
 //		if (type.getTireNum() > vo.getTires().size()) {
 //			throw new BizException(ErrorCode.VEHICLETYPE_TIRES_DO_NOT_MATCH);
 //		}
-		
 		VehicleInfoEntity entity = new VehicleInfoEntity();
+		if (!StringUtils.isNullOrEmpty(vo.getCustomerName())) {
+			CustomerEntity cen = customerMapper.getByName(vo.getCustomerName());
+			entity.setCustomerName(cen.getCode());
+		}
 		entity.setPlate(vo.getPlate());
-		entity.setCustomerName(vo.getCustomerName());
 		entity.setVehicleType(vo.getVehicleType());
 		entity.setVehicleModel(vo.getVehicleModel());
 		entity.setBizType(vo.getBizType());

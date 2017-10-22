@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity;
 import com.autoinspection.polaris.model.entity.ServicePriceEntity;
 import com.autoinspection.polaris.model.mapper.ServicePriceMapper;
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.serviceprice.AddServicePriceRequest;
 import com.autoinspection.polaris.vo.serviceprice.DeleteServicePriceRequest;
 import com.autoinspection.polaris.vo.serviceprice.UpdateServicePriceRequest;
@@ -30,7 +32,13 @@ public class ServicePriceServiceImpl implements ServicePriceService {
 	}
 
 	@Override
-	public int addServicePrice(AddServicePriceRequest request, int uid) {
+	public int addServicePrice(AddServicePriceRequest request, int uid) throws BizException {
+		
+		ServicePriceDisplayEntity en = servicePriceMapper.getByServiceIdAndcustomerId(request.getServiceId(), request.getCustomerId());
+		if (en != null) {
+			throw new BizException(ErrorCode.ALREADY_EXISTS_PLEASE_UPDATE);
+		}
+		
 		ServicePriceEntity entity = new ServicePriceEntity();
 		entity.setCustomerId(request.getCustomerId());
 		entity.setServiceId(request.getServiceId());

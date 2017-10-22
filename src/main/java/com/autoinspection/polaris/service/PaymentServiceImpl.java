@@ -27,6 +27,7 @@ import com.autoinspection.polaris.vo.payment.PaymentDetail;
 import com.autoinspection.polaris.vo.payment.PaymentSearchRequest;
 import com.autoinspection.polaris.vo.payment.PaymentSearchResp;
 import com.autoinspection.polaris.vo.payment.PaymentUpdateReq;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -66,6 +67,9 @@ public class PaymentServiceImpl implements PaymentService {
 			Map<String, PaymentDetail> map = new HashMap<String, PaymentDetail>();
 			
 			VehicleInfoEntity ven = vehicleMapper.getByPlate(item.getPlate());
+			if (ven == null || StringUtils.isNullOrEmpty(ven.getCustomerName())) {
+				continue;
+			}
 			CustomerEntity c = cMapper.getByCode(ven.getCustomerName());
 			String customerCode = "";
 			if (c != null && !"SH".equals(c.getCode())) {

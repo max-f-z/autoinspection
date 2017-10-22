@@ -7,6 +7,9 @@
 	<select id="getByCode" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
 		select * from bizcustomer c where c.CODE=#{code}
 	</select>
+	<select id="getByName" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
+		select * from bizcustomer c where c.NAME=#{name}
+	</select>
 	<select id="listAllCustomers" resultType="com.autoinspection.polaris.model.entity.CustomerEntity">
 		select * from bizcustomer where enable = 1 
 	</select>
