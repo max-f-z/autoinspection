@@ -26,6 +26,7 @@ public class ErrorCode {
 	public static final ErrorCode PAY_FAILED = new ErrorCode("1023", "支付失败");
 	public static final ErrorCode TIRE_PARAMETER_INVALIDE = new ErrorCode("1024", "轮胎ID，轮胎品牌，轮位，轮胎类型都不能为空");
 	public static final ErrorCode SEND_SMS_FAILED = new ErrorCode("1025", "发送短信失败");
+	public static final ErrorCode ALREADY_EXISTS_PLEASE_UPDATE = new ErrorCode("1026", "已经存在记录请更新");
 	
 	private String code;
 	private String msg;

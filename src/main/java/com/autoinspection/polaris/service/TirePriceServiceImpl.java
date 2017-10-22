@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.autoinspection.polaris.model.entity.TirePriceEntity;
 import com.autoinspection.polaris.model.mapper.TirePriceMapper;
+import com.autoinspection.polaris.utils.BizException;
+import com.autoinspection.polaris.utils.ErrorCode;
 import com.autoinspection.polaris.vo.tireprice.AddTirePriceRequest;
 import com.autoinspection.polaris.vo.tireprice.UpdateTirePriceRequest;
 
@@ -32,7 +34,12 @@ public class TirePriceServiceImpl implements TirePriceService {
 	}
 
 	@Override
-	public int insertTirePrice(AddTirePriceRequest request, int uid) {
+	public int insertTirePrice(AddTirePriceRequest request, int uid) throws BizException {
+		List<TirePriceEntity> ens = tirePriceMapper.findByTireBrandAndStripe(request.getBrand(), request.getStripe());
+		if (ens != null && ens.size() > 0) {
+			throw new BizException(ErrorCode.ALREADY_EXISTS_PLEASE_UPDATE);
+		}
+		
 		TirePriceEntity entity = new TirePriceEntity();
 		entity.setBrand(request.getBrand());
 		entity.setDescription(request.getDescription());

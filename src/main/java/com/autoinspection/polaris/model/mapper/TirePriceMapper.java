@@ -12,6 +12,7 @@ public interface TirePriceMapper {
 	TirePriceEntity getById(@Param("id") Integer id);
 	List<TirePriceEntity> listTirePrices();
 	List<TirePriceEntity> findByTireBrand(@Param("brand") String brand, @Param("search") String search);
+	List<TirePriceEntity> findByTireBrandAndStripe(@Param("brand") String brand, @Param("stripe") String stripe);
 	int insertTirePrice(TirePriceEntity entity);
 	int updateTirePrice(TirePriceEntity entity);
 	int deleteTirePrice(@Param("id") Integer id, @Param("operatorId") Integer operatorId);

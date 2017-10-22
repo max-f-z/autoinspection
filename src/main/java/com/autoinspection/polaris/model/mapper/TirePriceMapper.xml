@@ -17,6 +17,16 @@
 		</if>
 		 
 	</select>
+	<select id="findByTireBrandAndStripe" resultType="com.autoinspection.polaris.model.entity.TirePriceEntity">
+		select * from biztireprice where enable = 1 
+		<if test=" brand != null and brand != '' ">
+			and BRAND = #{brand}
+		</if>
+		<if test=" stripe != null and stripe != '' ">
+			and STRIPE = @#{stripe}
+		</if>
+		 
+	</select>
 	<insert id="insertTirePrice">
 		<bind name="currentTime" value="new java.util.Date()" />
 		insert into biztireprice (BRAND, DESCRIPTION, STRIPE, PRICE, CREATETIME, UPDATETIME, OPERATORID,model)
