@@ -1,6 +1,7 @@
 package com.autoinspection.polaris.service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,12 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.autoinspection.polaris.model.entity.CustomerEntity;
 import com.autoinspection.polaris.model.entity.MaintenanceDetailEntity;
 import com.autoinspection.polaris.model.entity.MaintenanceEntity;
 import com.autoinspection.polaris.model.entity.OrderEntity;
 import com.autoinspection.polaris.model.entity.ServicePriceDisplayEntity;
 import com.autoinspection.polaris.model.entity.UserEntity;
 import com.autoinspection.polaris.model.entity.VehicleInfoEntity;
+import com.autoinspection.polaris.model.mapper.CustomerMapper;
 import com.autoinspection.polaris.model.mapper.MaintenanceDetailMapper;
 import com.autoinspection.polaris.model.mapper.MaintenanceMapper;
 import com.autoinspection.polaris.model.mapper.OrderMapper;
@@ -28,6 +31,7 @@ import com.autoinspection.polaris.vo.Inspection.AddMaintenanceRequest;
 import com.autoinspection.polaris.vo.Inspection.MaintenanceDetailVo;
 import com.autoinspection.polaris.vo.Inspection.MaintenanceVo;
 import com.autoinspection.polaris.vo.Inspection.UpdateMaintenanceRequest;
+import com.mysql.jdbc.StringUtils;
 
 @Service
 public class MaintenanceServiceImpl implements MaintenanceService {
@@ -58,6 +62,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 	
 	private static final String ZERO ="0.00";
 	
+
+	@Autowired
+	private CustomerMapper cMapper;
 	
 
 	@Override
@@ -71,6 +78,20 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 			vo.setDriverPhone(entity.getDriverPhone());
 			vo.setOperatorName(entity.getOperatorName());
 			vo.setPayStatus(entity.getPayStatus());
+			vo.setAmount(0);
+			
+			VehicleInfoEntity ven = vehicleMapper.getByPlate(entity.getPlate());
+			if (ven == null || StringUtils.isNullOrEmpty(ven.getCustomerName())) {
+				return vo;
+			}
+			CustomerEntity c = cMapper.getByCode(ven.getCustomerName());
+			String customerCode = "";
+			if (c != null && !"SH".equals(c.getCode())) {
+				customerCode = ven.getCustomerName();
+			} else {
+				customerCode = "SH";
+			}
+			
 			
 			List<MaintenanceDetailEntity> details = maintenanceDetailMapper.listDetails(entity.getId());
 			List<MaintenanceDetailVo> ds = new ArrayList<MaintenanceDetailVo>();
@@ -86,7 +107,19 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 				dvo.setStartTime(d.getStartTime());
 				dvo.setEndTime(d.getEndTime());
 				ds.add(dvo);
+				
+				double price;
+				ServicePriceDisplayEntity spde = servicePriceMapper.getByServiceIdAndCustomerCode(d.getServicePriceId(), customerCode);
+				if (spde == null) {
+//					throw new BizException(ErrorCode.NO_SERVICE_PRICE);
+					price = 0;
+				} else {
+					price = spde.getPrice();
+				}
+				vo.setAmount(vo.getAmount() + d.getNum() * price);
 			}
+			vo.setAmount(Math.round(vo.getAmount() * 100.0) / 100.0);
+			
 			vo.setDetails(ds);
 		}
 		

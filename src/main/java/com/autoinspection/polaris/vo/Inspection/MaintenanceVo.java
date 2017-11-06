@@ -9,6 +9,13 @@ public class MaintenanceVo {
 	private String driverPhone;
 	private String operatorName;
 	private int payStatus;
+	private double amount;
+	public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
 	private List<MaintenanceDetailVo> details;
 	
 	public int getPayStatus() {
